@@ -1,0 +1,309 @@
+.home_content {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+}
+
+.home_center {
+    width: calc(100% - 250px - 2em);
+    margin-right: 2em;
+}
+
+.home_right {
+    width: 250px;
+}
+
+.home_right ul {
+    list-style-type: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.hchr {
+    display: none;
+}
+
+/*home_cal用------------------------------------------*/
+.cal_container {
+    width: 250px;
+    position: relative;
+    background-color: lightseagreen;
+    text-align: center;
+    color: white;
+    box-shadow: 5px 5px 5px -5px #464646;
+    margin-bottom: 1em;
+}
+
+.cal_container::before {
+    content: "";
+    display: block;
+    padding-top: 75%;
+}
+
+.mnt {
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+.today {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 7rem;
+}
+
+.dow {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    font-size: 1.5rem;
+}
+
+/*Topics用------------------------------------------------*/
+.tpc {
+    margin: 1em 0;
+    padding: 0.5em;
+    box-sizing: border-box;
+    width: 100%;
+    background: white;
+    box-shadow: 5px 5px 5px -5px #464646;
+}
+
+.tpc hr {
+    margin: 0.3em;
+    padding: 0;
+}
+
+.tpc div {
+    padding: 0.5em 0;
+    border-bottom: 1px dotted silver;
+}
+
+.tpc div:last-child {
+    border: none;
+}
+
+/*Buttons用-------------------------------------------*/
+
+.slbtn {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.homebutton {
+    display: block;
+    border: 1px solid lightsteelblue;
+    background-color: #8fd19e;
+    width: calc(100% / 5);
+    margin: 0;
+    margin-right: 1%;
+    /*padding: 2em;*/
+    text-align: center;
+    color: #fff;
+    font-weight: normal !important;
+    box-shadow: 5px 5px 5px -5px #464646;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.homebutton::before,
+.homebutton::after {
+    content: "";
+    display: block;
+    padding-top: 15%;
+}
+
+.homebutton input[type="submit"] {
+    display: none;
+}
+
+.homebutton:last-child {
+    margin: 0;
+}
+
+.homebutton img {
+    width: 30%;
+    height: auto;
+}
+
+/*License用----------------------------------------------*/
+.table-wrap {
+    overflow-x: auto;
+    background-color: white;
+    padding: 1em;
+    box-shadow: 5px 5px 5px -5px #464646;
+}
+
+.table-wrap h5 {
+    color: #006451;
+    position: relative;
+}
+
+.table-wrap h5 div {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.table-wrap h5 div a {
+    background-color: #8fd19e;
+}
+
+.table-wrap h5 div a span {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 0.5em;
+}
+
+.table-wrap table {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.table-wrap table thead tr td {
+    text-align: center;
+}
+
+/*MiniCal用------------------------------------------*/
+
+#calendar {
+    background-color: white;
+    box-shadow: 5px 5px 5px -5px #464646;
+    padding: 0.5em !important;
+}
+
+#calendar a {
+    color: black;
+    text-decoration: none;
+}
+
+th.fc-day-sat a,
+td.fc-day-sat a {
+    color: blue !important;
+}
+
+th.fc-day-sun a,
+td.fc-day-sun a {
+    color: red !important;
+}
+
+.fc,
+.fc-toolbar,
+.fc-header-toolbar,
+.fc-toolbar-title {
+    font-size: 0.8rem !important;
+    padding: 0.3em 0 !important;
+    margin: 0 !important;
+}
+
+.fc-button {
+    background: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: black !important;
+    border: none !important;
+}
+
+.fc-h-event {
+    background-color: rgba(112, 189, 41, 1) !important;
+    border: none !important;
+}
+
+.calendar_2 {
+    background-color: #3c97ff99 !important;
+}
+
+.fc-daygrid-event-dot {
+    border-color: rgba(112, 189, 41, 1) !important;
+}
+
+.fc-day-today {
+    background-color: #ffeca8 !important;
+}
+
+/*----------------------------------------------------*/
+@media screen and (max-width: 991px) {
+    .home_content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .home_center {
+        width: 100%;
+        margin: 0;
+        order: 2;
+    }
+
+    .hchr {
+        display: block;
+    }
+
+    .home_right {
+        width: 100%;
+        order: 1;
+    }
+
+    #calendar {
+        display: none;
+    }
+
+    .cal_container {
+        width: 200px;
+    }
+
+    .home_right ul {
+        display: flex;
+    }
+
+    .home_right ul li {
+        width: 100%;
+        margin-right: 1em;
+    }
+
+    .home_right ul li:first-child {
+        width: calc(100% / 3);
+    }
+
+    .home_right ul li:nth-child(2) {
+        display: none;
+    }
+
+    .home_right ul li:last-child {
+        margin: 0;
+    }
+
+    .cal_container {
+        width: 100%;
+        min-height: 160px;
+    }
+
+    .tpc {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 577px) {
+    .home_center {
+        width: 100%;
+        margin: 0;
+    }
+
+    .home_right {
+        display: none;
+    }
+
+    .hchr {
+        display: none;
+    }
+}

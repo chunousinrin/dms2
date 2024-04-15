@@ -1,0 +1,103 @@
+/*conf*/
+.table-primary {
+    vertical-align: middle !important;
+}
+
+.table-primary tbody td {
+    position: relative;
+}
+
+.ctable tbody tr {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
+}
+
+.lists {
+    background: #fff !important;
+}
+
+/*input*/
+.table-success {
+    vertical-align: middle !important;
+}
+
+.table-success tbody td {
+    position: relative;
+}
+
+#items tr:last-child {
+    display: none;
+}
+/*processing*/
+.tabs {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.doctype {
+    width: calc(100% / 3);
+    border-bottom: 3px solid #8fd19e;
+    background-color: #d9d9d9;
+    text-align: center;
+    display: block;
+    float: left;
+    transition: all 0.2s ease;
+}
+
+input[name="doctype"] {
+    display: none;
+}
+
+.tab_content {
+    display: none;
+    clear: both;
+    overflow: hidden;
+}
+
+#tab1:checked ~ #tab1_content,
+#tab2:checked ~ #tab2_content,
+#tab3:checked ~ #tab3_content {
+    display: block;
+}
+
+.tabs input:checked + .doctype {
+    background-color: #8fd19e;
+}
+
+.required_item {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    background-color: orangered;
+    color: white;
+    font-size: 0.7rem;
+    padding: 1% 2%;
+}
+
+/*estimate2 span*/
+.es2span {
+    position: relative;
+}
+
+.es2span span {
+    display: block;
+    position: absolute;
+    top: 0.2em;
+    right: 0.5em;
+    padding: 0.5% 3%;
+    background-color: #eaffef;
+    border: 1px solid green;
+    font-size: 0.7rem;
+}
+
+.table td {
+    vertical-align: middle !important;
+}

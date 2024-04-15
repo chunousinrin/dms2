@@ -1,0 +1,113 @@
+.table-wrap {
+    max-height: 65vh;
+    overflow: auto;
+    background-color: white;
+    padding: 1em;
+    box-shadow: 5px 5px 5px -5px #464646;
+}
+
+.table-wrap table {
+    white-space: nowrap;
+}
+
+.table-wrap table thead tr td {
+    text-align: center;
+}
+
+.search_box {
+    margin: 0;
+    padding: 1em;
+    padding-bottom: 0;
+    background-color: #8fd19e;
+    width: 100%;
+}
+
+.accordion {
+    padding: 0;
+}
+
+.accordion summary {
+    background-color: #8fd19e;
+    padding: 0 1em;
+}
+
+.accordion div {
+    border: 1px solid #8fd19e;
+    background-color: white;
+    padding: 1em;
+}
+
+.accordion div table tr {
+    border-style: solid;
+    border-color: #8fd19e;
+    border-width: 0 0 1px 0;
+}
+
+.accordion div table tr td:first-child {
+    padding-left: 1em;
+    line-height: calc(2.25rem + 2px);
+}
+
+.tbl input[type="text"] {
+    width: 100%;
+}
+
+.asc,
+.desc {
+    height: 50%;
+    width: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    display: block;
+}
+
+.asc {
+    background-image: url(https://icongr.am/entypo/chevron-small-up.svg?&color=000000);
+}
+
+.desc {
+    background-image: url(https://icongr.am/entypo/chevron-small-down.svg?&color=000000);
+}
+
+.table-th {
+    display: flex;
+    justify-content: center;
+}
+
+.btns {
+    width: 1.5em !important;
+    height: 1.5em !important;
+    background-position: center;
+    background-size: 1em;
+    background-repeat: no-repeat;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.content_head {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+}
+
+.content_head li {
+    width: 100%;
+}
+
+.content_head li:nth-child(2) {
+    text-align: right;
+}
+
+.content_head li a {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.sellist {
+    cursor: pointer;
+    cursor: hand;
+}

@@ -1,0 +1,390 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    box-sizing: border-box;
+}
+
+/*検索ボックス*/
+.srcwrap {
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 1em;
+    display: flex;
+    background-color: rgba(112, 189, 41, 1);
+}
+
+.srcwrap li {
+    padding: 0;
+    margin: 0;
+    height: 2em;
+}
+
+.srcwrap li input,
+.srcwrap li button {
+    height: 2em;
+    line-height: 2em;
+    border: none;
+    outline: none;
+    background: none;
+    background-position: center;
+    background-size: 1.6em 1.6em;
+    background-repeat: no-repeat;
+}
+
+.ui-datepicker {
+    z-index: 9999 !important;
+}
+
+.srchbox {
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: rgba(112, 189, 41, 1);
+}
+
+.srchbox li {
+    width: 100%;
+}
+
+.srchbox li input {
+    outline: none;
+    border: none;
+}
+
+.adsrch {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    background-color: rgba(112, 189, 41, 0.3);
+    max-height: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+#fltr:checked + .adsrch {
+    max-height: 500px;
+    transition: all 1s;
+}
+
+.adsrch li {
+    display: flex;
+    padding: 0.5em 0 0 1.5em;
+}
+
+.adsrch label {
+    display: block;
+    width: 6em;
+    margin: 0;
+}
+
+.adsrch li input,
+.adsrch li select {
+    outline: 1px solid rgba(112, 189, 41, 1);
+    border: none;
+}
+
+/*一覧表示*/
+
+.lists {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.lists thead tr th:first-child {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+.lists thead tr {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.lists thead tr th {
+    white-space: nowrap;
+    border-right: 1px solid silver;
+    padding: 0.5em 1.5em;
+    position: relative;
+    background-color: rgba(112, 189, 41, 1);
+    color: white;
+    text-align: center;
+}
+
+.lists tbody tr td {
+    white-space: nowrap;
+    padding: 0.5em 1em;
+}
+
+.lists tbody tr td:first-child {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+    padding: 0;
+    text-align: center;
+}
+
+.lists tbody tr:nth-child(even) {
+    background-color: rgba(112, 189, 41, 0.2);
+}
+
+.lists tbody tr:hover {
+    background-color: rgba(112, 189, 41, 0.3);
+}
+
+.lists tbody tr td {
+    border-right: 1px solid silver;
+}
+
+.lists tbody tr td:last-child {
+    border: none;
+}
+
+.lists thead tr th a {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    right: 0;
+}
+
+.lists tfoot tr {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 1);
+    outline: 1px solid silver;
+}
+.lists tfoot tr td {
+    padding: 0.5em 1em;
+    text-align: right;
+}
+
+.hstwrap {
+    width: 100%;
+    outline: 1px solid silver;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.btns {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
+    margin: 0 0.1em;
+}
+
+.asc {
+    background-image: url("https://icongr.am/entypo/chevron-up.svg?color=ffffff");
+    top: 0.2em;
+}
+
+.desc {
+    background-image: url("https://icongr.am/entypo/chevron-down.svg?color=ffffff");
+    bottom: 0.2em;
+}
+/*編集画面*/
+.lst,
+.msipt,
+.mslst {
+    width: 100%;
+    margin: 0;
+    padding: 2em;
+    list-style-type: none;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.lst li {
+    width: 100%;
+}
+
+.lst li:nth-of-type(n + 2) {
+    padding: 1em 20%;
+    border-bottom: 1px solid rgba(112, 189, 41, 1);
+    display: flex;
+}
+@media screen and (max-width: 990px) {
+    .lst li:nth-of-type(n + 2) {
+        padding: 1em;
+    }
+}
+
+.lbl {
+    width: 15em;
+    text-align: center;
+    height: 2em;
+    line-height: 2em;
+    background-color: rgba(112, 189, 41, 1);
+    color: rgba(255, 255, 255, 1);
+    margin-right: 1em;
+    position: relative;
+}
+
+label {
+    font-weight: normal !important;
+}
+.hissu {
+    font-size: 0.7rem;
+    height: 1.5em;
+    line-height: 1.5em;
+    padding: 0 0.5em;
+    position: absolute;
+    left: 0.5em;
+    top: 0.5em;
+    background-color: rgba(255, 210, 0, 1);
+    color: rgba(0, 0, 0, 1);
+}
+
+.ipt {
+    width: 100%;
+}
+
+.ipt div {
+    height: 2em;
+    line-height: 2em;
+}
+
+.ipt input[type="radio"] {
+    width: auto;
+    border: none;
+    outline: none;
+}
+
+.ipt input[type="text"],
+.ipt input[type="email"],
+.ipt select,
+.ipt textarea,
+.msipt input[type="text"],
+.msipt input[type="number"] {
+    height: 2em;
+    line-height: 2em;
+    width: 100%;
+}
+
+.lst li input[type="text"],
+.lst li input[type="number"] {
+    height: 2em;
+    line-height: 2em;
+}
+
+.lst li input,
+.lst li textarea,
+.lst li select,
+.msipt tbody tr td input {
+    width: 100%;
+    padding: 0 0.5em;
+    border: none;
+    outline: 1px solid rgba(112, 189, 41, 1);
+    background-color: rgba(112, 189, 41, 0.15);
+}
+
+.msipt table tbody tr td:nth-child(2) {
+    width: 67%;
+}
+.msipt table tbody tr td:nth-of-type(n + 3) {
+    width: 10%;
+}
+
+.msipt table th {
+    text-align: center;
+    background-color: rgba(112, 189, 41, 1);
+    color: rgba(255, 255, 255, 1);
+    font-weight: normal;
+    height: 2em;
+    line-height: 2em;
+}
+
+.msipt table th,
+.msipt table td {
+    border-bottom: 1px solid rgba(2, 51, 40, 1);
+}
+
+.msipt table tbody tr td {
+    padding: 0.7em 0.5em;
+}
+
+.msipt table tbody tr:last-child {
+    display: none;
+}
+
+.line {
+    width: 3%;
+    background-image: url(/images/list.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.mslst table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.mslst table input {
+    border: none;
+}
+
+.mslst table thead th {
+    background-color: rgba(112, 189, 41, 1);
+    color: rgba(255, 255, 255, 1);
+    font-weight: normal;
+    text-align: center;
+}
+
+.mslst table th,
+.mslst table td {
+    padding: 0 0.5em;
+    height: 2em;
+    line-height: 2em;
+    border-bottom: 1px solid rgba(2, 51, 40, 1);
+    border-right: 1px dotted rgba(2, 51, 40, 1);
+}
+.mslst table th:last-child,
+.mslst table tbody tr td:nth-child(5),
+.mslst table td:last-child {
+    border-right: none;
+}
+.mslst table thead tr th:first-child {
+    width: 60%;
+}
+
+.mslst table thead tr th:nth-of-type(n + 2) {
+    width: 10%;
+}
+
+.mslst table tbody tr td input {
+    width: 100%;
+}
+
+.mslst table tbody tr td:nth-of-type(n + 2) input {
+    text-align: right;
+}
+
+.mslst table tbody tr td:nth-child(3) input {
+    text-align: center;
+}

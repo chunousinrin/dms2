@@ -1,0 +1,115 @@
+@extends('adminlte::page')
+
+@section('title', '中濃森林組合　-マスタ管理-')
+
+@section('content_header')
+<link rel="stylesheet" href="/css/dms_table.css">
+<link rel="stylesheet" href="/css/document_manage.css">
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$user = Auth::user();
+$dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+if (!empty($_POST['sbmtype'])) {
+    $sbmtype = $_POST['sbmtype'];
+} elseif (!empty($_GET['sbmtype'])) {
+    $sbmtype = $_GET['sbmtype'];
+} else {
+    $sbmtype = '1';
+};
+//var_dump($_POST);
+$submit_type_sql = "SELECT * FROM submit_type WHERE TypeID = {$sbmtype}";
+$submit_type_stmt = $dbh->query($submit_type_sql);
+$submit_type_name = $submit_type_stmt->fetch();
+?>
+
+@section('js')
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+<script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/flick/jquery-ui.min.css">
+<script src="/js/document_manage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+<script>
+    bsCustomFileInput.init()
+</script>
+
+@endsection
+
+<ul class="content_head">
+    <li style="display: flex;align-items:center;">
+        <h1 id="typename">登録ユーザー</h1>
+    </li>
+</ul>
+
+@stop
+
+@section('content')
+
+<?php if ($sbmtype == "1") : ?>
+    @include('admin.user.user_edit')
+<?php elseif ($sbmtype == "2") : ?>
+
+<?php elseif ($sbmtype == "3") : ?>
+
+<?php elseif ($sbmtype == "4") : ?>
+
+<?php elseif ($sbmtype == "5") : ?>
+
+<?php elseif ($sbmtype == "6") : ?>
+
+<?php elseif ($sbmtype == "7") : ?>
+
+<?php elseif ($sbmtype == "9") : ?>
+    <?php
+
+    if (empty($_FILES['stamp']['name'])) {
+        $sql = "UPDATE users SET
+            users.name=:name,
+            users.email=:email,
+            users.password=:password,
+            department=:department,
+            section=:section,
+            position=:position
+            WHERE `id` = :id";
+        $params = array(
+            ':name' => $_POST['name'],
+            ':email' => $_POST['email'],
+            ':password' => Hash::make($_POST['password']),
+            ':department' => $_POST['department'] ?? null,
+            ':section' => $_POST['section'] ?? null,
+            ':position' => $_POST['position'] ?? null,
+            ':id' => $_POST['id']
+        );
+    } else {
+        $stamp = file_get_contents($_FILES['stamp']['tmp_name']);
+        $sql = "UPDATE users SET
+            users.name=:name,
+            users.email=:email,
+            users.password=:password,
+            department=:department,
+            section=:section,
+            position=:position,
+            stamp=:stamp
+            WHERE `id` = :id";
+        $params = array(
+            ':name' => $_POST['name'],
+            ':email' => $_POST['email'],
+            ':password' => Hash::make($_POST['password']),
+            ':department' => $_POST['department'] ?? null,
+            ':section' => $_POST['section'] ?? null,
+            ':position' => $_POST['position'] ?? null,
+            ':stamp' => $stamp,
+            ':id' => $_POST['id']
+        );
+    };
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($params);
+    header("Location:./settings");
+    exit();
+    ?>
+<?php else : ?>
+
+<?php endif ?>
+@stop
