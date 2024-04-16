@@ -35,5 +35,6 @@ return [
     'calendar' => 'カレンダー',
     'classication' => '事業分類',
     'bank' => '銀行口座',
-    'company' => '組合情報'
+    'company' => '組合情報',
+    'drs' => '業務日報',
 ];

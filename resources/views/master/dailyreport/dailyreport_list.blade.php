@@ -130,18 +130,18 @@ if (!empty($_POST['keyword'])) {
     ?>
     <div class="table-wrap" style="max-height: 100%;">
 
-        <table class="table table-responsive-sm table-hover table-borderless bg-white ctable" id="table">
+        <table class="table table-responsive-sm table-sm table-hover table-borderless bg-white ctable" id="table">
             <thead>
                 <tr class="table-success">
                     <td></td>
-                    <td>勤務日</td>
-                    <td>氏名</td>
-                    <td>午前業種</td>
-                    <td>午前摘要</td>
-                    <td>午後業種</td>
-                    <td>午後摘要</td>
-                    <td>天気</td>
-                    <td>備考</td>
+                    <td class="text-left">勤務日</td>
+                    <td class="text-left">氏名</td>
+                    <td class="text-left">午前業種</td>
+                    <td class="text-left">午前摘要</td>
+                    <td class="text-left">午後業種</td>
+                    <td class="text-left">午後摘要</td>
+                    <td class="text-left">天気</td>
+                    <td class="text-left">備考</td>
                     <td></td>
                 </tr>
             </thead>

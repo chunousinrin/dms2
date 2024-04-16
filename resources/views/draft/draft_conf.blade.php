@@ -64,6 +64,7 @@
     <div style="width:100%;text-align:center;" class="pb-5">
         <input class="btn btn-secondary rounded-0 btn-sm px-4" type="button" name="btn_back" value="戻る" onclick="history.back()">
         <input class="btn btn-secondary rounded-0 btn-sm px-4" type="submit" formmethod="post" formaction="draft/preview" formtarget="_blank" value="プレビュー">
-        <input class="btn btn-secondary rounded-0 btn-sm px-4" type="submit" formmethod="post" name="sbmtype" value="4">
+        <input class="btn btn-secondary rounded-0 btn-sm px-4" type="submit" name="save" value="保存">
+        <input type="hidden" name="sbmtype" value="4">
     </div>
 </form>

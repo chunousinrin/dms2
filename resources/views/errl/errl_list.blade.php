@@ -1,44 +1,48 @@
-<?php
-
-if (!empty($_POST['limit'])) {
-    $limit = $_POST['limit'];
-} else {
-    $limit = 25;
-}
-
-if (!empty($_POST['stdate']) && !empty($_POST['eddate'])) {
-    $src1 = ' AND TradingDate Between "' . $_POST['stdate'] . '" AND "' . $_POST['eddate'] . '"';
-} elseif (!empty($_POST['stdate']) && empty($_POST['eddate'])) {
-    $src1 = ' AND TradingDate >= "' . $_POST['stdate'] . '"';
-} elseif (empty($_POST['stdate']) && !empty($_POST['eddate'])) {
-    $src1 = ' AND TradingDate <= "' . $_POST[' eddate'] . '"';
-} else {
-    $src1 = null;
-};
-if (!empty($_POST['keyword'])) {
-    $src2 = ' AND keyword LIKE "%' . $_POST['keyword'] . '%"';
-} else {
-    $src2 = null;
-};
-if (!empty($_POST['ritype'])) {
-    $src3 = ' AND RIType = "' . $_POST['ritype'] . '"';
-} else {
-    $src3 = null;
-};
-if (!empty($_POST['doctype'])) {
-    $src4 = ' AND DocumentType = "' . $_POST['doctype'] . '"';
-} else {
-    $src4 = null;
-};
-
-?>
-
 <form action="" method="post" name="f_list" id="f_list">
     @csrf
+    <?php
+
+    if (!empty($_POST['limit'])) {
+        $limit = $_POST['limit'];
+    } else {
+        $limit = 25;
+    }
+
+    if (!empty($_POST['stdate']) && !empty($_POST['eddate'])) {
+        $src1 = ' AND TradingDate Between "' . $_POST['stdate'] . '" AND "' . $_POST['eddate'] . '"';
+    } elseif (!empty($_POST['stdate']) && empty($_POST['eddate'])) {
+        $src1 = ' AND TradingDate >= "' . $_POST['stdate'] . '"';
+    } elseif (empty($_POST['stdate']) && !empty($_POST['eddate'])) {
+        $src1 = ' AND TradingDate <= "' . $_POST[' eddate'] . '"';
+    } else {
+        $src1 = null;
+    };
+    if (!empty($_POST['keyword'])) {
+        $src2 = ' AND keyword LIKE "%' . $_POST['keyword'] . '%"';
+    } else {
+        $src2 = null;
+    };
+    if (!empty($_POST['ritype'])) {
+        $src3 = ' AND RIType = "' . $_POST['ritype'] . '"';
+    } else {
+        $src3 = null;
+    };
+    if (!empty($_POST['doctype'])) {
+        $src4 = ' AND DocumentType = "' . $_POST['doctype'] . '"';
+    } else {
+        $src4 = null;
+    };
+
+    $src = $src1 . $src2 . $src3 . $src4;
+
+    $sql = "SELECT * FROM accountbook_history WHERE 1 {$src} ORDER BY TradingDate DESC,ErrlNumber ASC LIMIT {$limit}";
+
+    ?>
+
     <div class="search_box">
         <div class="input-group">
             <input class="form-control rounded-0" type="text" name="keyword" value="<?= $_POST['keyword'] ?? null ?>" placeholder="キーワード" onchange="document.f_list.submit();">
-            <input class="btn btn-sm btn-secondary rounded-0 col-1" value="検索" onclick="document.f_list.submit();">
+            <input type="submit" class="btn btn-sm btn-secondary rounded-0 col-1" value="検索">
         </div>
     </div>
     <details class="accordion">
@@ -134,12 +138,11 @@ if (!empty($_POST['doctype'])) {
             <tbody>
 
                 <?php
-                $sql = "SELECT * FROM accountbook_history WHERE 1" . $src1 . $src2 . $src3 . $src4 . " LIMIT " . $limit;
                 $stmt = $dbh->query($sql);
                 while ($result = $stmt->fetch(PDO::FETCH_BOTH)) { ?>
                     <tr>
                         <td class="text-center" style='white-space:nowrap;'>
-                            <a href="./UploadFiles/<?= $result['FileName'] ?>" target="_new" class="btns btn btn-sm btn-secondary rounded-0" style="background-image:url(https://icongr.am/feather/printer.svg?color=ffffff);"></a>
+                            <input type="button" onclick="window.open('UploadFiles/<?= $result['FileName'] ?>')" class="btns btn btn-sm btn-secondary rounded-0" style="background-image:url(https://icongr.am/feather/printer.svg?color=ffffff);">
                             <input type="submit" value="" class="btns btn btn-sm btn-secondary rounded-0" style="background-image:url(https://icongr.am/fontawesome/trash-o.svg?color=ffffff);" onclick="dl()">
                         </td>
                         <td><?= $result['TradingDate'] ?></td>
@@ -161,7 +164,7 @@ if (!empty($_POST['doctype'])) {
             </tbody>
         </table>
     </div>
-    <input type="hidden" id="listsql" name="listsql" value="<?= $sql ?>">
+    <?= "<input type='hidden' id='listsql' name='listsql' value='{$sql}'>" ?>
     <input type="hidden" id="SerialNumber" name="SerialNumber">
     <input type="hidden" id="sbmtype" name="sbmtype" value="<?= $sbmtype ?>">
 </form>

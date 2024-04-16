@@ -93,7 +93,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($reports as $ev)
+            @foreach($drs_reports as $ev)
             <tr>
                 <td>{{$ev->WorkingDay}}</td>
                 <td>{{$ev->AmIndustry}}</td>

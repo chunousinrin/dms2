@@ -499,6 +499,9 @@
                     } elseif ($result['Tax'] == 0.1 or $result['Tax'] == 0.08) {
                         $tax = bcmul($sum_price, $result['Tax'], 3);
                         $taxtitle = "消費税";
+                    } elseif ($result['Tax'] == 0.0) {
+                        $tax = null;
+                        $taxtitle = null;
                     }
                     ?>
                     <tr>

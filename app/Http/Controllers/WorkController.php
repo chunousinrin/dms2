@@ -51,4 +51,8 @@ class WorkController extends Controller
     {
         return view('work.sinrinbo.sinrinbo_export');
     }
+    public function forestunion()
+    {
+        return view('work.forestunion.forestunion');
+    }
 }

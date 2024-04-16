@@ -110,7 +110,6 @@ function e2b() {
             document.getElementsByName("SerialNumber")[$rowNum].textContent;
         document.getElementById("SerialNumber").value = el;
         document.getElementById("sbmtype").value = "13";
-        document.f_list.submit();
     });
 }
 

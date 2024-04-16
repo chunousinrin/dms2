@@ -39,8 +39,8 @@ $submit_type_name = $submit_type_stmt->fetch();
         <div>　>>　<?= $submit_type_name['TypeName'] ?></div>
     </li>
     <li>
-        <div class="btn btn-sm btn-secondary rounded-0 px-4" onclick="createnew();">新規作成</div>
-        <div class="btn btn-sm btn-secondary rounded-0 px-4" onclick="drshistory()">履歴</div>
+        <button type="submit" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="document.getElementById('sbmtype').value='2'; document.f_list.submit();">新規作成</button>
+        <button type="submit" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="document.getElementById('sbmtype').value='1'; document.f_list.submit();">履歴</button>
     </li>
 </ul>
 

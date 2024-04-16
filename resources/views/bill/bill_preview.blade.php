@@ -633,7 +633,19 @@
                     <li><?= $bank2['AccountNumber'] ?></li>
                     <li><?= $bank3['AccountNumber'] ?></li>
                 </ul>
-                <img src="/images/head_logo.svg" alt="">
+                <?php
+                $jfsql = "SELECT * FROM conf_jforestlogo WHERE 1";
+                $jfst = $dbh->query($jfsql);
+                $jforest = $jfst->fetch();
+                $company_sql = "SELECT * FROM company WHERE BranchId = 1";
+                $company_st = $dbh->query($company_sql);
+                $company = $company_st->fetch();
+                ?>
+                <div style="width: 103px;border:none;position:absolute;right:2mm;top:50%;transform:translateY(-50%);display:block;box-sizing:border-box">
+                    <?php print '<img style="width:100%;height:auto;position: relative !important;right:0;" src="data:image/svg+xml;base64,' . base64_encode($jforest['JforestColor']) . '" >'; ?>
+                    <span style="display: block;width:100%;background-color:#70bd29;color:white;font-size:6pt;text-align-last:justify;padding:0 2em;margin-top:0.5em;"><?= $company['BranchName'] ?></span>
+                    <!--<img src="/images/head_logo.svg" alt="">-->
+                </div>
             </div>
         </footer>
     </div>

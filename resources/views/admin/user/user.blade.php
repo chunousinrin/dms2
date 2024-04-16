@@ -63,6 +63,11 @@ $submit_type_name = $submit_type_stmt->fetch();
 
 <?php elseif ($sbmtype == "9") : ?>
     <?php
+    if ($_POST['password'] === $_POST['old_password']) {
+        $pwd = $_POST['password'];
+    } else {
+        $pwd = Hash::make($_POST['password']);
+    }
 
     if (empty($_FILES['stamp']['name'])) {
         $sql = "UPDATE users SET
@@ -76,7 +81,7 @@ $submit_type_name = $submit_type_stmt->fetch();
         $params = array(
             ':name' => $_POST['name'],
             ':email' => $_POST['email'],
-            ':password' => Hash::make($_POST['password']),
+            ':password' => $pwd,
             ':department' => $_POST['department'] ?? null,
             ':section' => $_POST['section'] ?? null,
             ':position' => $_POST['position'] ?? null,
@@ -96,7 +101,7 @@ $submit_type_name = $submit_type_stmt->fetch();
         $params = array(
             ':name' => $_POST['name'],
             ':email' => $_POST['email'],
-            ':password' => Hash::make($_POST['password']),
+            ':password' => $pwd,
             ':department' => $_POST['department'] ?? null,
             ':section' => $_POST['section'] ?? null,
             ':position' => $_POST['position'] ?? null,

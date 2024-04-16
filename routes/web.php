@@ -39,10 +39,14 @@ Route::post('/bill/list_print', [App\Http\Controllers\BillController::class, 'bi
 
 Route::get('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
 Route::post('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
+Route::post('/estimate/preview', [App\Http\Controllers\estimateController::class, 'estimate_preview'])->name('estimate_preview');
 Route::post('/estimate/repreview', [App\Http\Controllers\estimateController::class, 'estimate_repreview'])->name('estimate_repreview');
+Route::post('/estimate2/preview', [App\Http\Controllers\estimateController::class, 'estimate2_preview'])->name('estimate2_preview');
+Route::post('/estimate2/repreview', [App\Http\Controllers\estimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
 
 Route::get('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
 Route::post('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
+Route::post('/draft/preview', [App\Http\Controllers\DraftController::class, 'draft_preview'])->name('draft_preview');
 Route::post('/draft/repreview', [App\Http\Controllers\DraftController::class, 'draft_repreview'])->name('draft_repreview');
 
 
@@ -84,6 +88,8 @@ Route::post('/sending/preview', [App\Http\Controllers\WorkController::class, 'se
 Route::post('/sinrinbo', [App\Http\Controllers\WorkController::class, 'sinrinbo'])->name('sinrinbo');
 Route::get('/sinrinbo', [App\Http\Controllers\WorkController::class, 'sinrinbo'])->name('sinrinbo');
 Route::post('/sinrinbo/export', [App\Http\Controllers\WorkController::class, 'sinrinbo_export'])->name('sinrinbo_export');
+Route::post('/forestunion', [App\Http\Controllers\WorkController::class, 'forestunion'])->name('forestunion');
+Route::get('/forestunion', [App\Http\Controllers\WorkController::class, 'forestunion'])->name('forestunion');
 
 Route::get('/admin/user_list', [App\Http\Controllers\AdminController::class, 'user_list'])->name('user_list');
 Route::post('/admin/user_list', [App\Http\Controllers\AdminController::class, 'user_list'])->name('user_list');

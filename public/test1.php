@@ -5,10 +5,10 @@
 </style>
 
 <?php
-$dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
-$sql = "SELECT * FROM conf_jforestlogo";
+$dbh = new PDO('mysql:host=localhost;dbname=forest_union;charset=utf8', 'root', '');
+$sql = "SELECT * FROM union_members WHERE 脱退年月日 is null";
 $stmt = $dbh->query($sql);
-$result = $stmt->fetch(); ?>
+while ($result = $stmt->fetch(PDO::FETCH_BOTH)) : ?>
+    <div><?= $result['組合員番号'] ?>　<?= $result['氏名1'] ?></div>
 
-<?php echo '<img style="opacity:0.8;bottom:0;width:auto;height:100px;" src="data:image/svg+xml;base64,' . base64_encode($result['JforestColor']) . '" >'; ?>
-<?php echo '<img style="opacity:0.8;bottom:0;width:auto;height:100px;" src="data:image/svg+xml;base64,' . base64_encode($result['JforestWhite']) . '" >'; ?>
+<?php endwhile ?>

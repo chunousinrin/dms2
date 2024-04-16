@@ -101,7 +101,7 @@ if (!empty($browse['cnt'])) {
         <tr>
             <td class="p-2 bg-white">
                 <?php
-                $browsed_sql = "SELECT draft_browsed.DraftNumber,draft_browsed.BrowseUserID,users.stamp FROM draft_browsed LEFT JOIN users ON users.id=draft_browsed.BrowseUserID WHERE DraftNumber='{$result['DraftNumber']}' GROUP BY DraftNumber,BrowseUserID,stamp";
+                $browsed_sql = "SELECT draft_browsed.DraftNumber,draft_browsed.BrowseUserID,users.stamp FROM draft_browsed LEFT JOIN users ON users.id=draft_browsed.BrowseUserID WHERE DraftNumber='{$result['DraftNumber']}' GROUP BY DraftNumber,BrowseUserID,stamp ORDER BY BrowseUserID ASC";
                 $browsed_stmt = $dbh->query($browsed_sql);
                 foreach ($browsed_stmt as $row) {
                     if (!empty($row['stamp'])) {

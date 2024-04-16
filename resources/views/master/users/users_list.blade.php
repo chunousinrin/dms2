@@ -31,7 +31,7 @@ $stmt = $dbh->query($sql); ?>
                         <td class="col-1"><input type="text" name="position" id="position" class="form-control rounded-0" value="<?= $result['position'] ?>"></td>
                         <td class="" style="white-space: nowrap;">
                             <?php
-                            if ($result['used'] == "0") {
+                            if (empty($result['used'])) {
                                 $sld1 = null;
                                 $sld2 = "checked";
                             } else {
@@ -50,7 +50,7 @@ $stmt = $dbh->query($sql); ?>
                         </td>
                         <td class="" style="white-space: nowrap;">
                             <?php
-                            if ($result['authtype'] == "0") {
+                            if (empty($result['authtype'])) {
                                 $sld3 = null;
                                 $sld4 = "checked";
                             } else {

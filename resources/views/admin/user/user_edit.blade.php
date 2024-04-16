@@ -28,7 +28,8 @@ $result = $user_stmt->fetch();
             <tr>
                 <td class="table-success col-sm-2">パスワード<span class="required_item">必須</span></td>
                 <td>
-                    <input type="password" id="password" name="password" class="form-control rounded-0" value="<?= $result['email'] ?>" required>
+                    <input type="password" id="password" name="password" class="form-control rounded-0" value="<?= $result['password'] ?>" required>
+                    <input type="hidden" id="old_password" name="old_password" value="<?= $result['password'] ?>">
                 </td>
             </tr>
         </tbody>

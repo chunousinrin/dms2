@@ -197,6 +197,15 @@
                 </div>
                 <div style="width:7%;line-height:2.5em;padding:0 1%;text-align-last:justify;">閲覧</div>
                 <div style="padding: 0.5em;">
+                    <?php
+                    $browsed_sql = "SELECT draft_browsed.DraftNumber,draft_browsed.BrowseUserID,users.stamp FROM draft_browsed LEFT JOIN users ON users.id=draft_browsed.BrowseUserID WHERE DraftNumber='{$draft['DraftNumber']}' GROUP BY DraftNumber,BrowseUserID,stamp ORDER BY BrowseUserID ASC";
+                    $browsed_stmt = $dbh->query($browsed_sql);
+                    foreach ($browsed_stmt as $row) {
+                        if (!empty($row['stamp'])) {
+                            print '<img style="" width="30mm" height="30mm" src="data:image/svg+xml;base64,' . base64_encode($row['stamp']) . '" >';
+                        }
+                    };
+                    ?>
                 </div>
             </div>
 

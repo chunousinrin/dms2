@@ -47,7 +47,7 @@ if (!empty($_POST['creater'])) {
     <div class="search_box">
         <div class="input-group">
             <input class="form-control rounded-0" type="text" name="keyword" value="<?= $_POST['keyword'] ?? null ?>" placeholder="キーワード">
-            <input class="btn btn-sm btn-secondary rounded-0 col-1" type="submit" value="検索">
+            <input class="btn btn-sm btn-secondary rounded-0 col-1" type="submit" value="検索" formtarget="_self" formaction="/estimate">
         </div>
     </div>
     <details class="accordion">
@@ -176,13 +176,13 @@ if (!empty($_POST['creater'])) {
                             <?php } ?>
                             <input type="submit" value="" class="btns btn btn-sm btn-secondary rounded-0" style="background-image:url(https://icongr.am/fontawesome/trash-o.svg?color=ffffff);" onclick="dl()">
                         </td>
-                        <td class='sellist'><?= $result['CreatedDate'] ?></td>
-                        <td class='sellist' name="SerialNumber"><?= $result['EstimateNumber'] ?></td>
-                        <td class='sellist'><?= $result['UserName'] ?></td>
-                        <td class='sellist'><?= $result['Customer'] ?></td>
-                        <td class='sellist'><?= $result['EstimateName'] ?></td>
-                        <td class='sellist'><?= $result['Location'] ?></td>
-                        <td class='sellist' id='EstiPrice' class='' style='text-align:right;'><?= number_format($result['price']) ?></td>
+                        <td class=''><?= $result['CreatedDate'] ?></td>
+                        <td class='' name="SerialNumber"><?= $result['EstimateNumber'] ?></td>
+                        <td class=''><?= $result['UserName'] ?></td>
+                        <td class=''><?= $result['Customer'] ?></td>
+                        <td class=''><?= $result['EstimateName'] ?></td>
+                        <td class=''><?= $result['Location'] ?></td>
+                        <td class='' id='EstiPrice' class='' style='text-align:right;'><?= number_format($result['price']) ?></td>
                         <?php $sum_price = $sum_price + $result['price']; ?>
                     </tr>
                 <?php }; ?>

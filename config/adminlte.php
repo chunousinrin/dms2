@@ -324,7 +324,7 @@ return [
         ],
         [
             'text' => 'work',
-            'icon' => 'fas fa-fw fa-mountain',
+            'icon' => 'fas fa-fw fa-tree',
             'submenu' => [
                 [
                     'text' => 'sinrinbo',
@@ -414,6 +414,11 @@ return [
             'text' => 'profile',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user-circle',
+        ],
+        [
+            'text' => 'drs',
+            'url' => '/drs',
+            'icon' => 'fas fa-fw fa-clipboard',
         ],
         // Navbar items:
         //[

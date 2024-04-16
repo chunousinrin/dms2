@@ -206,7 +206,7 @@ if (!empty($_POST['limit'])) {
     <div class="input-group pt-2">
         <input type="submit" class="btn btn-sm btn-secondary rounded-0 col-1" value="検索">
         <input type="button" class="btn btn-sm btn-secondary rounded-0 mx-1 col-1" value="リセット" onclick="rst(); ">
-        <button type="submit" class="btn btn-sm btn-secondary rounded-0 col-1" onclick="document.getElementById('types').value='export';" formaction="/sinrinbo/export">CSV出力</button>
+        <button type="submit" class="btn btn-sm btn-secondary rounded-0 col-1" formaction="/sinrinbo/export">CSV出力</button>
         <span class="form-control col-8 bg-transparent border-0"></span>
         <button class="btn btn-sm btn-secondary rounded-0 col-1" onclick="document.getElementById('types').value=''">終了</button>
         <input type="hidden" name="types" id="types" value="list">

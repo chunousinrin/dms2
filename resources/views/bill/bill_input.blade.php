@@ -6,13 +6,13 @@ $billnum = "12" . time();
     <table class="table table-hover table-borderless ctable">
         <tbody>
             <tr>
-                <td class="table-success col-sm-2">請求番号</td>
-                <td>
+                <td class="table-success col-2">請求番号</td>
+                <td class="col-10">
                     <input type="text" id="SerialNumber" name="SerialNumber" value=<?= $billnum ?> readonly class="form-control rounded-0 ">
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">事業分類<span class="required_item">必須</span></td>
+                <td class="table-success col-2">事業分類<span class="required_item">必須</span></td>
                 <td>
                     <?php
                     $classicationId = "SELECT * FROM `classication` ORDER BY `Id` ASC";
@@ -30,7 +30,7 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">発行日<span class="required_item">必須</span></td>
+                <td class="table-success col-2">発行日<span class="required_item">必須</span></td>
                 <td>
                     <input type="text" id="CreatedDate" name="CreatedDate" required class="form-control rounded-0 datepicker">
 
@@ -45,7 +45,7 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">発行者</td>
+                <td class="table-success col-2">発行者</td>
                 <td>
                     <?php
                     $companysql = "SELECT * FROM company ORDER BY BranchId ASC";
@@ -62,10 +62,10 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">担当者</td>
+                <td class="table-success col-2">担当者</td>
                 <td>
                     <div class="input-group">
-                        <input type=" text" id="UserID" name="UserID" value=<?= $user['id']; ?> readonly class="form-control rounded-0 col-sm-2">
+                        <input type=" text" id="UserID" name="UserID" value=<?= $user['id']; ?> readonly class="form-control rounded-0 col-2">
                         <input type="text" id="UserName" name="UserName" value="<?= $user['name']; ?>" readonly class="form-control rounded-0 col-sm-10">
                     </div>
 
@@ -85,7 +85,7 @@ $billnum = "12" . time();
     <table class="table table-hover table-borderless ctable">
         <tbody>
             <tr>
-                <td class="table-success col-sm-2">取引先<span class="required_item">必須</span></td>
+                <td class="table-success col-2">取引先<span class="required_item">必須</span></td>
                 <td>
                     <div class="input-group">
                         <input type="text" name="Customer" id="Customer" list="clist" autocomplete="on" value="<?= $_POST['Customer'] ?? null ?>" placeholder="入力または一覧から選択してください" required class="form-control rounded-0 col-sm-10">
@@ -98,7 +98,7 @@ $billnum = "12" . time();
                             }
                             ?>
                         </datalist>
-                        <select name="CustomerAdd" id="CustomerAdd" class="form-control rounded-0 col-sm-2">
+                        <select name="CustomerAdd" id="CustomerAdd" class="form-control rounded-0 col-2">
                             <option value="御中">御中</option>
                             <option value="様">様</option>
                         </select>
@@ -106,19 +106,19 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">事業名<span class="required_item">必須</span></td>
+                <td class="table-success col-2">事業名<span class="required_item">必須</span></td>
                 <td>
                     <input type="text" id="TitleName" name="TitleName" required class="form-control rounded-0">
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">場所</td>
+                <td class="table-success col-2">場所</td>
                 <td>
                     <input type="text" id="Location" name="Location" class="form-control rounded-0">
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">実施日</td>
+                <td class="table-success col-2">実施日</td>
                 <td>
                     <div class="input-group">
                         <input type="text" id="CompletionDate" name="CompletionDate" class="datepicker form-control rounded-0">
@@ -133,14 +133,14 @@ $billnum = "12" . time();
     <table class="table table-hover table-borderless ctable">
         <tbody>
             <tr>
-                <td class="table-success col-sm-2">支払期日</td>
+                <td class="table-success col-2">支払期日</td>
                 <td>
                     <input type="text" id="PaymentDueDate" name="PaymentDueDate" class="datepicker form-control rounded-0">
                     <span class="col-form-label">未記入の場合、発行日より45日以内</span>
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">記載振込先<span class="required_item">必須</span></td>
+                <td class="table-success col-2">記載振込先<span class="required_item">必須</span></td>
                 <td>
                     <div class="input-group mb-1">
                         <span class="col-form-label">１.</span>
@@ -201,9 +201,9 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">消費税率</td>
+                <td class="table-success col-2">消費税率</td>
                 <td>
-                    <select name="Tax" id="Tax" class="form-control rounded-0 col-sm-2">
+                    <select name="Tax" id="Tax" class="form-control rounded-0 col-2">
                         <option value="0.1" selected>10%</option>
                         <option value="0.08">8%</option>
                         <option value="1.1">内税(10%)</option>
@@ -212,7 +212,7 @@ $billnum = "12" . time();
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">入金日</td>
+                <td class="table-success col-2">入金日</td>
                 <td>
                     <input type="text" id="PaymentDate" name="PaymentDate" class="datepicker form-control rounded-0">
                 </td>
@@ -223,13 +223,13 @@ $billnum = "12" . time();
     <table class="table table-hover table-borderless ctable">
         <tbody>
             <tr>
-                <td class="table-success col-sm-2">備考</td>
+                <td class="table-success col-2">備考</td>
                 <td>
                     <textarea id="Remark" name="Remark" class="form-control rounded-0"></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="table-success col-sm-2">メモ</td>
+                <td class="table-success col-2">メモ</td>
                 <td>
                     <textarea id="Memo" name="Memo" class="form-control rounded-0"></textarea>
                     <span class="col-form-label">この項目は印刷されません</span>
@@ -280,15 +280,15 @@ $billnum = "12" . time();
                         <input class="lists form-control rounded-0" type="text" name="<?= 'InputItems' . $celnum; ?>" id="<?= 'InputItems' . $celnum; ?>">
                     </td>
                     <?php $celnum = $celnum + 1; ?>
-                    <td class="px-1 col-sm-2">
+                    <td class="px-1 col-2">
                         <input class="lists form-control rounded-0" type="number" step="0.001" name="<?= 'InputItems' . $celnum; ?>" id="<?= 'InputItems' . $celnum; ?>">
                     </td>
                     <?php $celnum = $celnum + 1; ?>
-                    <td class="px-1 col-sm-2">
+                    <td class="px-1 col-2">
                         <input class="lists form-control rounded-0" type="text" name="<?= 'InputItems' . $celnum; ?>" id="<?= 'InputItems' . $celnum; ?>">
                     </td>
                     <?php $celnum = $celnum + 1; ?>
-                    <td class="px-1 col-sm-2">
+                    <td class="px-1 col-2">
                         <input class="lists form-control rounded-0" type="number" step="0.001" name="<?= 'InputItems' . $celnum; ?>" id="<?= 'InputItems' . $celnum; ?>">
                     </td>
                 </tr>
