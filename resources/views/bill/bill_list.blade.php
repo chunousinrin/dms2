@@ -1,8 +1,4 @@
 <?php
-$sqlcnt = "SELECT COUNT(*)as cnt FROM bill_history";
-$stsqlcnt = $dbh->query($sqlcnt);
-$billcnt = $stsqlcnt->fetch();
-
 
 if (!empty($_POST['limit'])) {
     $limit = $_POST['limit'];
@@ -173,7 +169,6 @@ if (!empty($_POST['startpayment']) && !empty($_POST['endpayment'])) {
                 <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="200">200</option>
-                <option value="<?= $billcnt['cnt'] ?>">全件</option>
             </select>
         </div>
     </div>
