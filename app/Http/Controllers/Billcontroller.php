@@ -13,9 +13,4 @@ class BillController extends Controller
     {
         //
     }
-
-    public function bill()
-    {
-        return view('bill.bill');
-    }
 }
