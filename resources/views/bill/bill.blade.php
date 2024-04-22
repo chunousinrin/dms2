@@ -41,7 +41,7 @@ $submit_type_name = DB::table('submit_type')
 <ul class="content_head">
     <li style="display: flex;align-items:center;">
         <h1 id="typename">請求書</h1>
-        <div>　>>　<?= $submit_type_name['TypeName'] ?></div>
+        <div>　>>　<?= $submit_type_name->TypeName; ?></div>
     </li>
     <li>
         <input type="submit" value="新規作成" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="createnew();">
