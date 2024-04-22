@@ -35,12 +35,8 @@ Route::post('/bill', 'App\Http\Controllers\BillController@bill');
 Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 
-
-Route::get('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
-Route::post('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
-Route::post('/draft/preview', [App\Http\Controllers\DraftController::class, 'draft_preview'])->name('draft_preview');
-Route::post('/draft/repreview', [App\Http\Controllers\DraftController::class, 'draft_repreview'])->name('draft_repreview');
-
+Route::get('/draft', 'App\Http\Controllers\DraftController@draft');
+Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
 
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::post('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
