@@ -32,12 +32,9 @@ Route::get('/', 'App\Http\Controllers\HomeController@index');
 Route::get('/bill', 'App\Http\Controllers\BillController@bill');
 Route::post('/bill', 'App\Http\Controllers\BillController@bill');
 
-Route::get('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
-Route::post('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
-Route::post('/estimate/preview', [App\Http\Controllers\estimateController::class, 'estimate_preview'])->name('estimate_preview');
-Route::post('/estimate/repreview', [App\Http\Controllers\estimateController::class, 'estimate_repreview'])->name('estimate_repreview');
-Route::post('/estimate2/preview', [App\Http\Controllers\estimateController::class, 'estimate2_preview'])->name('estimate2_preview');
-Route::post('/estimate2/repreview', [App\Http\Controllers\estimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
+Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
+Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
+
 
 Route::get('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
 Route::post('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
