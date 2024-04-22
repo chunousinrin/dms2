@@ -11,7 +11,7 @@
 use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
-$dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 if (!empty($_POST['sbmtype'])) {
     $sbmtype = $_POST['sbmtype'];
 } elseif (!empty($_GET['sbmtype'])) {
@@ -20,9 +20,9 @@ if (!empty($_POST['sbmtype'])) {
     $sbmtype = '1';
 };
 //var_dump($_POST);
-$submit_type_sql = "SELECT * FROM submit_type WHERE TypeID = {$sbmtype}";
-$submit_type_stmt = $dbh->query($submit_type_sql);
-$submit_type_name = $submit_type_stmt->fetch();
+$submit_type_name = DB::table('submit_type')
+    ->where('TypeID', $sbmtype)
+    ->get();
 ?>
 
 @section('js')
