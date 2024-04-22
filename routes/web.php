@@ -28,14 +28,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name(
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 
-
-Route::get('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
-Route::post('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
-Route::post('/bill/preview', [App\Http\Controllers\BillController::class, 'bill_preview'])->name('bill_preview');
-Route::post('/bill/deliveryslip', [App\Http\Controllers\BillController::class, 'deliveryslip'])->name('deliveryslip');
-Route::post('/bill/repreview', [App\Http\Controllers\BillController::class, 'bill_repreview'])->name('bill_repreview');
-Route::post('/bill/deliveryslip/repreview', [App\Http\Controllers\BillController::class, 'deliveryslip_repreview'])->name('deliveryslip_repreview');
-Route::post('/bill/list_print', [App\Http\Controllers\BillController::class, 'bill_list_print'])->name('bill_list_print');
+Route::get('/bill', 'App\Http\Controllers\BillController::class@bill');
+Route::post('/bill', 'App\Http\Controllers\BillController::class@bill');
 
 Route::get('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
 Route::post('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
