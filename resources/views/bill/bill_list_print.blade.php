@@ -100,7 +100,7 @@
             </thead>
             <tbody>
                 <?php
-                $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+                $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
                 $sql = $_POST['billlist'];
                 $stmt = $dbh->query($sql);
                 $sum_price = 0;
