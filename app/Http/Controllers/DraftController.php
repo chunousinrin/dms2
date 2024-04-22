@@ -13,4 +13,9 @@ class DraftController extends Controller
     {
         //
     }
+
+    public function draft()
+    {
+        return view('draft.draft');
+    }
 }
