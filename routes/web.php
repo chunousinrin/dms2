@@ -36,6 +36,8 @@ Route::post('/bill', 'App\Http\Controllers\BillController@bill');
 Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 
+Route::get('/draft', 'App\Http\Controllers\DraftController@draft');
+Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
 
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::post('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
