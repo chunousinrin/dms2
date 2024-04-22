@@ -20,7 +20,7 @@ if (!empty($_POST['sbmtype'])) {
     $sbmtype = '1';
 };
 //var_dump($_POST);
-$submit_type_name = DB::tabele('submit_type')
+$submit_type_name = DB::table('submit_type')
     ->where('TypeID', $sbmtype)
     ->get();
 ?>
