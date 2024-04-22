@@ -2,6 +2,7 @@
 
 //use App\Http\Controllers\DrsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name(
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 
-Route::get('/bill', 'App\Http\Controllers\BillController@bill');
-Route::post('/bill', 'App\Http\Controllers\BillController@bill');
+Route::get('/bill', 'BillController@bill');
+Route::post('/bill', 'BillController@bill');
 
 Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
