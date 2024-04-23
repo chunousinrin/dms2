@@ -39,7 +39,7 @@ Route::post('/bill/list_print', [App\Http\Controllers\BillController::class, 'bi
 
 Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
 Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
-Route::get('/estimate/repreview', 'App\Http\Controllers\EstimateController@estimate_repreview');
+Route::post('/estimate/preview', 'App\Http\Controllers\EstimateController@estimate_preview');
 Route::post('/estimate/repreview', 'App\Http\Controllers\EstimateController@estimate_repreview');
 Route::post('/estimate2/preview', [App\Http\Controllers\EstimateController::class, 'estimate2_conf'])->name('estimate2_conf');
 Route::post('/estimate2/repreview', [App\Http\Controllers\EstimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
