@@ -13,6 +13,10 @@ class BillController extends Controller
     {
         //
     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function bill()
     {
         return view('bill.bill');
