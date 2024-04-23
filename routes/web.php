@@ -28,8 +28,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name(
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 
-//Route::get('/bill', 'App\Http\Controllers\BillController@bill');
-//Route::post('/bill', 'App\Http\Controllers\BillController@bill');
 Route::get('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
 Route::post('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
 Route::post('/bill/preview', [App\Http\Controllers\BillController::class, 'bill_preview'])->name('bill_preview');
