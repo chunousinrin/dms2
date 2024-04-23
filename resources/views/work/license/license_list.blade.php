@@ -136,7 +136,7 @@ if (!empty($_GET['limit'])) {
         <tbody>
             <?php
             $sum_price = 0;
-            $sql = "SELECT * FROM license_history WHERE $srch";
+            $sql = "SELECT * FROM license_history WHERE 1";
             $stmt = $dbh->query($sql);
             $sum_price = 0;
             while ($result = $stmt->fetch(PDO::FETCH_BOTH)) {
