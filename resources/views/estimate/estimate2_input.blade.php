@@ -399,7 +399,7 @@ $estimatenum = "13" . time();
         <button class="btn btn-sm btn-secondary rounded-0 px-4 mb-5" type="submit" name="btn_confirm" value="入力内容を確認する" formaction="/estimate2/preview" formtarget="blank">入力内容を確認する</button>
         <button class="btn btn-sm btn-secondary rounded-0 px-4 mb-5" type="button" name="saved" onclick="es2save();">保存</button>
     </div>
-    <input type="text" id="sbmtype" name="sbmtype" value="8">
+    <input type="hidden" id="sbmtype" name="sbmtype" value="8">
 </form>
 <script>
     function es2save() {
