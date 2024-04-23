@@ -54,7 +54,7 @@ $submit_type_name = DB::table('submit_type')
 
 
 <?php if ($sbmtype == "1") : ?>
-  @include('work.license.lisence_list')
+  @include('work.license.license_list')
 
 <?php elseif ($sbmtype == "2") : ?>
 
