@@ -13,7 +13,10 @@ class DraftController extends Controller
     {
         //
     }
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function draft()
     {
         return view('draft.draft');

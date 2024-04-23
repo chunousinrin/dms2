@@ -13,6 +13,10 @@ class EstimateController extends Controller
     {
         //
     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function estimate()
     {
         return view('estimate.estimate');
