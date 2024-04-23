@@ -30,6 +30,10 @@ class WorkController extends Controller
     {
         return view('work.license.license_conf');
     }
+    public function license_list()
+    {
+        return view('work.license.license_list');
+    }
     public function sending()
     {
         return view('work.sending');
