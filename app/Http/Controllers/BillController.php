@@ -21,4 +21,20 @@ class BillController extends Controller
     {
         return view('bill.bill_preview');
     }
+    public function bill_repreview()
+    {
+        return view('bill.bill_repreview');
+    }
+    public function deliveryslip()
+    {
+        return view('bill.deliveryslip');
+    }
+    public function deliveryslip_repreview()
+    {
+        return view('bill.deliveryslip_repreview');
+    }
+    public function bill_list_print()
+    {
+        return view('bill.bill_list_print');
+    }
 }
