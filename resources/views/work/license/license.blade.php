@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
+
 if (!empty($_POST['sbmtype'])) {
   $sbmtype = $_POST['sbmtype'];
 } elseif (!empty($_GET['sbmtype'])) {
