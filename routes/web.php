@@ -47,6 +47,9 @@ Route::post('/estimate2/repreview', [App\Http\Controllers\EstimateController::cl
 
 Route::get('/draft', 'App\Http\Controllers\DraftController@draft');
 Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
+Route::get('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
+Route::post('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
+
 
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::post('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
