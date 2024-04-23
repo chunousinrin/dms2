@@ -37,10 +37,10 @@ Route::post('/bill/deliveryslip/repreview', [App\Http\Controllers\BillController
 Route::post('/bill/list_print', [App\Http\Controllers\BillController::class, 'bill_list_print'])->name('bill_list_print');
 
 
-Route::get('/estimate', [App\Http\Controllers\EstimateController::class, 'estimate'])->name('estimate');
-Route::post('/estimate', [App\Http\Controllers\EstimateController::class, 'estimate'])->name('estimate');
-Route::post('/estimate/preview', [App\Http\Controllers\EstimateController::class, 'estimate_preview'])->name('estimate_preview');
-Route::post('/estimate/repreview', [App\Http\Controllers\EstimateController::class, 'estimate_repreview'])->name('estimate_repreview');
+Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
+Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
+Route::get('/estimate/repreview', 'App\Http\Controllers\EstimateController@estimate_repreview');
+Route::post('/estimate/repreview', 'App\Http\Controllers\EstimateController@estimate_repreview');
 Route::post('/estimate2/preview', [App\Http\Controllers\EstimateController::class, 'estimate2_conf'])->name('estimate2_conf');
 Route::post('/estimate2/repreview', [App\Http\Controllers\EstimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
 
