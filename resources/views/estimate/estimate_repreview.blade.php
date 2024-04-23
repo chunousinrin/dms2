@@ -260,7 +260,7 @@
 
     @include('edt.wareki')
     <?php
-    $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 
     ///////////////////////// 履歴抽出 /////////////////////////
     $sql = "SELECT * FROM estimate LEFT JOIN company ON estimate.Branch = company.BranchId WHERE EstimateNumber =" . $_POST['SerialNumber'] . ";";
