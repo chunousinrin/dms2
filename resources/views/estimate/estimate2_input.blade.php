@@ -396,7 +396,7 @@ $estimatenum = "13" . time();
     </table>
 
     <div style="margin:0 auro;padding:10px 0;text-align:center;">
-        <button class="btn btn-sm btn-secondary rounded-0 px-4 mb-5" type="submit" name="btn_confirm" value="入力内容を確認する" formaction="/estimate2/conf" formtarget="blank">入力内容を確認する</button>
+        <button class="btn btn-sm btn-secondary rounded-0 px-4 mb-5" type="submit" name="btn_confirm" value="入力内容を確認する" formaction="/estimate2/preview" formtarget="blank">入力内容を確認する</button>
         <button class="btn btn-sm btn-secondary rounded-0 px-4 mb-5" type="button" name="saved" onclick="es2save();">保存</button>
     </div>
     <input type="text" id="sbmtype" name="sbmtype" value="8">
