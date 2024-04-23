@@ -269,7 +269,7 @@
 
     @include('edt.wareki')
     <?php
-    $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
     $sql = "SELECT * FROM company WHERE BranchId =" . $_POST['Branch'];
     $stmt = $dbh->query($sql);
     $shisho = $stmt->fetch();
