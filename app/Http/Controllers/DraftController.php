@@ -18,4 +18,8 @@ class DraftController extends Controller
     {
         return view('draft.draft');
     }
+    public function draft_preview()
+    {
+        return view('draft.draft_preview');
+    }
 }
