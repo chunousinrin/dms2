@@ -130,7 +130,7 @@ if (!empty($_GET['limit'])) {
                 </td>
                 <td>完了日</td>
                 <td>備考</td>
-                <input type="hidden" id="dateoder" name="dateoder" value="<?= $od ?>">
+                <input type="hidden" id="dateoder" name="dateoder" value="<?= $od ?? null ?>">
             </tr>
         </thead>
         <tbody>
