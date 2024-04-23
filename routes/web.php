@@ -79,6 +79,7 @@ Route::post('/attendance', [App\Http\Controllers\AttendanceController::class, 'a
 
 
 Route::get('/license', 'App\Http\Controllers\WorkController@license');
+Route::post('/license', 'App\Http\Controllers\WorkController@license');
 
 Route::get('/license/update', [App\Http\Controllers\WorkController::class, 'license_update'])->name('license_update');
 Route::post('/license/update', [App\Http\Controllers\WorkController::class, 'license_update'])->name('license_update');

@@ -5,12 +5,7 @@
 @section('content_header')
 <link rel="stylesheet" href="/css/dms_table.css">
 <?php
-$dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
-
-$sqlcnt = "SELECT COUNT(*)as cnt FROM license_history";
-$stsqlcnt = $dbh->query($sqlcnt);
-$lcscnt = $stsqlcnt->fetch();
-
+$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 
 if (!empty($_GET['limit'])) {
   $limit = $_GET['limit'];
@@ -150,7 +145,6 @@ if (!empty($srch0) && !empty($srch1) && !empty($srch2) && !empty($srch3)) { //0+
         <option value="50">50</option>
         <option value="100">100</option>
         <option value="200">200</option>
-        <option value="<?= $lcscnt['cnt'] ?>">全件</option>
       </select>
     </div>
   </div>

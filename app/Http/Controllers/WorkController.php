@@ -15,20 +15,20 @@ class WorkController extends Controller
 
     public function license()
     {
-        return view('work.license');
+        return view('work.license.license');
     }
 
     public function license_update()
     {
-        return view('work.license_update');
+        return view('work.license.license_update');
     }
     public function license_input()
     {
-        return view('work.license_input');
+        return view('work.license.license_input');
     }
     public function license_conf()
     {
-        return view('work.license_conf');
+        return view('work.license.license_conf');
     }
     public function sending()
     {
