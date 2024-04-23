@@ -50,6 +50,10 @@ Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
 Route::get('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
 Route::post('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
 
+Route::post('/errl', 'App\Http\Controllers\ErrlController@errl');
+Route::get('/errl', 'App\Http\Controllers\ErrlController@errl');
+Route::post('/errl/list_print', 'App\Http\Controllers\ErrlController@errl_list_print');
+
 
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::post('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
@@ -103,10 +107,6 @@ Route::post('/admin/working_list', [App\Http\Controllers\AdminController::class,
 
 Route::get('/drs', [App\Http\Controllers\DrsController::class, 'drs'])->name('drs');
 Route::post('/drs', [App\Http\Controllers\DrsController::class, 'drs'])->name('drs');
-
-Route::post('/errl', [App\Http\Controllers\ErrlController::class, 'errl'])->name('errl');
-Route::get('/errl', [App\Http\Controllers\ErrlController::class, 'errl'])->name('errl');
-Route::post('/errl/list_print', [App\Http\Controllers\ErrlController::class, 'errl_list_print'])->name('errl_list_print');
 
 Route::get('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');
 Route::post('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');

@@ -20,9 +20,9 @@ if (!empty($_POST['sbmtype'])) {
     $sbmtype = '1';
 };
 //var_dump($_POST);
-$submit_type_sql = "SELECT * FROM submit_type WHERE TypeID = {$sbmtype}";
-$submit_type_stmt = $dbh->query($submit_type_sql);
-$submit_type_name = $submit_type_stmt->fetch();
+$submit_type_name = DB::table('submit_type')
+    ->where('TypeID', $sbmtype)
+    ->get();
 ?>
 
 @section('js')
@@ -40,7 +40,7 @@ $submit_type_name = $submit_type_stmt->fetch();
 <ul class="content_head">
     <li style="display: flex;align-items:center;">
         <h1 id="typename">電子帳簿保存</h1>
-        <div>　>>　<?= $submit_type_name['TypeName'] ?></div>
+        <div>　>>　<?= $submit_type_name[0]->TypeName ?></div>
     </li>
     <li>
         <input type="submit" value="新規作成" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="createnew();">
