@@ -1,4 +1,9 @@
 <?php
+$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
+$sql = "SELECT * FROM conf_registername WHERE RegisterID = 1";
+$stmt = $dbh->query($sql);
+$company = $stmt->fetch();
+
 return [
 
     /*
@@ -62,7 +67,7 @@ return [
     |
     */
 
-    'logo' => '<b>中濃森林組合</b>',
+    'logo' => '<b>' . $company['RegisterName'] . '</b>',
     /*'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',*/
     'logo_img' => 'images/chunou_header_min.svg',
     'logo_img_class' => 'brand-image elevation-3',
