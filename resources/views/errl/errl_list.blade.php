@@ -13,7 +13,7 @@
     } elseif (!empty($_POST['stdate']) && empty($_POST['eddate'])) {
         $src1 = ' AND TradingDate >= "' . $_POST['stdate'] . '"';
     } elseif (empty($_POST['stdate']) && !empty($_POST['eddate'])) {
-        $src1 = ' AND TradingDate <= "' . $_POST[' eddate'] . '"';
+        $src1 = ' AND TradingDate <= "' . $_POST['eddate'] . '"';
     } else {
         $src1 = null;
     };

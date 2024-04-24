@@ -3,7 +3,30 @@ if (!empty($_POST['limit'])) {
     $limit = $_POST['limit'];
 } else {
     $limit = 25;
+};
+
+if (!empty($_POST['keyword'])) {
+    $src1 = ' AND keyword LIKE "%' . $_POST['keyword'] . '%"';
+} else {
+    $src1 = null;
+};
+
+if (!empty($_POST['startDate']) && !empty($_POST['endDate'])) {
+    $src2 = ' AND ApplicationDate Between "' . $_POST['startDate'] . '" AND "' . $_POST['endDate'] . '"';
+} elseif (!empty($_POST['startDate']) && empty($_POST['endDate'])) {
+    $src2 = ' AND ApplicationDate >= "' . $_POST['startDate'] . '"';
+} elseif (empty($_POST['startDate']) && !empty($_POST['endDate'])) {
+    $src2 = ' AND ApplicationDate <= "' . $_POST['endDate'] . '"';
+} else {
+    $src2 = null;
+};
+
+if (!empty($_POST['ForestReserve'])) {
+    $src3 = ' AND ForestReserve LIKE "%' . $_POST['ForestReserve'] . '%"';
+} else {
+    $src3 = null;
 }
+
 ?>
 
 <form action="" method="post" name="f_list" id="f_list">
@@ -29,7 +52,7 @@ if (!empty($_POST['limit'])) {
                 <tr>
                     <td>保安林種</td>
                     <td style="display: flex;align-items:center">
-                        <input type="text" name="hoanrin" id="hoanrin" list="clist" autocomplete="on" value="<?= $_POST['hoanrin'] ?? null ?>" placeholder="入力または一覧から選択してください" required class="form-control rounded-0">
+                        <input type="text" name="ForestReserve" id="ForestReserve" list="clist" autocomplete="on" value="<?= $_POST['ForestReserve'] ?? null ?>" placeholder="入力または一覧から選択してください" class="form-control rounded-0">
                         <datalist id="clist">
                             <?php
                             $sql = "SELECT ForestReserve FROM license_history GROUP BY ForestReserve;";
@@ -178,44 +201,45 @@ if (!empty($_POST['limit'])) {
             <tbody>
                 <?php
                 $sum_price = 0;
-                $sql = "SELECT * FROM license_history WHERE 1";
+                $sql = "SELECT * FROM license_history WHERE 1 " . $src1 . $src2 . $src3 . "LIMIT " . $limit;
                 $stmt = $dbh->query($sql);
                 $sum_price = 0;
-                while ($result = $stmt->fetch(PDO::FETCH_BOTH)) {
+                while ($result = $stmt->fetch(PDO::FETCH_BOTH)) : ?>
+                    <?php
                     if ($result['validity'] == '期限切') {
-                        echo "<tr id='selid' style='background-color:rgba(255,0,0,0.3);'>";
+                        $limited = "style='background-color:rgba(255,0,0,0.3);'";
                     } else {
-                        echo "<tr id='selid'>";
+                        $limited = null;
                     };
-
-                    echo
-                    "<td name='validity' id='validity' style='text-align:center;'>" . $result['validity'] . "</td>" .
-                        "<td style='text-align:center;' id='licenseid'>" . $result['LicenseID'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['lmt'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['ReferenceNumber'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['BranchNumber'] . "</td>" .
-                        "<td>" . $result['FacilityName'] . "</td>" .
-                        "<td>" . $result['ForestReserve'] . "</td>" .
-                        "<td>" . $result['Location'] . "</td>" .
-                        "<td style='text-align:right;'>" . $result['Stock'] . "</td>" .
-                        "<td>" . $result['Applicant'] . "</td>" .
-                        "<td>" . $result['Contact'] . "</td>" .
-                        "<td style='text-align:right;'>" . $result['PermittedArea'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['ApplicationDate'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['PermitDate'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['InstructionNumber'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['LicensedStartDate'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['LicensedEndDate'] . "</td>" .
-                        "<td style='text-align:center;'>" . $result['Completed'] . "</td>" .
-                        "<td>" . $result['DeforestationDate'] . "</td>" .
-                        "<td>" . $result['PlantingDate'] . "</td>" .
-                        "<td>" . $result['SubmissionDate'] . "</td>" .
-                        "<td>" . $result['StartDate'] . "</td>" .
-                        "<td>" . $result['CompletionDate'] . "</td>" .
-                        "<td style='max-height:100px'>" . $result['Remark'] . "</td>" .
-                        "</tr>";
-                }
-                ?>
+                    ?>
+                    <tr id="selid" <?= $limited ?>>
+                        <td name='validity' id='validity' class="text-center"><?= $result['validity'] ?></td>
+                        <td class="text-center" id='licenseid'><?= $result['LicenseID'] ?></td>
+                        <td class="text-center"><?= $result['lmt'] ?></td>
+                        <td class="text-center"><?= $result['ReferenceNumber'] ?></td>
+                        <td class="text-center"><?= $result['BranchNumber'] ?></td>
+                        <td><?= $result['FacilityName'] ?></td>
+                        <td><?= $result['ForestReserve'] ?></td>
+                        <td><?= $result['Location'] ?></td>
+                        <td class="text-right"><?= $result['Stock'] ?></td>
+                        <td><?= $result['Applicant'] ?></td>
+                        <td><?= $result['Contact'] ?></td>
+                        <td class="text-right"><?= $result['PermittedArea'] ?></td>
+                        <td class="text-center"><?= $result['ApplicationDate'] ?></td>
+                        <td class="text-center"><?= $result['PermitDate'] ?></td>
+                        <td class="text-center"><?= $result['InstructionNumber'] ?></td>
+                        <td class="text-center"><?= $result['LicensedStartDate'] ?></td>
+                        <td class="text-center"><?= $result['LicensedEndDate'] ?></td>
+                        <td class="text-center"><?= $result['Completed'] ?></td>
+                        <td><?= $result['DeforestationDate'] ?></td>
+                        <td><?= $result['PlantingDate'] ?></td>
+                        <td><?= $result['SubmissionDate'] ?></td>
+                        <td><?= $result['StartDate'] ?></td>
+                        <td><?= $result['CompletionDate'] ?></td>
+                        <td><?= $result['Remark'] ?></td>
+                    </tr>
+                <?php endwhile; ?>
         </table>
     </div>
+    <input type="hidden" id="sbmtype" name="sbmtype" value="<?= $sbmtype ?>">
 </form>

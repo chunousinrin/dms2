@@ -1,195 +1,134 @@
-@extends('adminlte::page')
-
-@section('title', '中濃森林組合　-許可期限管理-')
-
-@section('content_header')
-<script>
-  window.onload = function() {
-    document.getElementById("l3").checked = true;
-    document.getElementById("l3-2").checked = true;
-  }
-</script>
-<link rel="stylesheet" href="/css/cnu_table.css">
-<h1>許可期限管理</h1>
-
-@stop
-
-@section('content')
-<p>新規入力</p>
-<form action="/license/conf" method="post" name="lcs">
+<form action="" method="post" name="f_input">
   @csrf
-  <ul class="lst">
-    <li></li>
-    <li style="display: none;">
-      <div class="lbl">
-        <label>ID</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="LicenseID">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>整理番号</label><span class="hissu">必須</span>
-      </div>
-      <div class="ipt">
-        <input type="text" name="ReferenceNumber" required>
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>枝番</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="BranchNumber">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>施設名称</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="FacilityName">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>保安林種</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="ForestReserve">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>森林所在地</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="Location">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>筆数</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="Stock">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>申請者</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="Applicant">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>連絡先</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="Contact">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>許可面積</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="PermittedArea">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>申請年月日</label><span class="hissu">必須</span>
-      </div>
-      <div class="ipt">
-        <input type="text" name="ApplicationDate" class="iptdt" required>
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>許可年月日</label><span class="hissu">必須</span>
-      </div>
-      <div class="ipt">
-        <input type="text" name="PermitDate" class="iptdt" required>
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>指令番号</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="InstructionNumber">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>許可始期</label><span class="hissu">必須</span>
-      </div>
-      <div class="ipt">
-        <input type="text" name="LicensedStartDate" class="iptdt" required>
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>許可終期</label><span class="hissu">必須</span>
-      </div>
-      <div class="ipt">
-        <input type="text" name="LicensedEndDate" class="iptdt" required>
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>完了</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="Completed">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>皆伐完了日</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="DeforestationDate" class="iptdt">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>植栽完了日</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="PlantingDate" class="iptdt">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>提出日</label>
-      </div>
-      <div class="ipt">
-        <input type="text" name="SubmissionDate" class="iptdt">
-      </div>
-    </li>
-    <li>
-      <div class="lbl">
-        <label>備考</label>
-      </div>
-      <div class="ipt">
-        <textarea rows="5" style="height:100px;" name="Remark"></textarea>
-      </div>
-    </li>
+  <table class="table table-hover table-borderless ctable">
+    <tbody>
+      <tr>
+        <td class="table-success col-sm-2">整理番号<span class="required_item">必須</span></td>
+        <td>
+          <div class="input-group">
+            <input type="text" id="ReferenceNumber" name="ReferenceNumber" required class="form-control rounded-0 col-10">
+            <input type="text" id="BranchNumber" name="BranchNumber" class="form-control rounded-0 col-2" placeholder="枝番">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">施設名称</td>
+        <td>
+          <input type="text" id="FacilityName" name="FacilityName" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">保安林種</td>
+        <td>
+          <input type="text" name="ForestReserve" id="ForestReserve" list="clist" autocomplete="on" value="<?= $_POST['ForestReserve'] ?? null ?>" placeholder="入力または一覧から選択してください" class="form-control rounded-0">
+          <datalist id="clist">
+            <?php
+            $sql = "SELECT ForestReserve FROM license_history GROUP BY ForestReserve;";
+            $stmt = $dbh->query($sql);
+            while ($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+              echo "<option value='" . $row['ForestReserve'] . "'></option>";
+            }
+            ?>
+          </datalist>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">森林所在地</td>
+        <td>
+          <input type="text" id="Location" name="Location" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">筆数</td>
+        <td>
+          <input type="text" id="Stock" name="Stock" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">申請者</td>
+        <td>
+          <input type="text" id="Applicant" name="Applicant" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">連絡先</td>
+        <td>
+          <input type="text" id="Contact" name="Contact" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">許可面積</td>
+        <td>
+          <input type="text" id="PermittedArea" name="PermittedArea" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">申請年月日<span class="required_item">必須</span></td>
+        <td>
+          <input type="text" id="ApplicationDate" name="ApplicationDate" required class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">許可年月日<span class="required_item">必須</span></td>
+        <td>
+          <input type="text" id="PermitDate" name="PermitDate" required class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">指令番号</td>
+        <td>
+          <input type="text" id="InstructionNumber" name="InstructionNumber" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">許可始期<span class="required_item">必須</span></td>
+        <td>
+          <input type="text" id="LicensedStartDate" name="LicensedStartDate" required class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">許可終期<span class="required_item">必須</span></td>
+        <td>
+          <input type="text" id="LicensedEndDate" name="LicensedEndDate" required class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">完了</td>
+        <td>
+          <input type="text" id="Completed" name="Completed" class="form-control rounded-0 ">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">皆伐完了日</td>
+        <td>
+          <input type="text" id="DeforestationDate" name="DeforestationDate" class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">植栽完了日</td>
+        <td>
+          <input type="text" id="PlantingDate" name="PlantingDate" class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class=" table-success col-sm-2">提出日
+        </td>
+        <td>
+          <input type="text" id="SubmissionDate" name="SubmissionDate" class="form-control rounded-0 datepicker">
+        </td>
+      </tr>
+      <tr>
+        <td class="table-success col-sm-2">備考</td>
+        <td>
+          <textarea id="Remark" name="Remark" class="form-control rounded-0"></textarea>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-  </ul>
-  <div style="margin:0 auro;padding:10px 0;text-align:center;">
-    <a class="btn btn-secondary rounded-0 send_input" onclick="history.back()">戻る</a>
-    <button class="btn btn-secondary rounded-0">入力内容の確認</button>
+  <div style="width:100%; margin:0 auto;;text-align:center;">
+    <button class="btn btn-secondary rounded-0 btn-sm px-4 mb-5" onclick="history.back()">戻る</button>
+    <button class="btn btn-secondary rounded-0 btn-sm px-4 mb-5">入力内容を確認する</button>
+    <input type="hidden" name="sbmtype" value="3">
   </div>
 </form>
-
-@stop
-
-@section('js')
-
-@stop

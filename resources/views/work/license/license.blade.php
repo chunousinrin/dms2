@@ -31,24 +31,18 @@ $submit_type_name = DB::table('submit_type')
 <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/flick/jquery-ui.min.css">
 <script src="/js/document_manage.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-<script>
-  bsCustomFileInput.init()
-</script>
 
 @endsection
 
 <ul class="content_head">
   <li style="display: flex;align-items:center;">
     <h1 id="typename">許可期限管理</h1>
-    <div>　>>　<?= $submit_type_name[0]->TypeName ?></div>
+    <div>　>>　<?= $submit_type_name[0]->TypeName; ?></div>
   </li>
   <li>
     <input type="submit" value="新規作成" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="createnew();">
-    <input type="submit" value="一覧印刷" class="btn btn-sm btn-secondary rounded-0 px-4" onclick="listopen();">
   </li>
 </ul>
-
 @stop
 
 @section('content')
@@ -58,10 +52,17 @@ $submit_type_name = DB::table('submit_type')
   @include('work.license.license_list')
 
 <?php elseif ($sbmtype == "2") : ?>
+  @include('work.license.license_input')
 
 <?php elseif ($sbmtype == "3") : ?>
+  @include('work.license.license_conf')
 
 <?php elseif ($sbmtype == "4") : ?>
+  @include('work.license.license_submit')
+  <?php
+  header("Location:./license");
+  exit();
+  ?>
 
 <?php elseif ($sbmtype == "5") : ?>
 
@@ -72,6 +73,7 @@ $submit_type_name = DB::table('submit_type')
 <?php elseif ($sbmtype == "9") : ?>
 
 <?php else : ?>
+  @include('work.license.license_list')
 
 <?php endif ?>
 
