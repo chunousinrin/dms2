@@ -71,6 +71,7 @@ $submit_type_name = $submit_type_stmt->fetch();
     <?php
     $sql = "UPDATE users SET
     users.name=:name,
+    email=:email,
     department=:department,
     section=:section,
     position=:position,
@@ -80,6 +81,7 @@ $submit_type_name = $submit_type_stmt->fetch();
     $stmt = $dbh->prepare($sql);
     $params = array(
         ':name' => $_POST['UpdateName'] ?? null,
+        ':email' => $_POST['UpdateEmail'] ?? null,
         ':department' => $_POST['UpdateDepartment'] ?? null,
         ':section' => $_POST['UpdateSection'] ?? null,
         ':position' => $_POST['UpdatePosition'] ?? null,

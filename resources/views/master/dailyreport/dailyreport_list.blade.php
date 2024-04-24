@@ -187,7 +187,7 @@ if (!empty($_POST['keyword'])) {
             $rowNum = $tag_tr.rowIndex - 1;
             const udid = document.getElementsByName("CurrentID")[$rowNum].textContent;
             document.getElementById("UpdateID").value = udid;
-            document.getElementById("sbmtype").value = "2";
+            document.getElementById("sbmtype").value = "9";
             document.f_list.submit();
         });
     }

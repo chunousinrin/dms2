@@ -25,4 +25,8 @@ class DraftController extends Controller
     {
         return view('draft.draft_preview');
     }
+    public function draft_repreview()
+    {
+        return view('draft.draft_repreview');
+    }
 }

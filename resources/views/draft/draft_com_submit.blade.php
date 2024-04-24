@@ -4,7 +4,7 @@ use Brick\Math\BigInteger;
 
 try {
     //DB名、ユーザー名、パスワードを変数に格納
-    $PDO = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $PDO = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //PDOのエラーレポートを表示
 
     //input.phpの値を取得

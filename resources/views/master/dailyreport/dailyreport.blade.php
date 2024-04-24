@@ -48,32 +48,27 @@ $submit_type_name = DB::table('submit_type')
     @include('master.dailyreport.dailyreport_list')
 
 <?php elseif ($sbmtype == "2") : ?>
-    @include('master.dailyreport.dailyreport_input')
 
 <?php elseif ($sbmtype == "3") : ?>
 
 <?php elseif ($sbmtype == "4") : ?>
     <?php
-    /*$insert_sql = "INSERT INTO bank (
-            BankName,
-            BankBranch,
-            AccountType,
-            AccountNumber) 
-        VALUES (
-            :BankName,
-            :BankBranch,
-            :AccountType,
-            :AccountNumber)";
-    $insert_stmt = $dbh->prepare($insert_sql);
-    $insert_params = array(
-        ':BankName' => $_POST['BankName'] ?? null,
-        ':BankBranch' => $_POST['BankBranch'] ?? null,
-        ':AccountType' => $_POST['AccountType'] ?? null,
-        ':AccountNumber' => $_POST['AccountNumber'] ?? null,
+    $sql = "UPDATE drs_reports SET WorkingDay = :WorkingDay,AmIndustry = :AmIndustry,AmRemark = :AmRemark,PmIndustry = :PmIndustry,PmRemark = :PmRemark,Remark = :Remark,Weather1 = :Weather1,Weather2  = :Weather2 WHERE No = :No";
+    $stmt = $dbh->prepare($sql);
+    $params = array(
+        ':WorkingDay' => $_POST['WorkingDay'],
+        ':AmIndustry' => $_POST['AmIndustry'],
+        ':AmRemark' => $_POST['AmRemark'],
+        ':PmIndustry' => $_POST['PmIndustry'],
+        ':PmRemark' => $_POST['PmRemark'],
+        ':Remark' => $_POST['Remark'],
+        ':Weather1' => $_POST['AmWeather'],
+        ':Weather2' => $_POST['PmWeather'],
+        ':No' => $_POST['CurrentNo']
     );
-    $insert_stmt->execute($insert_params);
-    header("Location:./bank");
-    exit();*/
+    $stmt->execute($params);
+    header("Location:./dailyreport");
+    exit();
     ?>
 
 <?php elseif ($sbmtype == "5") : ?>
@@ -91,20 +86,7 @@ $submit_type_name = DB::table('submit_type')
 <?php elseif ($sbmtype == "7") : ?>
 
 <?php elseif ($sbmtype == "9") : ?>
-    <?php
-    /*$sql = "UPDATE bank SET BankName = :BankName,BankBranch=:BankBranch,AccountType=:AccountType,AccountNumber=:AccountNumber WHERE BankID = :BankID";
-    $stmt = $dbh->prepare($sql);
-    $params = array(
-        ':BankName' => $_POST['BankName'] ?? null,
-        ':BankBranch' => $_POST['BankBranch'] ?? null,
-        ':AccountType' => $_POST['AccountType'] ?? null,
-        ':AccountNumber' => $_POST['AccountNumber'] ?? null,
-        ':BankID' => $_POST['BankID']
-    );
-    $stmt->execute($params);
-    header("Location:./bank");
-    exit();*/
-    ?>
+    @include('master.dailyreport.dailyreport_input')
 
 <?php else : ?>
     @include('master.dailyreport.dailyreport_list')

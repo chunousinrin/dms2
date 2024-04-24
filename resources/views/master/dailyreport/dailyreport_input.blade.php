@@ -142,7 +142,8 @@ $pmweather = $pmweather_stmt->fetch();
     </table>
     <div style="width:100%;text-align:center;" class="pb-5">
         <button class="btn btn-secondary rounded-0 btn-sm px-4" onclick="history.back()">戻る</button>
-        <button class="btn btn-secondary rounded-0 btn-sm px-4" onclick="">保存</button>
-        <input type="hidden" name="sbmtype" value="4">
+        <button class="btn btn-secondary rounded-0 btn-sm px-4" onclick="">更新</button>
+        <input type="hidden" name="CurrentNo" value="<?= $result['No'] ?>">
+        <input type="text" name="sbmtype" value="4">
     </div>
 </form>

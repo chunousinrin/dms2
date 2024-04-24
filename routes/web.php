@@ -49,6 +49,7 @@ Route::get('/draft', 'App\Http\Controllers\DraftController@draft');
 Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
 Route::get('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
 Route::post('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
+Route::post('/draft/repreview', 'App\Http\Controllers\DraftController@draft_repreview');
 
 Route::post('/errl', 'App\Http\Controllers\ErrlController@errl');
 Route::get('/errl', 'App\Http\Controllers\ErrlController@errl');

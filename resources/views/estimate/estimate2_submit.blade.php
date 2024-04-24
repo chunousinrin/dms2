@@ -4,11 +4,11 @@ try {
     // DB接続
     $pdo = new PDO(
         // ホスト名、データベース名
-        'mysql:host=localhost;dbname=dms;',
+        'mysql:host=localhost;dbname=cf756484_dms;',
         // ユーザー名
-        'root',
+        'cf756484_root',
         // パスワード
-        '',
+        'AgVj4jDXzK',
         // レコード列名をキーとして取得させる
         [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
     );
