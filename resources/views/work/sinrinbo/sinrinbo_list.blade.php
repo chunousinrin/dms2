@@ -1,8 +1,11 @@
 <?php
 if (empty($_POST['nendo'])) {
-    $nendo = '令和5年森林簿';
+    $nendo_sql = "SHOW TABLE STATUS LIKE 'sinrinbo_2%';";
+    $nendo_st = $dbh->query($nendo_sql);
+    $get_nendo = $nendo_st->fetch();
+    $nendo = $get_nendo['Name'];
 } else {
-    $nendo = $_POST['nendo'] . '森林簿';
+    $nendo = $_POST['nendo'];
 }
 
 if (!empty($_POST['limit'])) {
@@ -10,6 +13,7 @@ if (!empty($_POST['limit'])) {
 } else {
     $limit = "100";
 }
+//var_dump($_POST)
 ?>
 <style>
     .table th,
@@ -29,12 +33,19 @@ if (!empty($_POST['limit'])) {
             <label for="nendo" class="col-sm-1 col-form-label font-weight-normal">年度</label>
             <div class="col-sm-11">
                 <select name="nendo" id="nendo" class="form-control rounded-0" required onchange="submit()">
-                    <?php if (!empty($_POST['nendo'])) : ?>
-                        <option selected hidden value="<?= $_POST['nendo'] ?>"><?= $_POST['nendo'] ?></option>
-                    <?php endif; ?>
-                    <option value="令和5年">令和5年</option>
-                    <option value="令和4年">令和4年</option>
-                    <option value="令和3年">令和3年</option>
+                    <?php
+                    $sel_nendo_sql = "SHOW TABLE STATUS LIKE '" . $nendo . "'";
+                    $sel_nendo_st = $dbh->query($sel_nendo_sql);
+                    $sel_nendo = $sel_nendo_st->fetch();
+                    ?>
+                    <option value="<?= $sel_nendo['Name'] ?>" selected hidden><?= $sel_nendo['Comment'] ?></option>
+
+                    <?php
+                    $nendo_sql = "SHOW TABLE STATUS LIKE 'sinrinbo_2%';";
+                    $nendo_st = $dbh->query($nendo_sql);
+                    while ($nendos = $nendo_st->fetch(PDO::FETCH_BOTH)) : ?>
+                        <option value="<?= $nendos['Name'] ?>"><?= $nendos['Comment'] ?></option>
+                    <?php endwhile ?>
                 </select>
 
             </div>
@@ -47,7 +58,7 @@ if (!empty($_POST['limit'])) {
                     <option value=""></option>
 
                     <?php if (!empty($_POST['shichoson'])) : ?>
-                        <?php $shichoson_sql = "SELECT * FROM old_code WHERE 1 AND Code = " . $_POST['shichoson'];
+                        <?php $shichoson_sql = "SELECT * FROM sinrinbo_old_code WHERE 1 AND Code = " . $_POST['shichoson'];
                         $shichoson_st = $dbh->query($shichoson_sql);
                         $shichoson = $shichoson_st->fetch();
                         $src1 = " AND 市町村 = " . $_POST['shichoson'] ?>
@@ -57,7 +68,7 @@ if (!empty($_POST['limit'])) {
                         <option selected hidden value="">-- 選択してください --</option>
                     <?php endif ?>
 
-                    <?php $shichoson_sql = "SELECT * FROM old_code WHERE 1"; ?>
+                    <?php $shichoson_sql = "SELECT * FROM sinrinbo_old_code WHERE 1"; ?>
                     <?php $shichoson_st = $dbh->query($shichoson_sql);
                     while ($shichoson = $shichoson_st->fetch(PDO::FETCH_BOTH)) : ?>
                         <option value="<?= $shichoson['Code'] ?>"><?= $shichoson['Cities'] ?></option>
@@ -124,12 +135,12 @@ if (!empty($_POST['limit'])) {
                     <option selected hidden value="">林小班</option>
                     <?php
                     if (!empty($_POST['junrinpan1'])) :
-                        $junrinpan1_sql = "SELECT * FROM `junrinpan` WHERE 1 AND 準林班ID = '" . $_POST['junrinpan1'] . "' ORDER BY `準林班ID` ASC";
+                        $junrinpan1_sql = "SELECT * FROM `sinrinbo_junrinpan` WHERE 1 AND 準林班ID = '" . $_POST['junrinpan1'] . "' ORDER BY `準林班ID` ASC";
                         $junrinpan1_st = $dbh->query($junrinpan1_sql);
                         $junrinpan1 = $junrinpan1_st->fetch(); ?>
                         <option selected hidden value="<?= $junrinpan1['準林班ID'] ?>"><?= $junrinpan1['準林班'] ?></option>
                     <?php endif;
-                    $junrinpan1_sql = "SELECT * FROM `junrinpan` WHERE 1 ORDER BY `準林班ID` ASC";
+                    $junrinpan1_sql = "SELECT * FROM `sinrinbo_junrinpan` WHERE 1 ORDER BY `準林班ID` ASC";
                     $junrinpan1_st = $dbh->query($junrinpan1_sql);
                     while ($junrinpan1 = $junrinpan1_st->fetch(PDO::FETCH_BOTH)) : ?>
                         <option value="<?= $junrinpan1['準林班ID'] ?>"><?= $junrinpan1['準林班'] ?></option>
@@ -145,12 +156,12 @@ if (!empty($_POST['limit'])) {
                     <option selected hidden value="">林小班</option>
                     <?php
                     if (!empty($_POST['junrinpan2'])) :
-                        $junrinpan2_sql = "SELECT * FROM `junrinpan` WHERE 1 AND 準林班ID = '" . $_POST['junrinpan2'] . "' ORDER BY `準林班ID` ASC";
+                        $junrinpan2_sql = "SELECT * FROM `sinrinbo_junrinpan` WHERE 1 AND 準林班ID = '" . $_POST['junrinpan2'] . "' ORDER BY `準林班ID` ASC";
                         $junrinpan2_st = $dbh->query($junrinpan2_sql);
                         $junrinpan2 = $junrinpan2_st->fetch(); ?>
                         <option selected hidden value="<?= $junrinpan2['準林班ID'] ?>"><?= $junrinpan2['準林班'] ?></option>
                     <?php endif;
-                    $junrinpan2_sql = "SELECT * FROM `junrinpan` WHERE 1 ORDER BY `準林班ID` ASC";
+                    $junrinpan2_sql = "SELECT * FROM `sinrinbo_junrinpan` WHERE 1 ORDER BY `準林班ID` ASC";
                     $junrinpan2_st = $dbh->query($junrinpan2_sql);
                     while ($junrinpan2 = $junrinpan2_st->fetch(PDO::FETCH_BOTH)) : ?>
                         <option value="<?= $junrinpan2['準林班ID'] ?>"><?= $junrinpan2['準林班'] ?></option>
@@ -309,14 +320,13 @@ if (!empty($_POST['limit'])) {
             </thead>
             <tbody>
                 <?php
-                $sinrinbosql = "SELECT {$nendo}.*,old_code.Cities AS n市町村,new_code.Cities AS o市町村,junrinpan.準林班 AS j林班 FROM {$nendo}";
-                $sinrinbosql = $sinrinbosql . " LEFT JOIN old_code ON {$nendo}.市町村 = old_code.Code";
-                $sinrinbosql = $sinrinbosql . " LEFT JOIN new_code ON {$nendo}.新市町村 = new_code.Code";
-                $sinrinbosql = $sinrinbosql . " LEFT JOIN junrinpan ON {$nendo}.準林班 = junrinpan.準林班ID";
+                $sinrinbosql = "SELECT " . $nendo . ".*,sinrinbo_old_code.Cities AS n市町村,sinrinbo_new_code.Cities AS o市町村,sinrinbo_junrinpan.準林班 AS j林班 FROM " . $nendo;
+                $sinrinbosql = $sinrinbosql . " LEFT JOIN sinrinbo_old_code ON " . $nendo . ".市町村 = sinrinbo_old_code.Code";
+                $sinrinbosql = $sinrinbosql . " LEFT JOIN sinrinbo_new_code ON " . $nendo . ".新市町村 = sinrinbo_new_code.Code";
+                $sinrinbosql = $sinrinbosql . " LEFT JOIN sinrinbo_junrinpan ON " . $nendo . ".準林班 = sinrinbo_junrinpan.準林班ID";
                 $sinrinbosql = $sinrinbosql . " WHERE 1 " . $src1 . $src2 . $src3 . $src4 . $src5 . $src6 . $src7 . $src8 . " ORDER BY `SID` ASC ";
                 $sinrinboviewsql = $sinrinbosql . " LIMIT " . $limit;
                 $stsinrinbo = $dbh->query($sinrinboviewsql);
-
                 while ($sinrinbo = $stsinrinbo->fetch(PDO::FETCH_BOTH)) : ?>
                     <tr>
                         <td><?= $sinrinbo['年度'] ?></td>

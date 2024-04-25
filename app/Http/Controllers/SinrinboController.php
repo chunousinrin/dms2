@@ -12,6 +12,6 @@ class SinrinboController extends Controller
     }
     public function sinrinbo_export()
     {
-        return view('sinrinbo.sinrinbo_export');
+        return view('work.sinrinbo.sinrinbo_export');
     }
 }
