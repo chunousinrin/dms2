@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-業務日報-')
+@section('title', '中濃森林組合　-カレンダー-')
 
 @section('content_header')
 <meta charset='utf-8' />
