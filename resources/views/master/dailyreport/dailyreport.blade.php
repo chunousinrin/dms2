@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-勤怠管理-')
+@section('title', '中濃森林組合　-業務日報管理-')
 
 @section('content_header')
 <link rel="stylesheet" href="/css/dms_table.css">

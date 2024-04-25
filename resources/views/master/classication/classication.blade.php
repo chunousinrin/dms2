@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-請求書-')
+@section('title', '中濃森林組合　-事業分類-')
 
 @section('content_header')
 <link rel="stylesheet" href="/css/dms_table.css">
