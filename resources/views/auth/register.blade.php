@@ -14,7 +14,35 @@
 @section('auth_header', __('adminlte::adminlte.register_message'))
 
 @section('auth_body')
+<style>
+    .register-page {
+        background-color: #59b9c6 !important;
+    }
 
+    .register-logo {
+        margin-bottom: 0;
+    }
+
+    .register-logo a {
+        color: white !important;
+    }
+
+    .register-logo a b::after {
+        content: '文書管理システム';
+        display: block;
+        font-size: large;
+    }
+
+    .card-primary.card-outline {
+        border: none !important;
+        border-radius: 0 !important;
+    }
+
+    .register-box {
+        width: 50% !important;
+        max-width: 450px;
+    }
+</style>
 <form action="{{ $register_url }}" method="post">
     @csrf
 
@@ -143,11 +171,17 @@
         </div>
         <a href="https://e-inkan.com/select.html">印章ダウンロードサイト</a>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script>
+        bsCustomFileInput.init()
+    </script>
+
     <input type="hidden" name="used" value="1">
     <input type="hidden" name="authtype" value="0">
 
     {{-- Register button --}}
-    <button type="submit" class="btn btn-primary btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
+    <button type="submit" class="btn btn-success btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-success') }}">
         <span class="fas fa-user-plus"></span>
         {{ __('adminlte::adminlte.register') }}
     </button>
@@ -156,9 +190,9 @@
 @stop
 
 @section('auth_footer')
-<p class="my-0">
+<p class="my-0 text-center">
     <a href="{{ $login_url }}">
-        {{ __('adminlte::adminlte.i_already_have_a_membership') }}
+        ログイン画面に戻る
     </a>
 </p>
 @stop
