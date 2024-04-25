@@ -8,7 +8,7 @@ header("Content-Transfer-Encoding: binary");
 
 try {
     // MySQLへの接続
-    $pdo = new PDO('mysql:host=localhost;dbname=sinrinbo;charset=utf8', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

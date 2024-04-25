@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 //var_dump($_POST);
-$dbh = new PDO('mysql:host=localhost;dbname=sinrinbo;charset=utf8', 'root', '');
+$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 $pass = $_POST['pass'] ?? null;
 $types = $_POST['types'] ?? null;
 ?>
@@ -22,10 +22,6 @@ $types = $_POST['types'] ?? null;
 <script src="https://rawgit.com/jquery/jquery-ui/master/ui/i18n/datepicker-ja.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/flick/jquery-ui.min.css">
 <script src="/js/document_manage.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-<script>
-    bsCustomFileInput.init()
-</script>
 
 @endsection
 
