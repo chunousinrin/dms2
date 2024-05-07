@@ -40,7 +40,7 @@
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             width: 100vw;
             height: 100vh;
         }
@@ -60,8 +60,7 @@
             border: 0.3em solid rgba(32, 178, 170, 1);
             background-color: rgba(32, 178, 170, 0.5);
             cursor: pointer;
-            font-size: max(8px, min(1.7rem, 1.7rem));
-            font-size: clamp(8px, 1.7rem, 1.7rem);
+            font-size: clamp(1.1rem, 1.7rem, 1.7rem);
         }
 
         /* -- second -- */
@@ -157,6 +156,7 @@
             .namelist {
                 width: calc((100% / 3) - 1em);
                 padding: 1em 0;
+                font-size: clamp(8px, 1.1rem, 1.7rem);
             }
 
             /* -- second -- */
