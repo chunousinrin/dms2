@@ -2,13 +2,6 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-    <title>中濃森林組合 - 入退出記録 -</title>
-
     <?php
     if (!empty($_POST['sbmtype'])) {
         $sbmtype = $_POST['sbmtype'];
@@ -21,7 +14,18 @@
     $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
     $user_sql = "SELECT * FROM users WHERE used = 1";
     $user_st = $dbh->query($user_sql);
+
+    $company_sql = "SELECT * FROM conf_registername WHERE RegisterID = 1";
+    $company_st = $dbh->query($company_sql);
+    $company = $company_st->fetch();
     ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <title><?= $company['RegisterName'] ?> - 入退出記録 -</title>
+
 
     <style>
         * {
