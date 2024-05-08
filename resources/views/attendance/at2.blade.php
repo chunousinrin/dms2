@@ -8,7 +8,7 @@
         $entered = $at_st->fetch();
         ?>
         <section id="second">
-            <a href="/atmain" class="backbtn">戻る</a>
+            <a href="/attendance" class="backbtn">戻る</a>
             <div class="clock">
                 <div>
                     <h1 id="rtca" style="font-size:max(15px, min(4rem,4rem));font-size: clamp(15px, 4rem, 4rem);border-bottom:1px solid black;"></h1>
@@ -86,6 +86,6 @@
             }
 
             setTimeout(function() {
-                window.location.href = '/atmain';
+                window.location.href = '/attendance';
             }, 20 * 1000);
         </script>
