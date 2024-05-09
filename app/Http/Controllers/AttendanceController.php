@@ -11,8 +11,8 @@ class AttendanceController extends Controller
         $this->middleware('auth');
     }*/
 
-    public function attendance()
+    public function atmain()
     {
-        return view('attendance.attendance');
+        return view('attendance.atmain');
     }
 }

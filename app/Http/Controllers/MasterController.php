@@ -42,4 +42,12 @@ class MasterController extends Controller
     {
         return view('admin.company.company');
     }
+    public function attendance()
+    {
+        return view('attendance.attendance');
+    }
+    public function at4()
+    {
+        return view('attendance.at4');
+    }
 }

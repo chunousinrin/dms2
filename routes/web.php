@@ -28,32 +28,26 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name(
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('/', 'App\Http\Controllers\HomeController@index');
 
-Route::get('/bill', 'App\Http\Controllers\BillController@bill');
-Route::post('/bill', 'App\Http\Controllers\BillController@bill');
-Route::post('/bill/preview', 'App\Http\Controllers\BillController@bill_preview');
-Route::post('/bill/deliveryslip', 'App\Http\Controllers\BillController@deliveryslip');
-Route::post('/bill/repreview', 'App\Http\Controllers\BillController@bill_repreview');
-Route::post('/bill/deliveryslip/repreview', 'App\Http\Controllers\BillController@deliveryslip_repreview');
-Route::post('/bill/list_print', 'App\Http\Controllers\BillController@bill_list_print');
 
+Route::get('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
+Route::post('/bill', [App\Http\Controllers\BillController::class, 'bill'])->name('bill');
+Route::post('/bill/preview', [App\Http\Controllers\BillController::class, 'bill_preview'])->name('bill_preview');
+Route::post('/bill/deliveryslip', [App\Http\Controllers\BillController::class, 'deliveryslip'])->name('deliveryslip');
+Route::post('/bill/repreview', [App\Http\Controllers\BillController::class, 'bill_repreview'])->name('bill_repreview');
+Route::post('/bill/deliveryslip/repreview', [App\Http\Controllers\BillController::class, 'deliveryslip_repreview'])->name('deliveryslip_repreview');
+Route::post('/bill/list_print', [App\Http\Controllers\BillController::class, 'bill_list_print'])->name('bill_list_print');
 
-Route::get('/estimate', 'App\Http\Controllers\EstimateController@estimate');
-Route::post('/estimate', 'App\Http\Controllers\EstimateController@estimate');
-Route::post('/estimate/preview', 'App\Http\Controllers\EstimateController@estimate_preview');
-Route::post('/estimate/repreview', 'App\Http\Controllers\EstimateController@estimate_repreview');
-Route::post('/estimate2/preview', [App\Http\Controllers\EstimateController::class, 'estimate2_conf'])->name('estimate2_conf');
-Route::post('/estimate2/repreview', [App\Http\Controllers\EstimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
+Route::get('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
+Route::post('/estimate', [App\Http\Controllers\estimateController::class, 'estimate'])->name('estimate');
+Route::post('/estimate/preview', [App\Http\Controllers\estimateController::class, 'estimate_preview'])->name('estimate_preview');
+Route::post('/estimate/repreview', [App\Http\Controllers\estimateController::class, 'estimate_repreview'])->name('estimate_repreview');
+Route::post('/estimate2/preview', [App\Http\Controllers\estimateController::class, 'estimate2_preview'])->name('estimate2_preview');
+Route::post('/estimate2/repreview', [App\Http\Controllers\estimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
 
-
-Route::get('/draft', 'App\Http\Controllers\DraftController@draft');
-Route::post('/draft', 'App\Http\Controllers\DraftController@draft');
-Route::get('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
-Route::post('/draft/preview', 'App\Http\Controllers\DraftController@draft_preview');
-Route::post('/draft/repreview', 'App\Http\Controllers\DraftController@draft_repreview');
-
-Route::post('/errl', 'App\Http\Controllers\ErrlController@errl');
-Route::get('/errl', 'App\Http\Controllers\ErrlController@errl');
-Route::post('/errl/list_print', 'App\Http\Controllers\ErrlController@errl_list_print');
+Route::get('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
+Route::post('/draft', [App\Http\Controllers\DraftController::class, 'draft'])->name('draft');
+Route::post('/draft/preview', [App\Http\Controllers\DraftController::class, 'draft_preview'])->name('draft_preview');
+Route::post('/draft/repreview', [App\Http\Controllers\DraftController::class, 'draft_repreview'])->name('draft_repreview');
 
 
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
@@ -73,14 +67,15 @@ Route::post('/admin/settings', [App\Http\Controllers\MasterController::class, 'u
 Route::get('/admin/company', [App\Http\Controllers\MasterController::class, 'company'])->name('company');
 Route::post('/admin/company', [App\Http\Controllers\MasterController::class, 'company'])->name('company');
 Route::get('/admin/company', [App\Http\Controllers\MasterController::class, 'company'])->name('company');
+Route::get('/attendance', [App\Http\Controllers\MasterController::class, 'attendance'])->name('attendance');
+Route::post('/attendance', [App\Http\Controllers\MasterController::class, 'attendance'])->name('attendance');
+Route::post('/attendance/list_print', [App\Http\Controllers\MasterController::class, 'at4'])->name('at4');
 
-
-Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'attendance'])->name('attendance');
-Route::post('/attendance', [App\Http\Controllers\AttendanceController::class, 'attendance'])->name('attendance');
+Route::get('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
+Route::post('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
 
 
 Route::get('/license', 'App\Http\Controllers\WorkController@license');
-Route::post('/license', 'App\Http\Controllers\WorkController@license');
 
 Route::get('/license/update', [App\Http\Controllers\WorkController::class, 'license_update'])->name('license_update');
 Route::post('/license/update', [App\Http\Controllers\WorkController::class, 'license_update'])->name('license_update');
@@ -109,6 +104,10 @@ Route::post('/admin/working_list', [App\Http\Controllers\AdminController::class,
 
 Route::get('/drs', [App\Http\Controllers\DrsController::class, 'drs'])->name('drs');
 Route::post('/drs', [App\Http\Controllers\DrsController::class, 'drs'])->name('drs');
+
+Route::post('/errl', [App\Http\Controllers\ErrlController::class, 'errl'])->name('errl');
+Route::get('/errl', [App\Http\Controllers\ErrlController::class, 'errl'])->name('errl');
+Route::post('/errl/list_print', [App\Http\Controllers\ErrlController::class, 'errl_list_print'])->name('errl_list_print');
 
 Route::get('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');
 Route::post('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');
