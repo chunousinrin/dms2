@@ -18,7 +18,7 @@
         $sbmtype = '1';
     };
 
-    $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
     $user_sql = "SELECT * FROM users WHERE used = 1";
     $user_st = $dbh->query($user_sql);
     ?>
