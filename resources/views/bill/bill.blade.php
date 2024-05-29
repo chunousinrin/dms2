@@ -20,11 +20,9 @@ if (!empty($_POST['sbmtype'])) {
     $sbmtype = '1';
 };
 //var_dump($_POST);
-
-$submit_type_name = DB::table('submit_type')
-    ->where('TypeID', $sbmtype)
-    ->get();
-
+$submit_type_sql = "SELECT * FROM submit_type WHERE TypeID = {$sbmtype}";
+$submit_type_stmt = $dbh->query($submit_type_sql);
+$submit_type_name = $submit_type_stmt->fetch();
 ?>
 
 @section('js')
