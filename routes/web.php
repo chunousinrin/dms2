@@ -44,6 +44,14 @@ Route::post('/draft/preview', [App\Http\Controllers\DraftController::class, 'dra
 Route::post('/draft/repreview', [App\Http\Controllers\DraftController::class, 'draft_repreview'])->name('draft_repreview');
 
 
+Route::get('/estimate', [App\Http\Controllers\EstimateController::class, 'estimate'])->name('estimate');
+Route::post('/estimate', [App\Http\Controllers\EstimateController::class, 'estimate'])->name('estimate');
+Route::post('/estimate/preview', [App\Http\Controllers\EstimateController::class, 'estimate_preview'])->name('estimate_preview');
+Route::post('/estimate/repreview', [App\Http\Controllers\EstimateController::class, 'estimate_repreview'])->name('estimate_repreview');
+Route::post('/estimate2/preview', [App\Http\Controllers\EstimateController::class, 'estimate2_preview'])->name('estimate2_preview');
+Route::post('/estimate2/repreview', [App\Http\Controllers\EstimateController::class, 'estimate2_repreview'])->name('estimate2_repreview');
+
+
 Route::get('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::post('/customer', [App\Http\Controllers\MasterController::class, 'customer'])->name('customer');
 Route::get('/customer/reg', [App\Http\Controllers\MasterController::class, 'customer_reg'])->name('customer_reg');
