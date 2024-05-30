@@ -1,6 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-許可期限管理-')
+@section('title')
+<?php
+$cname = DB::table('conf_registername')
+    ->where('RegisterID', '1')
+    ->get();
+echo $cname[0]->RegisterName . "　-許可期限管理-";
+?>
+@endsection
 
 @section('content_header')
 <h1>許可期限管理</h1>

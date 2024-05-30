@@ -1,6 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-マスタ管理-')
+@section('title')
+<?php
+$cname = DB::table('conf_registername')
+    ->where('RegisterID', '1')
+    ->get();
+echo $cname[0]->RegisterName . "　-マスタ管理-";
+?>
+@endsection
 
 @section('content_header')
 <link rel="stylesheet" href="/css/dms_table.css">

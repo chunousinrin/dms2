@@ -1,6 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', '中濃森林組合　-カレンダー-')
+@section('title')
+<?php
+$cname = DB::table('conf_registername')
+    ->where('RegisterID', '1')
+    ->get();
+echo $cname[0]->RegisterName . "　-カレンダー-";
+?>
+@endsection
 
 @section('content_header')
 <meta charset='utf-8' />
