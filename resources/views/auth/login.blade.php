@@ -10,7 +10,12 @@
     $stmt = $dbh->query($sql);
     $result = $stmt->fetch();
     ?>
-    <title>中濃森林組合 -DMS-</title>
+    <?php
+    $cname = DB::table('conf_registername')
+        ->where('RegisterID', '1')
+        ->get();
+    echo "<title>" . $cname[0]->RegisterName . "　-DMS-" . "</title>";
+    ?>
     <style>
         html,
         body {
