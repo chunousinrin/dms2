@@ -4,7 +4,7 @@ $wg_st = $dbh->query($wg_sql); ?>
 
 <form action="" method="post" name="wat2">
     @csrf
-    <input type="text" id="shukkinbi" name="shukkinbi" class="fs form-control rounded-0 datepicker text-center" style="padding:1.5em" placeholder="出勤日" value="" required onchange="datecheck()">
+    <input type="text" id="shukkinbi" name="shukkinbi" class="fs form-control rounded-0 datepicker text-center" style="padding:1.5em" placeholder="出勤日" value="" required onchange="datecheck()" readonly="readonly">
     <section>
         <?php $opn = 0;
         while ($result = $wg_st->fetch(PDO::FETCH_BOTH)) :
