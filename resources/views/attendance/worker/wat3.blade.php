@@ -6,7 +6,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
     @csrf
     <input type="hidden" name="shukkinbi" id="shukkinbi" value="<?= $_POST['shukkinbi'] ?? null ?>">
     <div class="fs text-center" style="width: 100%;padding:1.5em;border-bottom:2px solid gray;">出勤日　：　<?= $_POST['shukkinbi'] ?></div>
-    <section class="">
+    <section class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
