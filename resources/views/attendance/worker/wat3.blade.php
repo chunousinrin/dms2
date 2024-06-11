@@ -35,10 +35,10 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
                             </td>
-                            <td class="form-group col-2 ">
+                            <td class="form-group col-2 text-center">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
                             </td>
-                            <td class="form-group col-2 ">
+                            <td class="form-group col-2 text-center">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="kekkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="2">
                             </td>
                             <td class="form-group col-5 text-nowrap">
