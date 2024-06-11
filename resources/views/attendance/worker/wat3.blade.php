@@ -10,7 +10,6 @@ $wgl_st = $dbh->query($wgl_sql); ?>
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <td class="bs">ID</td>
                     <td class="bs">氏名</td>
                     <td class="bs">出勤</td>
                     <td class="bs">欠勤</td>
@@ -31,11 +30,8 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     $wni = $wnistmt->fetch();
                     if (empty($wni['WorkerNameID'])) : ?>
                         <tr class="js-selectEnableRadio">
-                            <td class="form-group col-1">
-                                <label class="col-form-label"><?= $result['WorkerNameID'] ?></label>
-                                <input type="text" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
-                            </td>
                             <td class="form-group col-2">
+                                <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
                             </td>
