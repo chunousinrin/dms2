@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sinrinbo_junrinpan', function (Blueprint $table) {
-            $table->integer('準林班ID', true);
-            $table->string('準林班', 1);
+        Schema::create('worker_attendance', function (Blueprint $table) {
+            $table->integer('waID', true);
+            $table->date('AttendanceDay')->nullable();
+            $table->integer('WorkerNameID');
+            $table->integer('watID');
+            $table->text('Remark')->nullable();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sinrinbo_junrinpan');
+        Schema::dropIfExists('worker_attendance');
     }
 };

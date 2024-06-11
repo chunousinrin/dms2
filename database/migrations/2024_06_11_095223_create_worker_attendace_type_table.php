@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('conf_loginpage', function (Blueprint $table) {
-            $table->integer('LoginPageID', true);
-            $table->binary('LPBackgroundImage')->default('');
+        Schema::create('worker_attendace_type', function (Blueprint $table) {
+            $table->integer('watID')->primary();
+            $table->string('AttendanceType', 50);
         });
     }
 
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('conf_loginpage');
+        Schema::dropIfExists('worker_attendace_type');
     }
 };

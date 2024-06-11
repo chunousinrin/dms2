@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sinrinbo_old_code', function (Blueprint $table) {
-            $table->integer('Code')->index('index');
-            $table->string('Cities', 50);
-
-            $table->primary(['Code']);
+        Schema::create('worker_group', function (Blueprint $table) {
+            $table->integer('WorkerGroupID', true);
+            $table->string('WorkerGroupName', 30);
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sinrinbo_old_code');
+        Schema::dropIfExists('worker_group');
     }
 };

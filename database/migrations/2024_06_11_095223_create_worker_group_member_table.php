@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sinrinbo_new_code', function (Blueprint $table) {
-            $table->integer('Code')->index('index');
-            $table->string('Cities', 50);
-
-            $table->primary(['Code']);
+        Schema::create('worker_group_member', function (Blueprint $table) {
+            $table->integer('WorkerNameID')->primary();
+            $table->integer('WorkerGroupID');
+            $table->string('WorkerName', 30);
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sinrinbo_new_code');
+        Schema::dropIfExists('worker_group_member');
     }
 };
