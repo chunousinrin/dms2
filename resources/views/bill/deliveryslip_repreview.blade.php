@@ -258,7 +258,7 @@
     </style>
 
     <?php
-    $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
+    $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
     ///////////////////////// 履歴抽出 /////////////////////////
     $sql = "SELECT *, IF( (Quantity <> 0) AND (UnitPrice <> 0), Quantity * UnitPrice, IF((UnitPrice <> 0 ) AND (Quantity = 0), UnitPrice, null) ) as bills FROM `bill` WHERE BillNumber = " . $_POST['SerialNumber'];
     $stmt = $dbh->query($sql);

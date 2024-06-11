@@ -1,12 +1,7 @@
 <?php
 
 try {
-    //DB名、ユーザー名、パスワードを変数に格納
-    $dsn = 'mysql:dbname=cf756484_dms;host=localhost;charset=utf8';
-    $user = 'cf756484_root';
-    $password = 'AgVj4jDXzK';
-
-    $PDO = new PDO($dsn, $user, $password); //PDOでMySQLのデータベースに接続
+    $PDO = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //PDOのエラーレポートを表示
 
     //input.phpの値を取得

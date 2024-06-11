@@ -1,17 +1,7 @@
 <?php
 
 try {
-    // DB接続
-    $pdo = new PDO(
-        // ホスト名、データベース名
-        'mysql:host=localhost;dbname=cf756484_dms;',
-        // ユーザー名
-        'cf756484_root',
-        // パスワード
-        'AgVj4jDXzK',
-        // レコード列名をキーとして取得させる
-        [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
-    );
+    $pdo = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'), [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
     if (empty($_POST['WorksPeriod1'])) {
         $WorksPeriod1 = null;

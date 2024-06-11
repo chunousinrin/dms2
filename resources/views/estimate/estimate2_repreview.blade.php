@@ -270,7 +270,7 @@
 
     @include('edt.wareki')
     <?php
-    $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
+    $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
     ///////////////////////// 履歴全体抽出 /////////////////////////
     $es2smrsql = "SELECT * FROM estimate2 LEFT JOIN company ON estimate2.Branch = company.BranchId WHERE Es2Number =" . $_POST['SerialNumber'];
     $stes2smr = $dbh->query($es2smrsql);

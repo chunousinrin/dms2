@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 //var_dump($_POST);
-$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
+$dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
 $pass = $_POST['pass'] ?? null;
 $types = $_POST['types'] ?? null;
 ?>

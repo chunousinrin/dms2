@@ -1,6 +1,4 @@
 <?php
-/*$dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');*/
-
 $sql = "SELECT * FROM customer_search ";
 
 if (!empty($_GET['ckeyword'])) {

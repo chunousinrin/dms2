@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 //var_dump($_POST);
-$dbh = new PDO('mysql:host=localhost;dbname=forest_union;charset=utf8', 'root', '');
+$dbh = new PDO('mysql:host=localhost;dbname=forest_union;charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
 ?>
 
 @section('js')

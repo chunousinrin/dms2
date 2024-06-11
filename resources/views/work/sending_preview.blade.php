@@ -135,7 +135,7 @@
     </style>
 
     <?php
-    $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
     $kumiaisql = "SELECT * FROM company WHERE BranchId = 1";
     $stkumiai = $dbh->query($kumiaisql);
     $kumiai = $stkumiai->fetch();

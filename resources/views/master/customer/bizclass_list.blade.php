@@ -75,7 +75,7 @@
 </style>
 <?php
 //var_dump($_POST);
-$dbh = new PDO('mysql:host=localhost;dbname=cfdms;charset=utf8', 'root', '');
+$dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
 ?>
 <h1 style="width: 100%;position:relative;">顧客管理
     <a href="customer/reg" class='btn btn-secondary rounded-0' style="margin-bottom: 1em;position:absolute;right:0;top:0;">新規登録</a>
@@ -236,7 +236,7 @@ if (!empty($_POST['cedit'])) {
             while ($result = $stmt->fetch(PDO::FETCH_BOTH)) {
                 echo "\t<tr><td style='width:0;white-space: nowrap;text-align:center;'>" . $result['Id'] . "</td>\n";
                 echo "\t\t<td style=''>" . $result['Name'] . "</td>\n";
-               echo "\t<td style='text-align:right;;width:0;white-space: nowrap;'>";
+                echo "\t<td style='text-align:right;;width:0;white-space: nowrap;'>";
                 echo "<input class='histbtn btn btn-secondary rounded-0' style='background-image:url(/images/edit.svg)' onclick='selided();'>&nbsp;";
                 echo "<input class='histbtn btn btn-secondary rounded-0' style='background-image:url(/images/trush.svg)' onclick='seliddl();'>";
                 echo "</td>";

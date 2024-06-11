@@ -10,7 +10,7 @@
     <li>
 
         <?php
-        $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+        $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
         $page_flag = 0;
 
         echo "<h1>";
