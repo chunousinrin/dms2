@@ -85,6 +85,12 @@
             padding-top: 2em;
             padding-bottom: 2em;
         }
+
+        @media screen and (max-width:400px) {
+            .wgname {
+                width: calc((100% / 2) - 1em);
+            }
+        }
     </style>
 </head>
 
