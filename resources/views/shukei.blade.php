@@ -124,6 +124,7 @@
     window.onload = function() {
         document.getElementById("d4").style.display = "block";
         document.getElementById("d3").style.display = "none";
+        document.getElementById("d25").style.display = "none";
     };
 
     function zaicho() {
@@ -135,7 +136,7 @@
             document.getElementById("d25").style.display = "none";
             document.getElementById("d3").style.display = "block";
             document.getElementById("d4").style.display = "none";
-        }else if (document.getElementById("selzaicho").value == "2.5") {
+        } else if (document.getElementById("selzaicho").value == "2.5") {
             document.getElementById("d25").style.display = "block";
             document.getElementById("d3").style.display = "none";
             document.getElementById("d4").style.display = "none";
