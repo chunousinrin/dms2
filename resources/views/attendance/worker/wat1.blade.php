@@ -26,7 +26,7 @@
         $sbmtype = '1';
     };
 
-    $dbh = new PDO('mysql:host=localhost;dbname=dms;charset=utf8', 'root', '');
+    $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
     ?>
     <style>
         * {
