@@ -115,3 +115,6 @@ Route::post('/errl/list_print', [App\Http\Controllers\ErrlController::class, 'er
 
 Route::get('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');
 Route::post('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'])->name('calendar');
+
+Route::get('/shukei', [App\Http\Controllers\ZaisekiController::class, 'shukei'])->name('shukei');
+Route::post('/shukei', [App\Http\Controllers\ZaisekiController::class, 'shukei'])->name('shukei');
