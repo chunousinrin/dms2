@@ -86,7 +86,7 @@
             padding-bottom: 2em;
         }
 
-        @media screen and (max-width:400px) {
+        @media screen and (max-width:700px) {
             .wgname {
                 width: calc((100% / 2) - 1em);
             }
