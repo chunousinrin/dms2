@@ -15,7 +15,6 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     <td class="bs">出勤</td>
                     <td class="bs">欠勤</td>
                     <td class="bs">休暇等</td>
-                    <td class="bs"></td>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -55,8 +54,8 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                     <option value="5">午後有給</option>
                                     <option value="6">忌引</option>
                                 </select>
+                                <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
                             </td>
-                            <td class="col-1"><input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>"></td>
                         </tr>
                     <?php endif ?>
                 <?php endwhile; ?>
