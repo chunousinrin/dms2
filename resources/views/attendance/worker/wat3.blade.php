@@ -30,7 +30,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     $wni = $wnistmt->fetch();
                     if (empty($wni['WorkerNameID'])) : ?>
                         <tr class="js-selectEnableRadio">
-                            <td class="form-group col-3">
+                            <td class="form-group col-3 text-nowrap">
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
@@ -41,7 +41,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                             <td class="form-group col-2 ">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="kekkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="2">
                             </td>
-                            <td class="form-group col-5">
+                            <td class="form-group col-5 text-nowrap">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="other<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="3">
                                 <select class="select" name="yukyu<?= $opt2; ?>" data-sync="shukkin<?= $opt2; ?>" class="form-select border-success rounded-0" data-active="3" disabled="disabled">
                                     <option value="0" selected hidden>選択</option>
