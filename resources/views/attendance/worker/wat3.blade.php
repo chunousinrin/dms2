@@ -10,10 +10,10 @@ $wgl_st = $dbh->query($wgl_sql); ?>
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <td class="bs">氏名</td>
-                    <td class="bs">出勤</td>
-                    <td class="bs">欠勤</td>
-                    <td class="bs">休暇等</td>
+                    <td class="bs text-nowrap">氏名</td>
+                    <td class="bs text-nowrap">出勤</td>
+                    <td class="bs text-nowrap">欠勤</td>
+                    <td class="bs text-nowrap">休暇等</td>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
