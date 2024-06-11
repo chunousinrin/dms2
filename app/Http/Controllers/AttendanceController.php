@@ -15,4 +15,8 @@ class AttendanceController extends Controller
     {
         return view('attendance.atmain');
     }
+    public function worker()
+    {
+        return view('attendance.worker.wat1');
+    }
 }

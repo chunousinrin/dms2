@@ -1,5 +1,5 @@
 <?php
-$dbh = new PDO('mysql:host=localhost;dbname=cf444722_dms;charset=utf8', 'cf444722_root', 'U7jC6Xaq');
+$dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
 $sql = "SELECT * FROM conf_registername WHERE RegisterID = 1";
 $stmt = $dbh->query($sql);
 $company = $stmt->fetch();

@@ -75,6 +75,8 @@ Route::post('/attendance/list_print', [App\Http\Controllers\MasterController::cl
 
 Route::get('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
 Route::post('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
+Route::get('/worker', [App\Http\Controllers\AttendanceController::class, 'worker'])->name('worker');
+Route::post('/worker', [App\Http\Controllers\AttendanceController::class, 'worker'])->name('worker');
 
 
 Route::get('/license', 'App\Http\Controllers\WorkController@license');
