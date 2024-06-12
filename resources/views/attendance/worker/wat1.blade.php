@@ -83,6 +83,10 @@
             background-color: rgba(32, 178, 170, 0.5) !important;
         }
 
+        .rb {
+            border-right: 1px solid #dee2e6;
+        }
+
         .table tbody td {
             padding-top: 2em;
             padding-bottom: 2em;

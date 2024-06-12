@@ -7,13 +7,13 @@ $wgl_st = $dbh->query($wgl_sql); ?>
     <input type="hidden" name="shukkinbi" id="shukkinbi" value="<?= $_POST['shukkinbi'] ?? null ?>">
     <div class="fs text-center" style="width: 100%;padding:1.5em;border-bottom:2px solid gray;">出勤日　：　<?= $_POST['shukkinbi'] ?></div>
     <section class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <td class="bs text-nowrap">氏名</td>
-                    <td class="bs text-center text-nowrap">出勤</td>
-                    <td class="bs text-center text-nowrap">欠勤</td>
-                    <td class="bs text-nowrap">休暇等</td>
+                    <td class="bs rb text-nowrap">氏名</td>
+                    <td class="bs rb text-center text-nowrap">出勤</td>
+                    <td class="bs rb text-center text-nowrap">欠勤</td>
+                    <td class="bs rb text-nowrap">休暇等</td>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
@@ -30,15 +30,15 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     $wni = $wnistmt->fetch();
                     if (empty($wni['WorkerNameID'])) : ?>
                         <tr class="js-selectEnableRadio">
-                            <td class="form-group col-3 text-nowrap">
+                            <td class="form-group col-3 text-nowrap rb">
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
                             </td>
-                            <td class="form-group col-2 text-center">
+                            <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
                             </td>
-                            <td class="form-group col-2 text-center">
+                            <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="kekkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="2">
                             </td>
                             <td class="form-group col-5 text-nowrap">
