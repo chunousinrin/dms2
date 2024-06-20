@@ -59,7 +59,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                 <?php endwhile; ?>
                 <?php
                 echo $wnicount;
-                if ($wnicount == 0) {
+                if ($wnicount == "0") {
                     echo "<tr><td colspan='6' class='col-12 text-center'>入力済</td></tr>";
                     $dsbl = "disabled";
                 } else {
