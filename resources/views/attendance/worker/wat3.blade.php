@@ -57,7 +57,8 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                             </td>
                         </tr>
                     <?php else : ?>
-                        <?php $wnicount = $wnicount + $wnic['cnt']; ?>
+                        <?php $wnicount = $wnicount + $wnic['cnt'];
+                        echo $wnicount ?>
                     <?php endif ?>
                 <?php endwhile; ?>
                 <?php
