@@ -55,6 +55,8 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
                             </td>
                         </tr>
+                    <?php else : ?>
+                        <?php $wnicount = $wnicount + $wnic['cnt']; ?>
                     <?php endif ?>
                 <?php endwhile; ?>
                 <?php
