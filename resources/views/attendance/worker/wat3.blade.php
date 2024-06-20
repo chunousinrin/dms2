@@ -18,6 +18,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
             </thead>
             <tbody class="table-group-divider">
                 <?php $opt2 = 0;
+                $wnicount = 0;
                 while ($result = $wgl_st->fetch(PDO::FETCH_BOTH)) :
                     $opt2 = $opt2 + 1 ?>
                     <?php
@@ -28,7 +29,6 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     $wnisql = "SELECT * FROM worker_attendance WHERE AttendanceDay = '" . $_POST['shukkinbi'] . "' AND WorkerNameID = " . $result['WorkerNameID'];
                     $wnistmt = $dbh->query($wnisql);
                     $wni = $wnistmt->fetch();
-                    $wnicount = 0;
                     if (empty($wni['WorkerNameID'])) : ?>
                         <tr class="js-selectEnableRadio">
                             <td class="form-group col-3 text-nowrap rb">
