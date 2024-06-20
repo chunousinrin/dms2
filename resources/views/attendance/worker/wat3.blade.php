@@ -28,13 +28,14 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     $wnisql = "SELECT * FROM worker_attendance WHERE AttendanceDay = '" . $_POST['shukkinbi'] . "' AND WorkerNameID = " . $result['WorkerNameID'];
                     $wnistmt = $dbh->query($wnisql);
                     $wni = $wnistmt->fetch();
+                    $wnicount = 0;
                     if (empty($wni['WorkerNameID'])) : ?>
                         <tr class="js-selectEnableRadio">
                             <td class="form-group col-3 text-nowrap rb">
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
-                                <div><?= $wnic['cnt'] ?></div>
+                                <?php $wnicount = $wnicount + $wnic['cnt']; ?>
                             </td>
                             <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
@@ -57,7 +58,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                     <?php endif ?>
                 <?php endwhile; ?>
                 <?php
-                if (!empty($wnic['cnt'])) {
+                if (!empty($wnicount)) {
                     echo "<tr><td colspan='6' class='col-12 text-center'>入力済</td></tr>";
                     //$dsbl = "disabled";
                     $dsbl = null;
