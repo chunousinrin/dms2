@@ -60,6 +60,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                 if (!empty($wnic['cnt'])) {
                     echo "<tr><td colspan='6' class='col-12 text-center'>入力済</td></tr>";
                     //$dsbl = "disabled";
+                    $dsbl = null;
                 } else {
                     $dsbl = null;
                 }
