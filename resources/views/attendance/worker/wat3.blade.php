@@ -35,7 +35,8 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
-                                <?php $wnicount = $wnicount + $wnic['cnt']; ?>
+                                <?php $wnicount = $wnicount + $wnic['cnt'];
+                                echo $wnicount ?>
                             </td>
                             <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
