@@ -21,9 +21,9 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                 while ($result = $wgl_st->fetch(PDO::FETCH_BOTH)) :
                     $opt2 = $opt2 + 1 ?>
                     <?php
-                    $wnicsql = "SELECT count(*)as cnt FROM worker_attendance WHERE AttendanceDay = '" . $_POST['shukkinbi'] . "' AND WorkerNameID = " . $result['WorkerNameID'];
+                    /*$wnicsql = "SELECT count(*)as cnt FROM worker_attendance WHERE AttendanceDay = '" . $_POST['shukkinbi'] . "' AND WorkerNameID = " . $result['WorkerNameID'];
                     $wnicstmt = $dbh->query($wnicsql);
-                    $wnic = $wnicstmt->fetch();
+                    $wnic = $wnicstmt->fetch();*/
 
                     $wnisql = "SELECT * FROM worker_attendance WHERE AttendanceDay = '" . $_POST['shukkinbi'] . "' AND WorkerNameID = " . $result['WorkerNameID'];
                     $wnistmt = $dbh->query($wnisql);
@@ -35,8 +35,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
-                                <?php $wnicount += strval($wnic['cnt']);
-                                echo $wnicount ?>
+                                <?php $wnicount += 1; ?>
                             </td>
                             <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
@@ -56,17 +55,14 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
                             </td>
                         </tr>
-                    <?php else : ?>
-                        <?php $wnicount += strval($wnic['cnt']);
-                        echo $wnicount ?>
                     <?php endif ?>
                 <?php endwhile; ?>
                 <?php
                 if ($wnicount == 0) {
-                    $dsbl = null;
-                } else {
                     echo "<tr><td colspan='6' class='col-12 text-center'>入力済</td></tr>";
                     $dsbl = "disabled";
+                } else {
+                    $dsbl = null;
                 }
                 ?>
             </tbody>
