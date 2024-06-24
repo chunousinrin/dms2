@@ -49,10 +49,10 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
     .table {
         width: 180mm;
         margin: 0 auto;
-        border-spacing: 0;
+        border-collapse: collapse;
     }
 
-    .table thead {
+    .table thead tr {
         border-bottom: 2px solid #444444;
     }
 
