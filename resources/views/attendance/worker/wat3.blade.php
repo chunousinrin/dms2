@@ -47,10 +47,12 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="other<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="3">
                                 <select class="select" name="yukyu<?= $opt2; ?>" data-sync="shukkin<?= $opt2; ?>" class="form-select border-success rounded-0" data-active="3" disabled="disabled">
                                     <option value="0" selected hidden>選択</option>
-                                    <option value="3">1日有給</option>
-                                    <option value="4">午前有給</option>
-                                    <option value="5">午後有給</option>
-                                    <option value="6">忌引</option>
+                                    <?php
+                                    $attypesql = "SELECT * FROM worker_attendace_type WHERE watID > 2;";
+                                    $attypest = $dbh->query($attypesql);
+                                    while ($attype = $attypest->fetch(PDO::FETCH_BOTH)) : ?>
+                                        <option value="<?= $attype['watID'] ?>"><?= $attype['AttendanceType'] ?></option>
+                                    <?php endwhile; ?>
                                 </select>
                                 <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
                             </td>
