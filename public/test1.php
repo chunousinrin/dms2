@@ -2,15 +2,7 @@
 $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 $yd = date('Y');
 $md = date('m');
-$week = [
-    '日', //0
-    '月', //1
-    '火', //2
-    '水', //3
-    '木', //4
-    '金', //5
-    '土', //6
-];
+$week = array("日", "月", "火", "水", "木", "金", "土");
 
 ?>
 <form action="" method="post">
