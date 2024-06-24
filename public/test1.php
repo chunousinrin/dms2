@@ -70,7 +70,7 @@ if (!empty($_POST['member'])) {
         $stmt->execute($params);
     }
 
-    $calsql = "SELECT * FROM( SELECT *,DAYOFWEEK(CalDate) AS wd FROM worker_attendance_view WHERE WorkerNameID = " . $_POST['member'] . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
+    $calsql = "SELECT * FROM( SELECT *,DAYOFWEEK(cal_test.CalDate) AS wd FROM worker_attendance_view WHERE WorkerNameID = " . $_POST['member'] . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
     $calstmt = $dbh->query($calsql);
     while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
         <div style="display: flex;">
