@@ -50,6 +50,14 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
         width: 180mm;
         margin: 0 auto;
     }
+
+    .table thead {
+        border-bottom: 2px solid #444444;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #444444;
+    }
 </style>
 <table class="table">
     <thead>
