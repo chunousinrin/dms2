@@ -5,7 +5,7 @@ $md = date('m');
 $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "6" => "金", "7" => "土"];
 
 ?>
-<form action="" method="post">
+<form action="" method="post" class="noprint">
     <select name="nen" id="nen" required>
         <option value="<?= $yd - 5 ?>"><?= $yd - 5 ?></option>
         <option value="<?= $yd - 4 ?>"><?= $yd - 4 ?></option>
@@ -46,10 +46,17 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
     <input type="submit" value="submit">
 </form>
 <style>
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
     .table {
         width: 180mm;
         margin: 0 auto;
         border-collapse: collapse;
+        font-size: 10pt;
+        color: #444444;
     }
 
     .table thead tr {
@@ -58,6 +65,14 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
 
     .table tbody tr {
         border-bottom: 1px solid #444444;
+    }
+
+    @media print {
+        body {}
+
+        .noprint {
+            display: none;
+        }
     }
 </style>
 <?php
