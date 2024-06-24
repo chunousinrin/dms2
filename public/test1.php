@@ -100,10 +100,13 @@ if (!empty($_POST['member'])) : ?>
             $calstmt = $dbh->query($calsql);
             while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
                 <tr>
+                    <td><?= $result['calID'] ?></td>
                     <td><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
-                    <td style="padding: 0 1em;"><?= $result['WorkerName'] ?></td>
-                    <td style="padding: 0 1em;"><?= $result['watID'] ?></td>
-                    <td style="padding: 0 1em;"><?= $result['AttendanceType'] ?></td>
+                    <td><?= $result['WorkerNameID'] ?></td>
+                    <td><?= $result['WorkerName'] ?></td>
+                    <td><?= $result['watID'] ?></td>
+                    <td><?= $result['AttendanceType'] ?></td>
+                    <td></td>
                 </tr>
         <?php endwhile;
         endif; ?>
