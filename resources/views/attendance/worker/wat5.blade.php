@@ -177,19 +177,19 @@
             <input type="button" value="close" onclick="window.close()">
         </form>
     </section>
-    <div class="wrap">
-        <section>
-            <?php
-            $tuki = $_POST['tuki'] ?? 1;
-            $nen = $_POST['nen'] ?? 2024;
+    <section>
+        <?php
+        $tuki = $_POST['tuki'] ?? 1;
+        $nen = $_POST['nen'] ?? 2024;
 
-            $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
-            $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
+        $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
+        $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
 
-            $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
+        $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
 
 
-            if (!empty($_POST['member'])) : ?>
+        if (!empty($_POST['member'])) : ?>
+            <div class="wrap">
                 <table class="table">
                     <thead>
                         <tr>
@@ -242,10 +242,10 @@
                             <td><?= number_format($nodw ?? 0, 1) ?></td>
                         </tr>
                     </tfoot>
-                <?php endif; ?>
                 </table>
-        </section>
-    </div>
+            </div>
+        <?php endif; ?>
+    </section>
 </body>
 
 </html>
