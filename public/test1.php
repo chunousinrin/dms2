@@ -53,6 +53,7 @@
             border: none;
             outline: 1px solid #444444;
             padding: 0.5em;
+            border-radius: 0;
         }
 
         input[type="button"] {
@@ -192,7 +193,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "TRUNCATE TABLE cal_Test";
+                        $sql = "TRUNCATE TABLE cal_test";
                         $res = $dbh->query($sql);
 
                         for ($i = 1; $i < $todays + 1; $i++) {
