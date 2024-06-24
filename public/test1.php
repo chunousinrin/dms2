@@ -49,6 +49,7 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
     .table {
         width: 180mm;
         margin: 0 auto;
+        border-spacing: 0;
     }
 
     .table thead {
@@ -59,32 +60,31 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
         border-bottom: 1px solid #444444;
     }
 </style>
-<table class="table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Date</td>
-            <td>NameID</td>
-            <td>Name</td>
-            <td>TypeID</td>
-            <td>Type</td>
-            <td>日数</td>
-        </tr>
-    </thead>
-    <tbody>
-        </tr>
-        <?php
-        $tuki = $_POST['tuki'] ?? 1;
-        $nen = $_POST['nen'] ?? 2024;
+<?php
+$tuki = $_POST['tuki'] ?? 1;
+$nen = $_POST['nen'] ?? 2024;
 
-        $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
-        $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
+$firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
+$lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
 
-        $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
+$todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
 
 
-        if (!empty($_POST['member'])) {
-
+if (!empty($_POST['member'])) : ?>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Date</td>
+                <td>NameID</td>
+                <td>Name</td>
+                <td>TypeID</td>
+                <td>Type</td>
+                <td>日数</td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
             $sql = "TRUNCATE TABLE cal_Test";
             $res = $dbh->query($sql);
 
@@ -106,7 +106,6 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
                     <td style="padding: 0 1em;"><?= $result['AttendanceType'] ?></td>
                 </tr>
         <?php endwhile;
-        }
-        ?>
-    </tbody>
-</table>
+        endif; ?>
+        </tbody>
+    </table>
