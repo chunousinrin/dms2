@@ -45,40 +45,60 @@ $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "
     </select>
     <input type="submit" value="submit">
 </form>
-<?php
-
-
-$tuki = $_POST['tuki'] ?? 1;
-$nen = $_POST['nen'] ?? 2024;
-
-$firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
-$lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
-
-$todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
-
-
-if (!empty($_POST['member'])) {
-
-    $sql = "TRUNCATE TABLE cal_Test";
-    $res = $dbh->query($sql);
-
-    for ($i = 1; $i < $todays + 1; $i++) {
-        $caldate = date('Y-m-d', strtotime($nen . '-' . $tuki . '-' . $i));
-        $sql = "INSERT INTO cal_test (CalDate) VALUES (:CalDate)";
-        $stmt = $dbh->prepare($sql);
-        $params = array(':CalDate' => $caldate);
-        $stmt->execute($params);
+<style>
+    .table {
+        width: 180mm;
+        margin: 0 auto;
     }
+</style>
+<table class="table">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Date</td>
+            <td>NameID</td>
+            <td>Name</td>
+            <td>TypeID</td>
+            <td>Type</td>
+            <td>日数</td>
+        </tr>
+    </thead>
+    <tbody>
+        </tr>
+        <?php
+        $tuki = $_POST['tuki'] ?? 1;
+        $nen = $_POST['nen'] ?? 2024;
 
-    $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $_POST['member'] . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
-    $calstmt = $dbh->query($calsql);
-    while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
-        <div style="display: flex;">
-            <div><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></div>
-            <div style="padding: 0 1em;"><?= $result['WorkerName'] ?></div>
-            <div style="padding: 0 1em;"><?= $result['watID'] ?></div>
-            <div style="padding: 0 1em;"><?= $result['AttendanceType'] ?></div>
-        </div>
-<?php endwhile;
-}
-?>
+        $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
+        $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
+
+        $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
+
+
+        if (!empty($_POST['member'])) {
+
+            $sql = "TRUNCATE TABLE cal_Test";
+            $res = $dbh->query($sql);
+
+            for ($i = 1; $i < $todays + 1; $i++) {
+                $caldate = date('Y-m-d', strtotime($nen . '-' . $tuki . '-' . $i));
+                $sql = "INSERT INTO cal_test (CalDate) VALUES (:CalDate)";
+                $stmt = $dbh->prepare($sql);
+                $params = array(':CalDate' => $caldate);
+                $stmt->execute($params);
+            }
+
+            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $_POST['member'] . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
+            $calstmt = $dbh->query($calsql);
+            while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
+                <tr>
+                    <td><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
+                    <td style="padding: 0 1em;"><?= $result['WorkerName'] ?></td>
+                    <td style="padding: 0 1em;"><?= $result['watID'] ?></td>
+                    <td style="padding: 0 1em;"><?= $result['AttendanceType'] ?></td>
+                </tr>
+        <?php endwhile;
+        }
+        ?>
+    </tbody>
+</table>
