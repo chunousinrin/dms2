@@ -74,7 +74,7 @@ if (!empty($_POST['member'])) {
     $calstmt = $dbh->query($calsql);
     while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
         <div style="display: flex;">
-            <div><?= $result['CalDate'] . " (" . $week[$result['wd']("w")] . ")" ?></div>
+            <div><?= $result['CalDate'] . " (" . $week["1"('w')] . ")" ?></div>
             <div style="padding: 0 1em;"><?= $result['WorkerName'] ?></div>
             <div style="padding: 0 1em;"><?= $result['watID'] ?></div>
             <div style="padding: 0 1em;"><?= $result['AttendanceType'] ?></div>
