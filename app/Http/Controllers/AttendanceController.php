@@ -19,4 +19,8 @@ class AttendanceController extends Controller
     {
         return view('attendance.worker.wat1');
     }
+    public function worker_print()
+    {
+        return view('attendance.worker.wat5');
+    }
 }
