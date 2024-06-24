@@ -2,7 +2,7 @@
 $dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8', 'cf756484_root', 'AgVj4jDXzK');
 $yd = date('Y');
 $md = date('m');
-$week = array("日", "月", "火", "水", "木", "金", "土");
+$week = ["0" => "日", "1" => "月", "2" => "火", "3" => "水", "4" => "木", "5" => "金", "6" => "土"];
 
 ?>
 <form action="" method="post">
@@ -74,7 +74,7 @@ if (!empty($_POST['member'])) {
     $calstmt = $dbh->query($calsql);
     while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
         <div style="display: flex;">
-            <div><?= $result['CalDate'] . " (" . $result['wd'] . ")" ?></div>
+            <div><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></div>
             <div style="padding: 0 1em;"><?= $result['WorkerName'] ?></div>
             <div style="padding: 0 1em;"><?= $result['watID'] ?></div>
             <div style="padding: 0 1em;"><?= $result['AttendanceType'] ?></div>
