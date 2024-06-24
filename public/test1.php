@@ -96,6 +96,16 @@
             text-align: center;
         }
 
+        @media screen and (max-width:800px) {
+            .wrap {
+                width: 100%;
+                height: 100%;
+                margin: 1em auto;
+                padding: 1em;
+                box-shadow: none;
+            }
+        }
+
         @media print {
             body {
                 background: none;
