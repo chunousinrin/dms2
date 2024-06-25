@@ -54,6 +54,7 @@
             outline: 1px solid #444444;
             padding: 0.5em;
             border-radius: 0;
+            color: #000;
         }
 
         input[type="button"] {

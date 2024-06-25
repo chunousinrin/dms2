@@ -15,4 +15,4 @@ $wg_st = $dbh->query($wg_sql); ?>
     <input type="text" name="sbmtype" id="sbmtype" value="2" hidden>
 </form>
 
-<a style="text-decoration: none;border: 0.3em solid rgba(32, 178, 170, 1);background-color: rgba(32, 178, 170, 0.5);padding:0.5em;position:absolute;top:1%;right:1%;color:#000;text-align:center;" href="worker/print"><span>出勤表<br>印刷</span></a>
+<a style="text-decoration: none;border: 0.3em solid rgba(32, 178, 170, 1);background-color: rgba(32, 178, 170, 0.5);padding:0.5em;position:absolute;top:1%;right:1%;color:#000;text-align:center;" href="../worker/print"><span>出勤表<br>印刷</span></a>
