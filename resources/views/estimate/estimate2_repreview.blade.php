@@ -395,7 +395,7 @@
                     <div class="kumiai">
                         <h4 style="font-size: 13pt;margin-bottom:2mm;"><?php echo $es2smr['BranchName']; ?><br><?php echo $es2smr['Representative']; ?></h4>
                         <?php print '<img class="insho" alt="印章" src="data:images/png;base64,' . base64_encode($es2smr['SignatureStamp']) . '" >'; ?>
-                        <div style="margin-bottom: 2mm;">登録番号：T4200005007974</div>
+                        <div style="margin-bottom: 2mm;">登録番号：<?= $shisho['InvoiceNo'] ?></div>
                         <div>〒<?php echo $es2smr['PostCode']; ?></div>
                         <div><?php echo $es2smr['Address']; ?></div>
                         <div>Tel.<?php echo $es2smr['Phone']; ?></div>

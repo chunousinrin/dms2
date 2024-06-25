@@ -366,7 +366,7 @@
                     <div class="kumiai">
                         <h4 style="font-size: 13pt;margin-bottom:2mm;"><?php echo $result['BranchName']; ?><br><?php echo $result['Representative']; ?></h4>
                         <?php print '<img class="insho" alt="印章" src="data:images/png;base64,' . base64_encode($result['SignatureStamp']) . '" >'; ?>
-                        <div style="margin-bottom: 2mm;">登録番号：T4200005007974</div>
+                        <div style="margin-bottom: 2mm;">登録番号：<?= $shisho['InvoiceNo'] ?></div>
                         <div>〒<?php echo $result['PostCode']; ?></div>
                         <div><?php echo $result['Address']; ?></div>
                         <div>Tel.<?php echo $result['Phone']; ?></div>
