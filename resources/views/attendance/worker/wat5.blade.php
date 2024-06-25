@@ -125,13 +125,13 @@
         $yd = date('Y');
         $md = date('m');
         $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "6" => "金", "7" => "土"];
-        $color = ["1" => "#F2F2F2", "2" => "#fff", "3" => "#fff", "4" => "#fff", "5" => "#fff", "6" => "#fff", "7" => "#fff"];
+        $color = ["1" => "#f5b1aa", "2" => "#fff", "3" => "#fff", "4" => "#fff", "5" => "#fff", "6" => "#fff", "7" => "#fff"];
         ?>
         <form action="" method="post">
             @csrf
             <div class="row g-0">
                 <div class="col-3">
-                    <select name="nen" id="nen" class="form-select px-1 rounded-0" required>
+                    <select name="nen" id="nen" class="form-select px-1 rounded-0 border-primary" required>
                         <option value="<?= $yd - 5 ?>"><?= $yd - 5 ?></option>
                         <option value="<?= $yd - 4 ?>"><?= $yd - 4 ?></option>
                         <option value="<?= $yd - 3 ?>"><?= $yd - 3 ?></option>
@@ -147,7 +147,7 @@
                 </div>
                 <label class="col-1 col-form-label px-1">年</label>
                 <div class="col-2">
-                    <select name="tuki" id="tuki" class="form-select px-1 rounded-0" required>
+                    <select name="tuki" id="tuki" class="form-select px-1 rounded-0 border-primary" required>
                         <option value="<?= $_POST['tuki'] ?? number_format($md) ?>" hidden selected><?= $_POST['tuki'] ?? number_format($md) ?></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -165,7 +165,7 @@
                 </div>
                 <label class="col-1 col-form-label px-1">月</label>
                 <div class="col-5">
-                    <select name="member" id="member" class="form-select px-1 rounded-0" required onchange="submit()">
+                    <select name="member" id="member" class="form-select px-1 rounded-0 border-primary" required autofocus onchange="submit()">
                         <option value="" disabled selected>氏名を選択</option>
                         <?php
                         $membersql = "SELECT * FROM worker_group_member";
@@ -176,10 +176,10 @@
                     </select>
                 </div>
             </div>
-            <div class="row my-2 justify-content-between">
-                <input type="button" class="btn btn-secondary rounded-0 col-3" value="戻る" onclick="history.back()">
-                <input type="button" class="btn btn-secondary rounded-0 col-3" value="印刷" onclick="window.print()">
-                <input type="button" class="btn btn-secondary rounded-0 col-3" value="閉じる" onclick="window.close()">
+            <div class="row my-2 justify-content-around">
+                <input type="button" class="btn btn-primary rounded-0 col-3" value="戻る" onclick="location.href='../worker'">
+                <input type="button" class="btn btn-primary rounded-0 col-3" value="印刷" onclick="window.print()">
+                <input type="button" class="btn btn-primary rounded-0 col-3" value="閉じる" onclick="window.close()">
             </div>
 
         </form>
