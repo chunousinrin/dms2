@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
     <title>Document</title>
 
     <style>
@@ -48,27 +52,12 @@
             box-shadow: 0px 0px 15px -5px #777777;
         }
 
-        input,
-        select {
-            border: none;
-            outline: 1px solid #444444;
-            padding: 0.5em;
-            border-radius: 0;
-            color: #000;
+        .row {
+            width: 50%;
+            margin: 0 auto;
         }
 
-        input[type="button"] {
-            margin-top: 0.5em;
-            width: 10em;
-        }
-
-        input:hover,
-        select:hover {
-            background-color: lightskyblue;
-        }
-
-
-        .table {
+        .tbl {
             width: 100%;
             margin: 0 auto;
             border-collapse: collapse;
@@ -76,20 +65,20 @@
             color: #444444;
         }
 
-        .table thead tr {
+        .tbl thead tr {
             border-bottom: 2px solid #444444;
         }
 
-        .table tbody tr {
+        .tbl tbody tr {
             border-bottom: 1px solid #444444;
         }
 
-        .table tfoot tr {
+        .tbl tfoot tr {
             border-top: 2px solid #444444;
         }
 
-        .table tbody tr td,
-        .table tfoot tr td {
+        .tbl tbody tr td,
+        .tbl tfoot tr td {
             padding: 0.35em 0;
         }
 
@@ -104,6 +93,10 @@
                 margin: 1em auto;
                 padding: 1em;
                 box-shadow: none;
+            }
+
+            .row {
+                width: 100%;
             }
         }
 
@@ -136,46 +129,59 @@
         ?>
         <form action="" method="post">
             @csrf
-            <select name="nen" id="nen" required>
-                <option value="<?= $yd - 5 ?>"><?= $yd - 5 ?></option>
-                <option value="<?= $yd - 4 ?>"><?= $yd - 4 ?></option>
-                <option value="<?= $yd - 3 ?>"><?= $yd - 3 ?></option>
-                <option value="<?= $yd - 2 ?>"><?= $yd - 2 ?></option>
-                <option value="<?= $yd - 1 ?>"><?= $yd - 1 ?></option>
-                <option value="<?= $_POST['nen'] ?? $yd ?>" selected><?= $_POST['nen'] ?? $yd ?></option>
-                <option value="<?= $yd + 1 ?>"><?= $yd + 1 ?></option>
-                <option value="<?= $yd + 2 ?>"><?= $yd + 2 ?></option>
-                <option value="<?= $yd + 3 ?>"><?= $yd + 3 ?></option>
-                <option value="<?= $yd + 4 ?>"><?= $yd + 4 ?></option>
-                <option value="<?= $yd + 5 ?>"><?= $yd + 5 ?></option>
-            </select>年
-            <select name="tuki" id="tuki" required>
-                <option value="<?= $_POST['tuki'] ?? number_format($md) ?>" hidden selected><?= $_POST['tuki'] ?? number_format($md) ?></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>月
-            <select name="member" id="member" required onchange="submit()">
-                <option value="" disabled selected>氏名を選択してください</option>
-                <?php
-                $membersql = "SELECT * FROM worker_group_member";
-                $memberstmt = $dbh->query($membersql);
-                while ($member = $memberstmt->fetch(PDO::FETCH_BOTH)) : ?>
-                    <option value="<?= $member['WorkerNameID'] ?>"><?= $member['WorkerName'] ?></option>
-                <?php endwhile ?>
-            </select>
-            <br>
-            <input type="button" value="print" onclick="window.print()">
-            <input type="button" value="close" onclick="window.close()">
+            <div class="row g-0">
+                <div class="col-3">
+                    <select name="nen" id="nen" class="form-select px-1 rounded-0" required>
+                        <option value="<?= $yd - 5 ?>"><?= $yd - 5 ?></option>
+                        <option value="<?= $yd - 4 ?>"><?= $yd - 4 ?></option>
+                        <option value="<?= $yd - 3 ?>"><?= $yd - 3 ?></option>
+                        <option value="<?= $yd - 2 ?>"><?= $yd - 2 ?></option>
+                        <option value="<?= $yd - 1 ?>"><?= $yd - 1 ?></option>
+                        <option value="<?= $_POST['nen'] ?? $yd ?>" selected><?= $_POST['nen'] ?? $yd ?></option>
+                        <option value="<?= $yd + 1 ?>"><?= $yd + 1 ?></option>
+                        <option value="<?= $yd + 2 ?>"><?= $yd + 2 ?></option>
+                        <option value="<?= $yd + 3 ?>"><?= $yd + 3 ?></option>
+                        <option value="<?= $yd + 4 ?>"><?= $yd + 4 ?></option>
+                        <option value="<?= $yd + 5 ?>"><?= $yd + 5 ?></option>
+                    </select>
+                </div>
+                <label class="col-1 col-form-label px-1">年</label>
+                <div class="col-2">
+                    <select name="tuki" id="tuki" class="form-select px-1 rounded-0" required>
+                        <option value="<?= $_POST['tuki'] ?? number_format($md) ?>" hidden selected><?= $_POST['tuki'] ?? number_format($md) ?></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <label class="col-1 col-form-label px-1">月</label>
+                <div class="col-5">
+                    <select name="member" id="member" class="form-select px-1 rounded-0" required onchange="submit()">
+                        <option value="" disabled selected>氏名を選択</option>
+                        <?php
+                        $membersql = "SELECT * FROM worker_group_member";
+                        $memberstmt = $dbh->query($membersql);
+                        while ($member = $memberstmt->fetch(PDO::FETCH_BOTH)) : ?>
+                            <option value="<?= $member['WorkerNameID'] ?>"><?= $member['WorkerName'] ?></option>
+                        <?php endwhile ?>
+                    </select>
+                </div>
+            </div>
+            <div class="row my-2 justify-content-between">
+                <input type="button" class="btn btn-secondary rounded-0 col-3" value="戻る" onclick="history.back()">
+                <input type="button" class="btn btn-secondary rounded-0 col-3" value="印刷" onclick="window.print()">
+                <input type="button" class="btn btn-secondary rounded-0 col-3" value="閉じる" onclick="window.close()">
+            </div>
+
         </form>
     </section>
     <section>
@@ -191,7 +197,7 @@
 
         if (!empty($_POST['member'])) : ?>
             <div class="wrap">
-                <table class="table">
+                <table class="tbl">
                     <thead>
                         <tr>
                             <td class="text-center">No</td>
