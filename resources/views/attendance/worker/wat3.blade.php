@@ -12,7 +12,6 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                 <tr>
                     <td class="bs rb text-nowrap">氏名</td>
                     <td class="bs rb text-center text-nowrap">出勤</td>
-                    <td class="bs rb text-center text-nowrap">欠勤</td>
                     <td class="bs rb text-nowrap">休暇等</td>
                 </tr>
             </thead>
@@ -40,15 +39,12 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                             <td class="form-group col-2 text-center rb">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
                             </td>
-                            <td class="form-group col-2 text-center rb">
-                                <input type="radio" name="shukkin<?= $opt2; ?>" id="kekkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="2">
-                            </td>
                             <td class="form-group col-5 text-nowrap">
                                 <input type="radio" name="shukkin<?= $opt2; ?>" id="other<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="3">
                                 <select class="select" name="yukyu<?= $opt2; ?>" data-sync="shukkin<?= $opt2; ?>" class="form-select border-success rounded-0" data-active="3" disabled="disabled">
                                     <option value="0" selected hidden>選択</option>
                                     <?php
-                                    $attypesql = "SELECT * FROM worker_attendace_type WHERE watID > 2;";
+                                    $attypesql = "SELECT * FROM worker_attendace_type WHERE watID > 1;";
                                     $attypest = $dbh->query($attypesql);
                                     while ($attype = $attypest->fetch(PDO::FETCH_BOTH)) : ?>
                                         <option value="<?= $attype['watID'] ?>"><?= $attype['AttendanceType'] ?></option>
