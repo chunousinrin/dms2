@@ -201,7 +201,6 @@
                         <tr>
                             <td class="text-center">No</td>
                             <td>年月日</td>
-                            <td></td>
                             <td>氏名</td>
                             <td>出欠種類</td>
                             <td>日数</td>
@@ -227,7 +226,6 @@
                             <tr style="background-color: <?= $color[$result['wd']] ?>;">
                                 <td class="text-center"><?= $result['calID'] ?></td>
                                 <td style="width: 1px; white-space: nowrap;padding-right:2em"><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
-                                <td class="text-center"><?= $result['WorkerNameID'] ?></td>
                                 <td><?= $result['WorkerName'] ?></td>
                                 <?php
                                 if (!empty($result['watID2']) && !empty($result['watID'])) {
@@ -245,7 +243,6 @@
                         <tr>
                             <td></td>
                             <td>合計</td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td><?= number_format($nodw ?? 0, 1) ?></td>
