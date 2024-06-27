@@ -37,28 +37,19 @@ $wgl_st = $dbh->query($wgl_sql); ?>
                                 <?php $wnicount += 1; ?>
                             </td>
                             <td class="col-2 text-center rb">
-                                <div class="input-group">
-                                    <div class="input-group-text mx-auto  rounded-0">
-                                        <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
-                                    </div>
-                                </div>
+                                <input type="radio" name="shukkin<?= $opt2; ?>" id="shukkin<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="1">
                             </td>
                             <td class="col-5 text-nowrap">
-                                <div class="input-group">
-                                    <div class="input-group-text  rounded-0">
-                                        <input type="radio" name="shukkin<?= $opt2; ?>" id="other<?= $opt2; ?>" class="form-check-input border-success" style="width:1.5em;height:1.5em;" value="3">
-                                    </div>
-                                    <select name="yukyu<?= $opt2; ?>" data-sync="shukkin<?= $opt2; ?>" class="form-select py-0 fs" data-active="3" disabled="disabled">
-                                        <option value="0" selected hidden>選択</option>
-                                        <?php
-                                        $attypesql = "SELECT * FROM worker_attendace_type WHERE watID > 1;";
-                                        $attypest = $dbh->query($attypesql);
-                                        while ($attype = $attypest->fetch(PDO::FETCH_BOTH)) : ?>
-                                            <option value="<?= $attype['watID'] ?>"><?= $attype['AttendanceType'] ?></option>
-                                        <?php endwhile; ?>
-                                    </select>
-                                    <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
-                                </div>
+                                <select name="yukyu<?= $opt2; ?>" class="form-select fs">
+                                    <option value="0" selected hidden>選択</option>
+                                    <?php
+                                    $attypesql = "SELECT * FROM worker_attendace_type WHERE watID > 1;";
+                                    $attypest = $dbh->query($attypesql);
+                                    while ($attype = $attypest->fetch(PDO::FETCH_BOTH)) : ?>
+                                        <option value="<?= $attype['watID'] ?>"><?= $attype['AttendanceType'] ?></option>
+                                    <?php endwhile; ?>
+                                </select>
+                                <input type="hidden" name="kensu" id="kensu" value="<?= $opt2 ?>">
                             </td>
                         </tr>
                     <?php endif ?>

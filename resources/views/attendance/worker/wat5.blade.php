@@ -177,9 +177,8 @@
                 </div>
             </div>
             <div class="row my-2 justify-content-around">
-                <input type="button" class="btn btn-primary rounded-0 col-3" value="戻る" onclick="location.href='../worker'">
                 <input type="button" class="btn btn-primary rounded-0 col-3" value="印刷" onclick="window.print()">
-                <input type="button" class="btn btn-primary rounded-0 col-3" value="閉じる" onclick="window.close()">
+                <input type="button" class="btn btn-primary rounded-0 col-3" value="閉じる" onclick="location.href='../worker'">
             </div>
 
         </form>
@@ -204,7 +203,6 @@
                             <td>年月日</td>
                             <td></td>
                             <td>氏名</td>
-                            <td></td>
                             <td>出欠種類</td>
                             <td>日数</td>
                         </tr>
@@ -231,8 +229,13 @@
                                 <td style="width: 1px; white-space: nowrap;padding-right:2em"><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
                                 <td class="text-center"><?= $result['WorkerNameID'] ?></td>
                                 <td><?= $result['WorkerName'] ?></td>
-                                <td class="text-center"><?= $result['watID'] ?></td>
-                                <td><?= $result['AttendanceType'] ?></td>
+                                <?php
+                                if (!empty($result['watID2']) && !empty($result['watID'])) {
+                                    $one2tow = " - ";
+                                } else {
+                                    $one2tow = '';
+                                } ?>
+                                <td><?= $result['AttendanceType'] . $one2tow . $result['AttendanceType2'] ?></td>
                                 <td><?= $result['NumberOfDaysWorked'] ?></td>
                                 <?php $nodw += $result['NumberOfDaysWorked'] ?>
                             </tr>
@@ -242,7 +245,6 @@
                         <tr>
                             <td></td>
                             <td>合計</td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
