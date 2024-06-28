@@ -17,8 +17,8 @@
     $atnowstmt = $dbh->query($atnowsql);
     ?>
 
-    <details <?= " " . $open ?>>
-        <summary>作業班出退勤</summary>
+    <details <?= " " . $open ?> class="font-size:0.9rem">
+        <summary style="display: none;">作業班出退勤</summary>
         <table style="margin: 0 auto;">
             <tbody>
                 <tr>
