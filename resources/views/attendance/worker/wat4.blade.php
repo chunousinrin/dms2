@@ -29,7 +29,7 @@
         $wat2sql = "SELECT * FROM worker_attendace_type WHERE watID = '" . $yukyu . "'";
         $wat2stmt = $dbh->query($wat2sql);
         $wat2 = $wat2stmt->fetch();
-        $at = $shukkin + $yukyu;
+        $at = $_POST['shukkin' . $i] ?? 0 + $yukyu;
     ?>
         <?php
         if (!empty($at)) {

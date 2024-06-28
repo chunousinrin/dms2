@@ -28,6 +28,7 @@
     <li class="home_right">
         <ul>
             <li>@include('home.cal')</li>
+            <li>@include('home.worker_attendance_check')</li>
             <li>@include('home.minical')</li>
             <li>@include('home.topic')</li>
         </ul>
