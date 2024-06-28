@@ -1,4 +1,4 @@
-<div class="shadow bg-white p-3 mb-2">
+<div class="shadow bg-white p-3 mb-3">
     <div class="text-center" style="position: relative;">作業班出退勤
         <button class="btn btn-sm btn-info py-0 rounded-0" style="position: absolute; top:0;right:0;">印刷</button>
     </div>
