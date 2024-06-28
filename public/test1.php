@@ -1,5 +1,6 @@
 <form action="" method="post">
-    <input type="date" name="kyo" id="kyo">
+    @csrf
+    <input type="date" name="kyo" id="kyo" class="datepicker">
     <input type="submit" value="submit">
 </form>
 <?php
