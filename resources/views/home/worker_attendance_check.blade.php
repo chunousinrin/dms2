@@ -18,13 +18,8 @@
     ?>
 
     <details <?= " " . $open ?>>
-        <summary>作業班出退勤未入力者</summary>
+        <summary>作業班出退勤</summary>
         <table style="margin: 0 auto;">
-            <thead>
-                <tr>
-                    <td colspan="3"><?= $_POST['kyo'] ?? null ?></td>
-                </tr>
-            </thead>
             <tbody>
                 <tr>
                     <td></td>
