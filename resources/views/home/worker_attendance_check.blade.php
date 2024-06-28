@@ -1,7 +1,10 @@
 <div class="shadow bg-white p-3 mb-2">
+    <div class="text-center" style="position: relative;">作業班出退勤
+        <button class="btn btn-sm btn-info py-0 rounded-0" style="position: absolute; top:0;right:0;">印刷</button>
+    </div>
     <form action="" method="post">
         @csrf
-        <input type="text" name="kyo" id="kyo" class="datepicker" onchange="submit();" value="<?= $_POST['kyo'] ?? null ?>">
+        <input type="text" name="kyo" id="kyo" class="form-control rounded-0 datepicker" placeholder="日付を選択" onchange="submit();" value="<?= $_POST['kyo'] ?? null ?>">
     </form>
     <?php
 
@@ -17,9 +20,9 @@
     $atnowstmt = $dbh->query($atnowsql);
     ?>
 
-    <details <?= " " . $open ?> class="font-size:0.9rem">
-        <summary style="display: none;">作業班出退勤</summary>
-        <table style="margin: 0 auto;">
+    <details <?= " " . $open ?>>
+        <summary style="display:none">表示</summary>
+        <table style="margin: 0 auto;font-size:0.9rem">
             <tbody>
                 <tr>
                     <td></td>
