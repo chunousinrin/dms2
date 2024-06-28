@@ -1,7 +1,7 @@
 <div class="shadow bg-white p-3 mb-2">
     <form action="" method="post">
         @csrf
-        <input type="text" name="kyo" id="kyo" class="datepicker" onchange="submit();">
+        <input type="text" name="kyo" id="kyo" class="datepicker" onchange="submit();" value="<?= $_POST['kyo'] ?? null ?>">
     </form>
     <?php
 
