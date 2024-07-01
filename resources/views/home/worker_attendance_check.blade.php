@@ -6,4 +6,4 @@
         <input type="text" name="kyo" id="kyo" class="form-control rounded-0 datepicker" placeholder="日付を選択" onchange="submit();" value="<?= $_POST['kyo'] ?? null ?>">
     </form>
 
-    <iframe src="/worker/wat6" frameborder="0" name="wath"></iframe>
+    <iframe src="/attendance/wat6" frameborder="0" name="wath"></iframe>
