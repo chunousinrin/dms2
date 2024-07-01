@@ -3,6 +3,11 @@
 
 @section('css')
 <link rel="stylesheet" href="css/dms_home.css">
+<style>
+    .ui-datepicker {
+        z-index: 1000 !important;
+    }
+</style>
 @stop
 
 @section('content_header')
