@@ -18,16 +18,16 @@
             <tbody>
                 <?php
                 while ($atnow = $atnowstmt->fetch(PDO::FETCH_BOTH)) : ?>
-                    <tr class="border-bottom border-info">
-                        <td><?= $atnow['wgmWN'] ?></td>
+                    <tr>
+                        <td style="border-bottom: 1px solid lightseagreen;"><?= $atnow['wgmWN'] ?></td>
                         <?php
                         if (!empty($atnow['watID2']) && !empty($atnow['watID'])) {
                             $at2 = " - ";
                         } else {
                             $at2 = '';
                         } ?>
-                        <td><?= $atnow['AttendanceType'] . $at2 . $atnow['AttendanceType2'] ?></td>
-                        <td><?= $atnow['NumberOfDaysWorked'] ?></td>
+                        <td style="border-bottom: 1px solid lightseagreen;"><?= $atnow['AttendanceType'] . $at2 . $atnow['AttendanceType2'] ?></td>
+                        <td style="border-bottom: 1px solid lightseagreen;"><?= $atnow['NumberOfDaysWorked'] ?></td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
