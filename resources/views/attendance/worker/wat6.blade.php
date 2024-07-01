@@ -14,7 +14,7 @@
 
     <details <?= " " . $open ?>>
         <summary style="display:none">表示</summary>
-        <table style="margin: 0 auto;font-size:0.9rem;border-collapse:collapse;">
+        <table style="width:100%;margin: 0 auto;font-size:0.9rem;border-collapse:collapse;">
             <tbody>
                 <?php
                 while ($atnow = $atnowstmt->fetch(PDO::FETCH_BOTH)) : ?>
