@@ -1,10 +1,10 @@
 <?php
 
-if (empty($_POST['kyo'])) {
+if (empty($_GET['kyo'])) {
     $kyo = date("Y-m-d");
     $open = "";
 } else {
-    $kyo = ($_POST['kyo']);
+    $kyo = ($_GET['kyo']);
     $open = "open";
 }
 $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
