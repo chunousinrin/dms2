@@ -80,10 +80,10 @@ Route::get('/worker', [App\Http\Controllers\AttendanceController::class, 'worker
 Route::post('/worker', [App\Http\Controllers\AttendanceController::class, 'worker'])->name('worker');
 Route::get('/worker/print', [App\Http\Controllers\AttendanceController::class, 'worker_print'])->name('worker_print');
 Route::post('/worker/print', [App\Http\Controllers\AttendanceController::class, 'worker_print'])->name('worker_print');
-Route::get('/attendance/wath_view', [App\Http\Controllers\AttendanceController::class, 'wath_view'])->name('wath_view');
-Route::post('/attendance/wath_view', [App\Http\Controllers\AttendanceController::class, 'wath_view'])->name('wath_view');
-Route::get('/attendance/wat6', [App\Http\Controllers\AttendanceController::class, 'wat6'])->name('wat6');
-Route::post('/attendance/wat6', [App\Http\Controllers\AttendanceController::class, 'wat6'])->name('wat6');
+Route::get('/worker/wath_view', [App\Http\Controllers\AttendanceController::class, 'wath_view'])->name('wath_view');
+Route::post('/worker/wath_view', [App\Http\Controllers\AttendanceController::class, 'wath_view'])->name('wath_view');
+Route::get('/worker/wat6', [App\Http\Controllers\AttendanceController::class, 'wat6'])->name('wat6');
+Route::post('/worker/wat6', [App\Http\Controllers\AttendanceController::class, 'wat6'])->name('wat6');
 
 
 Route::get('/license', 'App\Http\Controllers\WorkController@license');
