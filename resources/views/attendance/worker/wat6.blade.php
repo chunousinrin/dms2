@@ -18,7 +18,7 @@
             <tbody>
                 <?php
                 while ($atnow = $atnowstmt->fetch(PDO::FETCH_BOTH)) : ?>
-                    <tr class="table-info">
+                    <tr class="border-bottom border-info">
                         <td><?= $atnow['wgmWN'] ?></td>
                         <?php
                         if (!empty($atnow['watID2']) && !empty($atnow['watID'])) {
