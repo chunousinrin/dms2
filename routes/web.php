@@ -72,6 +72,8 @@ Route::get('/admin/company', [App\Http\Controllers\MasterController::class, 'com
 Route::get('/attendance', [App\Http\Controllers\MasterController::class, 'attendance'])->name('attendance');
 Route::post('/attendance', [App\Http\Controllers\MasterController::class, 'attendance'])->name('attendance');
 Route::post('/attendance/list_print', [App\Http\Controllers\MasterController::class, 'at4'])->name('at4');
+Route::post('/attendance/wath_view', [App\Http\Controllers\MasterController::class, 'wath_view'])->name('wath_view');
+
 
 Route::get('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
 Route::post('/atmain', [App\Http\Controllers\AttendanceController::class, 'atmain'])->name('atmain');
