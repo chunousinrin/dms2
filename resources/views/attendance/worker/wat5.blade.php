@@ -236,11 +236,21 @@
                                 </tr>
                             <?php endwhile; ?>
                         </tbody>
+                        <?php
+                        $vdsql = "SELECT COUNT(*)as vd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 3";
+                        $vdstmt = $dbh->query($vdsql);
+                        $vd = $vdstmt->fetch();
+                        $hvdsql = "SELECT COUNT(*)as hvd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 5";
+                        $hvdstmt = $dbh->query($hvdsql);
+                        $hvd = $hvdstmt->fetch();
+                        $vdsum = ($vd['vd'] ?? 0) + (($hvd['hvd'] ?? 0) * 0.5);
+                        $nod = $nodw - $vdsum;
+                        ?>
                         <tfoot>
                             <tr>
                                 <td></td>
-                                <td>合計</td>
                                 <td></td>
+                                <td style="text-align: right;">出勤：<?= number_format($nod ?? 0, 1) ?>　有給：<?= number_format($vdsum, 1) ?>　合計：</td>
                                 <td><?= number_format($nodw ?? 0, 1) ?></td>
                             </tr>
                         </tfoot>
