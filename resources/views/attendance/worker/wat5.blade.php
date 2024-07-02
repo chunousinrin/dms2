@@ -122,6 +122,9 @@
     <section class="slctr noprint">
         <?php
         $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
+        $wgmsql = "SELECT count(*) AS wgm FROM worker_group_member";
+        $wgmstmt = $dbh->query($wgmsql);
+        $wgm = $wgmstmt->fetch();
         $yd = date('Y');
         $md = date('m');
         $week = ["1" => "日", "2" => "月", "3" => "火", "4" => "水", "5" => "木", "6" => "金", "7" => "土"];
@@ -130,8 +133,8 @@
         <form action="" method="post">
             @csrf
             <div class="row g-0">
-                <div class="col-3">
-                    <select name="nen" id="nen" class="form-select px-1 rounded-0 border-primary" required>
+                <div class="col-2">
+                    <select name="nen" id="nen" class="form-select px-1 rounded-0 border-info" required>
                         <option value="<?= $yd - 5 ?>"><?= $yd - 5 ?></option>
                         <option value="<?= $yd - 4 ?>"><?= $yd - 4 ?></option>
                         <option value="<?= $yd - 3 ?>"><?= $yd - 3 ?></option>
@@ -147,7 +150,7 @@
                 </div>
                 <label class="col-1 col-form-label px-1">年</label>
                 <div class="col-2">
-                    <select name="tuki" id="tuki" class="form-select px-1 rounded-0 border-primary" required>
+                    <select name="tuki" id="tuki" class="form-select px-1 rounded-0 border-info" required>
                         <option value="<?= $_POST['tuki'] ?? number_format($md) ?>" hidden selected><?= $_POST['tuki'] ?? number_format($md) ?></option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -164,94 +167,91 @@
                     </select>
                 </div>
                 <label class="col-1 col-form-label px-1">月</label>
-                <div class="col-5">
-                    <select name="member" id="member" class="form-select px-1 rounded-0 border-primary" required autofocus onchange="submit()">
-                        <option value="" disabled selected>氏名を選択</option>
-                        <?php
-                        $membersql = "SELECT * FROM worker_group_member";
-                        $memberstmt = $dbh->query($membersql);
-                        while ($member = $memberstmt->fetch(PDO::FETCH_BOTH)) : ?>
-                            <option value="<?= $member['WorkerNameID'] ?>"><?= $member['WorkerName'] ?></option>
-                        <?php endwhile ?>
-                    </select>
-                </div>
+                <input type="submit" class="btn btn-info rounded-0 col-2 mr-1" value="表示">
+                <input type="button" class="btn btn-info rounded-0 col-2 mr-1" value="印刷" onclick="window.print()">
+                <input type="button" class="btn btn-info rounded-0 col-2" value="閉じる" onclick="location.href='../worker'">
             </div>
-            <div class="row my-2 justify-content-around">
-                <input type="button" class="btn btn-primary rounded-0 col-3" value="印刷" onclick="window.print()">
-                <input type="button" class="btn btn-primary rounded-0 col-3" value="閉じる" onclick="location.href='../worker'">
-            </div>
-
         </form>
     </section>
-    <section>
+    <?php
+    $tuki = $_POST['tuki'] ?? 1;
+    $nen = $_POST['nen'] ?? 2024;
+
+    $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
+    $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
+
+    $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
+
+
+    $sql = "TRUNCATE TABLE cal_test";
+    $res = $dbh->query($sql);
+
+    for ($i = 1; $i < $todays + 1; $i++) {
+        $caldate = date('Y-m-d', strtotime($nen . '-' . $tuki . '-' . $i));
+        $sql = "INSERT INTO cal_test (CalDate) VALUES (:CalDate)";
+        $stmt = $dbh->prepare($sql);
+        $params = array(':CalDate' => $caldate);
+        $stmt->execute($params);
+    }
+    ?>
+    <?php
+    for ($g = 1; $g < $wgm['wgm'] + 1; $g++) { ?>
         <?php
-        $tuki = $_POST['tuki'] ?? 1;
-        $nen = $_POST['nen'] ?? 2024;
-
-        $firstday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' first day of this month')));
-        $lastday = strtotime(date('Y-m-d', strtotime($nen . '-' . $tuki . ' last day of this month')));
-
-        $todays = (($lastday - $firstday) / (60 * 60 * 24)) + 1;
-
-
-        if (!empty($_POST['member'])) : ?>
-            <div class="wrap">
-                <table class="tbl">
-                    <thead>
-                        <tr>
-                            <td class="text-center">No</td>
-                            <td>年月日</td>
-                            <td>氏名</td>
-                            <td>出欠種類</td>
-                            <td>日数</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sql = "TRUNCATE TABLE cal_test";
-                        $res = $dbh->query($sql);
-
-                        for ($i = 1; $i < $todays + 1; $i++) {
-                            $caldate = date('Y-m-d', strtotime($nen . '-' . $tuki . '-' . $i));
-                            $sql = "INSERT INTO cal_test (CalDate) VALUES (:CalDate)";
-                            $stmt = $dbh->prepare($sql);
-                            $params = array(':CalDate' => $caldate);
-                            $stmt->execute($params);
-                        }
-
-                        $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $_POST['member'] . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
-                        $calstmt = $dbh->query($calsql);
-                        $nodw = 0;
-                        while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
-                            <tr style="background-color: <?= $color[$result['wd']] ?>;">
-                                <td class="text-center"><?= $result['calID'] ?></td>
-                                <td style="width: 1px; white-space: nowrap;padding-right:2em"><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
-                                <td><?= $result['WorkerName'] ?></td>
-                                <?php
-                                if (!empty($result['watID2']) && !empty($result['watID'])) {
-                                    $one2tow = " - ";
-                                } else {
-                                    $one2tow = '';
-                                } ?>
-                                <td><?= $result['AttendanceType'] . $one2tow . $result['AttendanceType2'] ?></td>
-                                <td><?= $result['NumberOfDaysWorked'] ?></td>
-                                <?php $nodw += $result['NumberOfDaysWorked'] ?>
+        $wgmnsql = "SELECT * FROM worker_group_member LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group_member.WorkerNameID = " . $g;
+        $wgmnstmt = $dbh->query($wgmnsql);
+        $wgmn = $wgmnstmt->fetch();
+        ?>
+        <section>
+            <?php
+            if (!empty($_POST['tuki'])) : ?>
+                <div class="wrap">
+                    <div class="mb-2"><?= $wgmn['WorkerGroupName'] . " : " . $wgmn['WorkerName'] ?>　出勤簿</div>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <td class="text-center">No</td>
+                                <td>年月日</td>
+                                <td>出欠種類</td>
+                                <td>日数</td>
                             </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td>合計</td>
-                            <td></td>
-                            <td></td>
-                            <td><?= number_format($nodw ?? 0, 1) ?></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        <?php endif; ?>
-    </section>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $g . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
+                            $calstmt = $dbh->query($calsql);
+                            $nodw = 0;
+                            while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
+                                <tr style="background-color: <?= $color[$result['wd']] ?>;">
+                                    <td class="text-center"><?= $result['calID'] ?></td>
+                                    <td style="width: 1px; white-space: nowrap;padding-right:2em"><?= $result['CalDate'] . " (" . $week[$result['wd']] . ")" ?></td>
+                                    <?php
+                                    if (!empty($result['watID2']) && !empty($result['watID'])) {
+                                        $one2tow = " - ";
+                                    } else {
+                                        $one2tow = '';
+                                    } ?>
+                                    <td><?= $result['AttendanceType'] . $one2tow . $result['AttendanceType2'] ?></td>
+                                    <td><?= $result['NumberOfDaysWorked'] ?></td>
+                                    <?php $nodw += $result['NumberOfDaysWorked'] ?>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td>合計</td>
+                                <td></td>
+                                <td><?= number_format($nodw ?? 0, 1) ?></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div style="page-break-after: always;"></div>
+            <?php endif; ?>
+        </section>
+
+
+    <?php } ?>
 </body>
 
 </html>
