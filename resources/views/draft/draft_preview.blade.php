@@ -203,10 +203,10 @@
 
     <?php
     if (empty($_POST['Layout'])) {
-        echo "<div class='wrap' style='height:100%; display:none;'>";
+        echo "<div style='display:none;'>";
     } else {
         echo '<div style="break-after: page;"></div>';
-        echo "<div class='wrap'>";
+        echo "<div class='wrap' style='height:100%'>";
     }
     echo "<div class='note'>";
     echo nl2br($_POST['Contents']);
