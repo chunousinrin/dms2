@@ -217,13 +217,14 @@
     </div>
 
     <?php
-    if (empty($draft['Layout'])) {
+    if (empty($draft['Multiplepage'])) {
         echo "<div class='wrap' style='height:100%; display:none;'>";
     } else {
-        echo "<div class='wrap' style='min-height:297mm;height:100%;'>";
+        echo '<div style="break-after: page;"></div>';
+        echo "<div class='wrap'>";
     }
     echo "<div class='note'>";
-    echo str_replace(array("\r\n", "\r", "\n"), "</div><div class='note'>", $draft['Contents']);
+    echo nl2br($draft['Contents']);
     echo "</div>";
     ?>
     </div>

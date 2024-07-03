@@ -205,12 +205,13 @@
     if (empty($_POST['Layout'])) {
         echo "<div class='wrap' style='height:100%; display:none;'>";
     } else {
-        echo "<div class='wrap' style='min-height:297mm;height:100%;'>";
+        echo '<div style="break-after: page;"></div>';
+        echo "<div class='wrap'>";
     }
     echo "<div class='note'>";
-    echo str_replace(array("\r\n", "\r", "\n"), "</div><div class='note'>", $_POST['Contents']);
+    echo nl2br($_POST['Contents']);
     echo "</div>";
-    ?>
+    ?> ?>
     </div>
 
 </body>
