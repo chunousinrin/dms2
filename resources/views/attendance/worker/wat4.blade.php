@@ -70,7 +70,7 @@
     <input type="text" name="sbmtype" id="sbmtype" value="4" hidden>
     <div class="fs" style="display: flex;">
         <div class="btn bs bsh fs rounded-0" style="width: 100%;padding:1.5em 0" onclick="history.back();">戻る</div>
-        <input class="btn bs bsh fs rounded-0" style="width: 100%;" type="submit" value="保存">
+        <input class="btn bs bsh fs rounded-0" style="width: 100%;" type="submit" value="保存" onclick="submit(),disabled = true;">
         <div class="btn bs bsh fs rounded-0" style="width: 100%;padding:1.5em 0" id="gotop">Top</div>
     </div>
 </form>
