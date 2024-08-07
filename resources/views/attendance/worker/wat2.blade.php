@@ -7,26 +7,10 @@ $wg_st = $dbh->query($wg_sql); ?>
     if ($_GET['ipt'] === "admin") {
         $dtc = "";
         $ipt = "admin";
-    } else {
-        $dtc = ' onchange="datecheck();"';
-        $ipt = "";
-    }
-    /*if (empty($_GET['ipt'])) {
-        $dtc = ' onchange="datecheck();"';
-        $ipt = "";
-    } elseif (empty($_POST['ipt'])) {
-        if ($_GET['ipt'] == "admin") {
-            $dtc = "";
-            $ipt = "admin";
-        }
-    } elseif ($_GET['ipt'] == "admin") {
-        $dtc = "";
-        $ipt = "";
-    }*/
-
-    if ($ipt == "admin") {
         $printlink = "?ipt=admin";
     } else {
+        $dtc = ' onchange="datecheck();"';
+        $ipt = "";
         $printlink = "";
     }
     ?>
