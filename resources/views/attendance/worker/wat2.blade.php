@@ -1,6 +1,7 @@
 <?php
 $wg_sql = "SELECT * FROM worker_group ORDER BY WorkerGroupID ASC";
-$wg_st = $dbh->query($wg_sql); ?>
+$wg_st = $dbh->query($wg_sql);
+$ipt = ""; ?>
 <form action="" method="post" name="wat2">
     @csrf
     <?php
