@@ -145,7 +145,7 @@
             $printlink = "?ipt=admin";
         } else {
             $ipt = "";
-            $printlink = "";
+            $printlink = "?ipt=prnt";
         }
 
         if ($ipt == "admin") : ?>
