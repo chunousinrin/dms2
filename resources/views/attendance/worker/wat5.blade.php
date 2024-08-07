@@ -140,7 +140,7 @@
 <body>
     <section class="slctr noprint">
         <?php
-        if (!empty($_GET['ipt'])) {
+        if ($_GET['ipt'] === "admin") {
             $ipt = "admin";
             $printlink = "?ipt=admin";
         } else {
