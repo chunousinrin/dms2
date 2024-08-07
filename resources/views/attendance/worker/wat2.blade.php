@@ -4,7 +4,17 @@ $wg_st = $dbh->query($wg_sql); ?>
 <form action="" method="post" name="wat2">
     @csrf
     <?php
-    if (empty($_GET['ipt'])) {
+    if (empty($_GET['ipt']) || empty($_POST['ipt'])) {
+        $dtc = ' onchange="datecheck();"';
+        $ipt = "";
+    } elseif ($_GET['ipt'] == "admin" || $_POST['ipt'] == "admin") {
+        $dtc = "";
+        $ipt = "admin";
+    } else {
+        $dtc = "";
+        $ipt = "";
+    }
+    /*if (empty($_GET['ipt'])) {
         $dtc = ' onchange="datecheck();"';
         $ipt = "";
     } elseif (empty($_POST['ipt'])) {
@@ -15,7 +25,7 @@ $wg_st = $dbh->query($wg_sql); ?>
     } elseif ($_GET['ipt'] == "admin") {
         $dtc = "";
         $ipt = "";
-    }
+    }*/
 
     if ($ipt == "admin") {
         $printlink = "?ipt=admin";
