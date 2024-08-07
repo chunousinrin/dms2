@@ -12,7 +12,7 @@ $wg_st = $dbh->query($wg_sql);
     } else {
         $dtc = ' onchange="datecheck();"';
         $ipt = "";
-        $printlink = "";
+        $printlink = "?ipt=prnt";
     }
     ?>
     <input type="text" id="shukkinbi" name="shukkinbi" class="fs form-control rounded-0 datepicker text-center" style="padding:1.5em" placeholder="出勤日を選択 &#xf073;" value="" required <?= $dtc ?> readonly="readonly" autofocus>
