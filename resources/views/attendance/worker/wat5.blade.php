@@ -266,8 +266,10 @@
                                     <td><?= $result['AttendanceType'] . $one2tow . $result['AttendanceType2'] ?></td>
                                     <td style="color:rgba(0,0,0,0)"><?= $result['waID'] ?></td>
                                     <td class="nodw">
-                                        <?php if (!empty($result['NumberOfDaysWorked'])) : ?>
-                                            <input onchange="document.getElementById('sqlnodw').value = $(this).val();submitNodw();" class="iptnodw" type="text" value="<?= $result['NumberOfDaysWorked'] ?>">
+                                        <?php if ($ipt == "admin") : ?>
+                                            <?php if (!empty($result['NumberOfDaysWorked'])) : ?>
+                                                <input onchange="document.getElementById('sqlnodw').value = $(this).val();submitNodw();" class="iptnodw" type="text" value="<?= $result['NumberOfDaysWorked'] ?>">
+                                            <?php endif ?>
                                         <?php else : ?>
                                             <?= $result['NumberOfDaysWorked'] ?>
                                         <?php endif ?>
