@@ -31,4 +31,8 @@ class AttendanceController extends Controller
     {
         return view('attendance.worker.wat6');
     }
+    public function wat55()
+    {
+        return view('attendance.worker.wat55');
+    }
 }

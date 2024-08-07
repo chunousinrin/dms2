@@ -191,15 +191,20 @@
     }
 
     function datecheck() {
-        var dt = new Date();
-        var shukkinbi = new Date(document.getElementById('shukkinbi').value);
+        const tojitsu = new Date(); //今日の日付
+        const three_str = tojitsu.toLocaleDateString('sv-SE'); //3日前取得1
+        const three = new Date(three_str); //3日前取得2
+        three.setDate(three.getDate() - 4); //3日前取得3
 
-        if (dt.getDate() - 3 <= shukkinbi.getDate() && shukkinbi.getDate() <= dt.getDate()) {
+        const shukkinbi = new Date(document.getElementById('shukkinbi').value); //入力値
+
+        if (three <= shukkinbi && shukkinbi <= tojitsu) {
 
         } else {
             alert("本日より3日前まで入力できます");
             document.getElementById('shukkinbi').value = null;
-        }
+        };
+
     }
 
     $("#gotop").bind("click", function() {

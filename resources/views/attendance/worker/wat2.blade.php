@@ -16,6 +16,12 @@ $wg_st = $dbh->query($wg_sql); ?>
         $dtc = "";
         $ipt = "";
     }
+
+    if ($ipt == "admin") {
+        $printlink = "?ipt=admin";
+    } else {
+        $printlink = "";
+    }
     ?>
     <input type="text" id="shukkinbi" name="shukkinbi" class="fs form-control rounded-0 datepicker text-center" style="padding:1.5em" placeholder="出勤日を選択 &#xf073;" value="" required <?= $dtc ?> readonly="readonly" autofocus>
     <section>
@@ -29,7 +35,7 @@ $wg_st = $dbh->query($wg_sql); ?>
     <input type="text" name="sbmtype" id="sbmtype" value="2" hidden>
 </form>
 
-<a style="text-decoration: none;border: 0.3em solid rgba(32, 178, 170, 1);background-color: rgba(32, 178, 170, 0.5);padding:0.5em;position:absolute;top:1%;right:1%;color:#000;text-align:center;" href="../worker/print"><span>出勤表<br>印刷</span></a>
+<a style="text-decoration: none;border: 0.3em solid rgba(32, 178, 170, 1);background-color: rgba(32, 178, 170, 0.5);padding:0.5em;position:absolute;top:1%;right:1%;color:#000;text-align:center;" href="../worker/print<?= $printlink ?>"><span>出勤表<br>印刷</span></a>
 
 <?php
 if ($ipt == "admin") : ?>

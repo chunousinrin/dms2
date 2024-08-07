@@ -7,7 +7,12 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <?php
 
+    use Illuminate\Support\Facades\DB;
+    ?>
     <title>Document</title>
 
     <style>
@@ -86,6 +91,16 @@
             text-align: center;
         }
 
+        .nodw input {
+            width: 3em;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+            background-color: lightskyblue;
+        }
+
         @media screen and (max-width:800px) {
             .wrap {
                 width: 100%;
@@ -114,12 +129,29 @@
             .noprint {
                 display: none;
             }
+
+            .nodw input {
+                background: none;
+            }
         }
     </style>
 </head>
 
 <body>
     <section class="slctr noprint">
+        <?php
+        if (!empty($_GET['ipt'])) {
+            $ipt = "admin";
+            $printlink = "?ipt=admin";
+        } else {
+            $ipt = "";
+            $printlink = "";
+        }
+
+        if ($ipt == "admin") : ?>
+            <div style="position: absolute; top:0;left:0;background-color:chocolate;color:white;width:100%;text-align:center;">管理者モード</div>
+
+        <?php endif ?>
         <?php
         $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
         $wgmsql = "SELECT count(*) AS wgm FROM worker_group_member";
@@ -169,7 +201,7 @@
                 <label class="col-1 col-form-label px-1">月</label>
                 <input type="submit" class="btn btn-info rounded-0 col-2 mr-1" value="表示">
                 <input type="button" class="btn btn-info rounded-0 col-2 mr-1" value="印刷" onclick="window.print()">
-                <input type="button" class="btn btn-info rounded-0 col-2" value="閉じる" onclick="location.href='../worker'">
+                <input type="button" class="btn btn-info rounded-0 col-2" value="閉じる" onclick="location.href='../worker<?= $printlink ?>'">
             </div>
         </form>
     </section>
@@ -206,12 +238,13 @@
             if (!empty($_POST['tuki'])) : ?>
                 <div class="wrap">
                     <div class="mb-2"><?= $wgmn['WorkerGroupName'] . " : " . $wgmn['WorkerName'] ?>　出勤簿</div>
-                    <table class="tbl">
+                    <table class="tbl" id="table">
                         <thead>
                             <tr>
                                 <td class="text-center">No</td>
                                 <td>年月日</td>
                                 <td>出欠種類</td>
+                                <td></td>
                                 <td>日数</td>
                             </tr>
                         </thead>
@@ -231,7 +264,14 @@
                                         $one2tow = '';
                                     } ?>
                                     <td><?= $result['AttendanceType'] . $one2tow . $result['AttendanceType2'] ?></td>
-                                    <td><?= $result['NumberOfDaysWorked'] ?></td>
+                                    <td style="color:rgba(0,0,0,0)"><?= $result['waID'] ?></td>
+                                    <td class="nodw">
+                                        <?php if (!empty($result['NumberOfDaysWorked'])) : ?>
+                                            <input onchange="document.getElementById('sqlnodw').value = $(this).val();submitNodw();" class="iptnodw" type="text" value="<?= $result['NumberOfDaysWorked'] ?>">
+                                        <?php else : ?>
+                                            <?= $result['NumberOfDaysWorked'] ?>
+                                        <?php endif ?>
+                                    </td>
                                     <?php $nodw += $result['NumberOfDaysWorked'] ?>
                                 </tr>
                             <?php endwhile; ?>
@@ -265,7 +305,7 @@
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td style="text-align: right;">
+                                <td style="text-align: right;" colspan="2">
                                     出勤：<?= number_format($nod ?? 0, 1) ?>
                                     　有給：<?= number_format($vdsum, 1) ?>
                                     　特休：<?= number_format($svd['svd'] ?? 0, 1) ?>
@@ -282,6 +322,36 @@
 
 
     <?php } ?>
+
+    <div style="display: none;">
+        <iframe name="targetFrame"></iframe>
+
+        <form name="targetForm">
+            @csrf
+            <input type="text" id="sqlswaid" name="sqlswaid">
+            <input type="text" id="sqlnodw" name="sqlnodw">
+        </form>
+    </div>
+    <script>
+        $(".nodw").click(function() {
+            swaid = $(this).prev().text();
+            document.getElementById('sqlswaid').value = swaid;
+        });
+
+        function submitNodw() {
+            if (window.confirm("選択された情報を削除します")) {
+                document.targetForm.target = "targetFrame";
+                document.targetForm.method = "post";
+                document.targetForm.action = "wat55";
+                document.targetForm.submit();
+                return false;
+            } else {
+                // 「キャンセル」時の処理
+                window.alert("キャンセルされました"); // 警告ダイアログを表示
+                return false; // 送信を中止
+            };
+        }
+    </script>
 </body>
 
 </html>
