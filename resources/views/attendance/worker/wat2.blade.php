@@ -5,7 +5,11 @@ $wg_st = $dbh->query($wg_sql);
 <form action="" method="post" name="wat2">
     @csrf
     <?php
-    if ($_GET['ipt'] === "admin") {
+    if (empty($_GET['ipt'])) {
+        $dtc = ' onchange="datecheck();"';
+        $ipt = "";
+        $printlink = "?ipt=prnt";
+    } elseif ($_GET['ipt'] === "admin") {
         $dtc = "";
         $ipt = "admin";
         $printlink = "?ipt=admin";
