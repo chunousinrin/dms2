@@ -291,20 +291,17 @@
                         $svdsql = "SELECT COUNT(*)as svd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 6";
                         $svdstmt = $dbh->query($svdsql);
                         $svd = $svdstmt->fetch();
-                        $cdsql = "SELECT COUNT(*)as cd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 7";
+                        //$cdsql = "SELECT COUNT(*)as cd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 7";
+                        $cdsql = "SELECT SUM(NumberOfDaysWorked)as cd ,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate WHERE WorkerNameID = " . $g . " AND watID2 = 7";
                         $cdstmt = $dbh->query($cdsql);
                         $cd = $cdstmt->fetch();
-                        if (!empty($cd['cd'])) {
-                            if ($cd['cd'] > 3) {
-                                $cdd = 3;
-                            } else {
-                                $cdd = $cd['cd'];
-                            };
+                        if (!empty($cd['cd'])) { //労災
+                            $cdd = $cd['cd'];
                         } else {
                             $cdd = 0;
                         };
                         $vdsum = (($vd['vd'] ?? 0)) + (($hvd['hvd'] ?? 0) * 0.5);
-                        $nod = $nodw - $vdsum;
+                        $nod = $nodw - $vdsum - $cdd;
                         ?>
                         <tfoot>
                             <tr>
@@ -316,7 +313,7 @@
                                     　特休：<?= number_format($svd['svd'] ?? 0, 1) ?>
                                     　労災：<?= number_format($cdd, 1) ?>
                                     　合計：</td>
-                                <td><?= number_format($nodw + $cdd ?? 0, 1) ?></td>
+                                <td><?= number_format($nodw + $svd['svd'] ?? 0, 1) ?></td>
                             </tr>
                         </tfoot>
                     </table>

@@ -1,4 +1,17 @@
-<form action="" method="post">
+<?php
+if (empty($_GET['ipt'])) {
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+} elseif ($_GET['ipt'] === "admin") {
+    $ipt = "admin";
+    $printlink = "?ipt=admin";
+} else {
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+}
+?>
+
+<form action="<?= $printlink ?>" method="post">
     <input type="hidden" name="shukkinbi" id="shukkinbi" value="<?= $_POST['shukkinbi'] ?? null ?>">
     <div class="fs bs text-center" style="width: 100%;padding:1.5em;border-bottom:2px solid gray;">出勤日　：　<?= $_POST['shukkinbi'] ?></div>
     @csrf
@@ -74,3 +87,7 @@
         <div class="btn bs bsh fs rounded-0" style="width: 100%;padding:1.5em 0" id="gotop">Top</div>
     </div>
 </form>
+<?php
+if ($ipt == "admin") : ?>
+    <div style="position: absolute; bottom:0;left:0;background-color:chocolate;color:white;width:100%;text-align:center;">管理者モード</div>
+<?php endif ?>

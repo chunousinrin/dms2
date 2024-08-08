@@ -20,6 +20,17 @@
 
     <title>Document</title>
     <?php
+    if (empty($_GET['ipt'])) {
+        $ipt = "";
+        $printlink = "?ipt=prnt";
+    } elseif ($_GET['ipt'] === "admin") {
+        $ipt = "admin";
+        $printlink = "?ipt=admin";
+    } else {
+        $ipt = "";
+        $printlink = "?ipt=prnt";
+    };
+
     if (!empty($_POST['sbmtype'])) {
         $sbmtype = $_POST['sbmtype'];
     } elseif (!empty($_GET['sbmtype'])) {
@@ -130,7 +141,7 @@
                 echo false;
             };
         };
-        header("Location:./worker");
+        header("Location:./worker" . $printlink);
         exit();
         ?>
     <?php else : ?>
@@ -208,7 +219,7 @@
     }
 
     $("#gotop").bind("click", function() {
-        window.location.href = '/worker';
+        window.location.href = '/worker<?= $printlink ?>';
     });
 </script>
 

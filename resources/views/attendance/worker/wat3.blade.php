@@ -1,8 +1,19 @@
 <?php
 $wgl_sql = "SELECT * FROM worker_list WHERE WorkerGroupID = " . $_POST['options'] . " ORDER BY WorkerGroupID ASC,WorkerNameID ASC";
-$wgl_st = $dbh->query($wgl_sql); ?>
+$wgl_st = $dbh->query($wgl_sql);
+if (empty($_GET['ipt'])) {
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+} elseif ($_GET['ipt'] === "admin") {
+    $ipt = "admin";
+    $printlink = "?ipt=admin";
+} else {
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+}
+?>
 
-<form action="" method="post">
+<form action="<?= $printlink ?>" method="post">
     @csrf
     <input type="hidden" name="shukkinbi" id="shukkinbi" value="<?= $_POST['shukkinbi'] ?? null ?>">
     <div class="fs text-center" style="width: 100%;padding:1.5em;border-bottom:2px solid gray;">出勤日　：　<?= $_POST['shukkinbi'] ?></div>
@@ -72,3 +83,7 @@ $wgl_st = $dbh->query($wgl_sql); ?>
         <div class="btn bs bsh fs rounded-0" style="width: 100%;padding:1.5em 0" id="gotop">Top</div>
     </div>
 </form>
+<?php
+if ($ipt == "admin") : ?>
+    <div style="position: absolute; bottom:0;left:0;background-color:chocolate;color:white;width:100%;text-align:center;">管理者モード</div>
+<?php endif ?>

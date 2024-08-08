@@ -1,24 +1,23 @@
 <?php
 $wg_sql = "SELECT * FROM worker_group ORDER BY WorkerGroupID ASC";
 $wg_st = $dbh->query($wg_sql);
+if (empty($_GET['ipt'])) {
+    $dtc = ' onchange="datecheck();"';
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+} elseif ($_GET['ipt'] === "admin") {
+    $dtc = "";
+    $ipt = "admin";
+    $printlink = "?ipt=admin";
+} else {
+    $dtc = ' onchange="datecheck();"';
+    $ipt = "";
+    $printlink = "?ipt=prnt";
+}
+
 ?>
-<form action="" method="post" name="wat2">
+<form action="<?= $printlink ?>" method="post" name="wat2">
     @csrf
-    <?php
-    if (empty($_GET['ipt'])) {
-        $dtc = ' onchange="datecheck();"';
-        $ipt = "";
-        $printlink = "?ipt=prnt";
-    } elseif ($_GET['ipt'] === "admin") {
-        $dtc = "";
-        $ipt = "admin";
-        $printlink = "?ipt=admin";
-    } else {
-        $dtc = ' onchange="datecheck();"';
-        $ipt = "";
-        $printlink = "?ipt=prnt";
-    }
-    ?>
     <input type="text" id="shukkinbi" name="shukkinbi" class="fs form-control rounded-0 datepicker text-center" style="padding:1.5em" placeholder="出勤日を選択 &#xf073;" value="" required <?= $dtc ?> readonly="readonly" autofocus>
     <section>
         <?php $opn = 0;
