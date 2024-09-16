@@ -222,12 +222,10 @@
         window.location.href = '/worker<?= $printlink ?>';
     });
 
-    window.onbeforeunload = function() {
-        // IE用キャッシュ対策
-    };
-    window.onunload = function() {
-        // IE以外用キャッシュ対策
-    };
+    history.pushState(null, null, location.href);
+    window.addEventListener('popstate', (e) => {
+        history.go(1);
+    });
 </script>
 
 </html>
