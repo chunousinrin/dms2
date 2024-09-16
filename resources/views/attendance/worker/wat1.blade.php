@@ -226,7 +226,7 @@
     });
 
     window.onload = function() {
-        if (<?= $sbmtype ?> == 1) {
+        if (<?= $sbmtype ?> == "1") {
             history.pushState(null, null, location.href);
             window.addEventListener('popstate', (e) => {
                 history.go(1);
