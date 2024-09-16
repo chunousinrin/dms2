@@ -123,6 +123,9 @@
 </head>
 
 <body>
+    <?php
+    var_dump($sbmtype)
+    ?>
     <?php if ($sbmtype == "1") : ?>
         @include('attendance.worker.wat2')
     <?php elseif ($sbmtype == "2") : ?>
