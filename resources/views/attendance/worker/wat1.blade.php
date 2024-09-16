@@ -144,6 +144,12 @@
         header("Location:./worker" . $printlink);
         exit();
         ?>
+        <script>
+            history.pushState(null, null, location.href);
+            window.addEventListener('popstate', (e) => {
+                history.go(1);
+            });
+        </script>
     <?php else : ?>
         @include('attendance.worker.wat2')
     <?php endif ?>
@@ -220,11 +226,6 @@
 
     $("#gotop").bind("click", function() {
         window.location.href = '/worker<?= $printlink ?>';
-    });
-
-    history.pushState(null, null, location.href);
-    window.addEventListener('popstate', (e) => {
-        history.go(1);
     });
 </script>
 
