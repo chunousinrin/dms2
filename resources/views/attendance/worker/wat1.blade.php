@@ -221,6 +221,13 @@
     $("#gotop").bind("click", function() {
         window.location.href = '/worker<?= $printlink ?>';
     });
+
+    window.onbeforeunload = function() {
+        // IE用キャッシュ対策
+    };
+    window.onunload = function() {
+        // IE以外用キャッシュ対策
+    };
 </script>
 
 </html>
