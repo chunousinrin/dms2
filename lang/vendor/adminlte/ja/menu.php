@@ -37,4 +37,5 @@ return [
     'bank' => '銀行口座',
     'company' => '組合情報',
     'drs' => '業務日報',
+    'equipment' => '重機管理',
 ];

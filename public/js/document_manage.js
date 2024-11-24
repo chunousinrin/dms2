@@ -138,3 +138,11 @@ function search_click() {
     document.f_list.action = "";
     document.f_list.target = "_self";
 }
+
+$("#table10 td").bind("click", function () {
+    $tag_tr = $(this).parent()[0]; //クリックした行を取得
+    $rowNum = $tag_tr.rowIndex; //行番号を取得
+    const el = document.getElementsByName("machineID")[$rowNum - 1].textContent;
+    document.getElementById("machineID").value = el;
+    document.sb_machine.submit();
+});

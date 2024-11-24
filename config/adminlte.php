@@ -332,6 +332,11 @@ return [
             'icon' => 'fas fa-fw fa-tree',
             'submenu' => [
                 [
+                    'text' => 'equipment',
+                    'icon' => 'fa fa-fw',
+                    'url' => 'equipment',
+                ],
+                [
                     'text' => 'sinrinbo',
                     'icon' => 'fa fa-fw',
                     'url' => 'sinrinbo',

@@ -128,3 +128,8 @@ Route::post('/calendar', [App\Http\Controllers\WorkController::class, 'calendar'
 
 Route::get('/shukei', [App\Http\Controllers\ZaisekiController::class, 'shukei'])->name('shukei');
 Route::post('/shukei', [App\Http\Controllers\ZaisekiController::class, 'shukei'])->name('shukei');
+
+Route::get('/equipment', [App\Http\Controllers\EquipmentController::class, 'equipment'])->name('equipment');
+Route::post('/equipment', [App\Http\Controllers\EquipmentController::class, 'equipment'])->name('equipment');
+Route::get('/equipment/eq42', [App\Http\Controllers\EquipmentController::class, 'eq42'])->name('eq42');
+Route::post('/equipment/eq42', [App\Http\Controllers\EquipmentController::class, 'eq42'])->name('eq42');
