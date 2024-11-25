@@ -8,7 +8,7 @@ $machine = $machine_stmt->fetch();
     @csrf
     <table class="table">
         <tbody>
-            <tr>
+            <tr style="display: none;">
                 <td>
                     <div class="form-group row">
                         <label for="staticEmail" class="col-sm-2 col-form-label">ID</label>
@@ -19,16 +19,13 @@ $machine = $machine_stmt->fetch();
                 </td>
             </tr>
 
-
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">CategoryName</label>
-                        <div class="col-sm-2">
-                            <input id='CategoryID' name='CategoryID' class="form-control" value='<?= $machine['CategoryID'] ?>'>
-                        </div>
-                        <div class="col-sm-8">
-                            <select name="CategoryName" id="CategoryName" class="form-control">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">重機カテゴリー</label>
+                        <input type="hidden" id='CategoryID' name='CategoryID' class="form-control" value='<?= $machine['CategoryID'] ?>' readonly>
+                        <div class="col-sm-10">
+                            <select name="CategoryName" id="CategoryName" class="form-control" required>
                                 <option value="">--カテゴリーを選択--</option>
                                 <?php
                                 $category_sql = "SELECT * FROM equipment_category WHERE ";
@@ -51,9 +48,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">MachineName</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">名称</label>
                         <div class="col-sm-10">
-                            <input id='MachineName' name='MachineName' class="form-control" value='<?= $machine['MachineName'] ?>'>
+                            <input type="text" id='MachineName' name='MachineName' class="form-control" value='<?= $machine['MachineName'] ?>' required>
                         </div>
                     </div>
                 </td>
@@ -62,9 +59,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Ownership</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">所有者</label>
                         <div class="col-sm-10">
-                            <input id='Ownership' name='Ownership' class="form-control" value='<?= $machine['Ownership'] ?>'>
+                            <input type="text" id='Ownership' name='Ownership' class="form-control" value='<?= $machine['Ownership'] ?>'>
                         </div>
                     </div>
                 </td>
@@ -73,9 +70,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Manufacturer</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">製造者</label>
                         <div class="col-sm-10">
-                            <input id='Manufacturer' name='Manufacturer' class="form-control" value='<?= $machine['Manufacturer'] ?>'>
+                            <input type="text" id='Manufacturer' name='Manufacturer' class="form-control" value='<?= $machine['Manufacturer'] ?>'>
                         </div>
                     </div>
                 </td>
@@ -84,9 +81,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">BaseMachine</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">ベースマシン</label>
                         <div class="col-sm-10">
-                            <input id='BaseMachine' name='BaseMachine' class="form-control" value='<?= $machine['BaseMachine'] ?>'>
+                            <input type="text" id='BaseMachine' name='BaseMachine' class="form-control" value='<?= $machine['BaseMachine'] ?>'>
                         </div>
                     </div>
                 </td>
@@ -96,7 +93,7 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Standard</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">規格</label>
                         <div class="col-sm-10">
                             <input type="text" id='Standard' name='Standard' class="form-control" value='<?= $machine['Standard'] ?>'>
                         </div>
@@ -108,13 +105,11 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Equipment1</label>
-                        <div class="col-sm-2">
-                            <input type="text" id='EquipmentID1' name='EquipmentID1' class="form-control" value='<?= $machine['EquipmentID1'] ?>'>
-                        </div>
-                        <div class="col-sm-8">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">装備1</label>
+                        <input type="hidden" id='EquipmentID1' name='EquipmentID1' class="form-control" value='<?= $machine['EquipmentID1'] ?>' readonly>
+                        <div class="col-sm-10">
                             <select name="ModelNumber" id="ModelNumber" class="form-control">
-                                <option value="">--装備を選択--</option>
+                                <option value="" hidden>--装備を選択--</option>
 
                                 <?php
                                 $equipment_sql = "SELECT * FROM equipment_classification WHERE ";
@@ -138,11 +133,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Equipment2</label>
-                        <div class="col-sm-2">
-                            <input id='EquipmentID2' name='EquipmentID2' class="form-control" value='<?= $machine['EquipmentID2'] ?>'>
-                        </div>
-                        <div class="col-sm-8">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">装備2</label>
+                        <input type="hidden" id='EquipmentID2' name='EquipmentID2' class="form-control" value='<?= $machine['EquipmentID2'] ?>' readonly>
+                        <div class="col-sm-10">
                             <select name="ModelNumber2" id="ModelNumber2" class="form-control">
                                 <option value="">--装備を選択--</option>
                                 <?php
@@ -168,9 +161,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Introduction</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">利用開始日</label>
                         <div class="col-sm-10">
-                            <input type="date" id='Introduction' name='Introduction' class="form-control" value='<?= $machine['Introduction'] ?>'>
+                            <input type="text" id='Introduction' name='Introduction' class="datepicker form-control" value='<?= $machine['Introduction'] ?>'>
                         </div>
                     </div>
                 </td>
@@ -179,9 +172,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">ReturnDate</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">利用終了日</label>
                         <div class="col-sm-10">
-                            <input type="date" id='ReturnDate' name='ReturnDate' class="form-control" value='<?= $machine['ReturnDate'] ?>'>
+                            <input type="text" id='ReturnDate' name='ReturnDate' class="datepicker form-control" value='<?= $machine['ReturnDate'] ?>'>
                         </div>
                     </div>
                 </td>
@@ -190,9 +183,9 @@ $machine = $machine_stmt->fetch();
             <tr>
                 <td>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Superintendent</label>
+                        <label for="staticEmail" class="col-sm-2 col-form-label">使用者</label>
                         <div class="col-sm-10">
-                            <select name="Superintendent" id="Superintendent" class="form-control">
+                            <select name="Superintendent" id="Superintendent" class="form-control" required>
                                 <option value="">--班名を選択--</option>
                                 <?php
                                 $wgoup_sql = "SELECT * FROM worker_group WHERE ";
@@ -217,11 +210,11 @@ $machine = $machine_stmt->fetch();
 
         </tbody>
     </table>
-    <div class="btn btn-sm" style="background-color:#8fd19e" id="eqlist">一覧</div>
-    <div class="btn btn-sm" style="background-color:#8fd19e" id="equpdate">更新</div>
-    <div class="btn btn-sm" style="background-color:#8fd19e" id="eqdelete">削除</div>
-    <input type="text" name="sbmtype" id="sbmtype" value="">
-    <input type="text" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
+    <div class="btn btn-sm px-4" style="background-color:#8fd19e" id="eqlist">一覧</div>
+    <div class="btn btn-sm px-4 mx-2" style="background-color:#8fd19e" id="equpdate">更新</div>
+    <div class="btn btn-sm px-4" style="background-color:#8fd19e" id="eqdelete">削除</div>
+    <input type="hidden" name="sbmtype" id="sbmtype" value="">
+    <input type="hidden" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
 </form>
 <script>
     document.getElementById("CategoryName").addEventListener("change", (e) => {

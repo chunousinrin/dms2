@@ -16,6 +16,10 @@ echo $cname[0]->RegisterName . "　-重機管理-";
     .sdw {
         box-shadow: 5px 5px 5px -5px #464646;
     }
+
+    .content-wrapper>.content {
+        padding-bottom: 2em !important;
+    }
 </style>
 
 <?php

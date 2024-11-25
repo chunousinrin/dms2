@@ -11,21 +11,23 @@ $reserve_stmt = $dbh->query($reserve_sql);
     <table class="table table-bordered table-sm table-hover" id="table10">
         <thead>
             <tr class="table-success">
-                <td>ID</td>
-                <td>MachineName</td>
-                <td>Ownership</td>
-                <td>Manufacturer</td>
-                <td>BaseMachine</td>
+                <td style="display: none;">ID</td>
+                <td style="border-right: none;"></td>
+                <td style="border-left: none">名称</td>
+                <td>ベースマシン</td>
+                <td>メーカー</td>
+                <td>所有権</td>
             </tr>
         </thead>
         <tbody>
             <?php while ($machine_list = $machine_list_stmt->fetch(PDO::FETCH_BOTH)): ?>
-                <tr>
-                    <td name="machineID"><?= $machine_list['ID'] ?></td>
-                    <td><?= $machine_list['MachineName'] ?></td>
-                    <td><?= $machine_list['Ownership'] ?></td>
-                    <td><?= $machine_list['Manufacturer'] ?></td>
+                <tr class="sellist">
+                    <td style="display: none;" name="machineID"><?= $machine_list['ID'] ?></td>
+                    <td style="border-right: none"><i class=" fa-solid fa-angles-right"></i></td>
+                    <td style="border-left: none"><?= $machine_list['MachineName'] ?></td>
                     <td><?= $machine_list['BaseMachine'] ?></td>
+                    <td><?= $machine_list['Manufacturer'] ?></td>
+                    <td><?= $machine_list['Ownership'] ?></td>
                 </tr>
             <?php endwhile ?>
         </tbody>

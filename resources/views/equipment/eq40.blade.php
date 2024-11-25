@@ -12,10 +12,8 @@ $worker_group = $worker_group_stmt->fetch();
                 <td>
                     <div class="form-group row">
                         <label for="EquipmentID" class="col-sm-2 col-form-label">重機</label>
-                        <div class="col-sm-1">
-                            <input type="text" id='EquipmentID' name='EquipmentID' class="form-control" value='<?= $_POST['machineID'] ?>' readonly>
-                        </div>
-                        <div class="col-sm-9">
+                        <input type="hidden" id='EquipmentID' name='EquipmentID' class="form-control" value='<?= $_POST['machineID'] ?>' readonly>
+                        <div class="col-sm-10">
                             <input type="text" id='MachineName' name='MachineName' class="form-control" value='<?= $_POST['MachineName'] ?>' readonly>
                         </div>
                     </div>
@@ -26,11 +24,11 @@ $worker_group = $worker_group_stmt->fetch();
                     <div class="form-group row">
                         <label for="StartDay" class="col-sm-2 col-form-label">稼働(予定)期間</label>
                         <div class="col-sm-4">
-                            <input type="date" id='StartDay' name='StartDay' class="form-control" value='' onchange="getReserve();">
+                            <input type="text" id='StartDay' name='StartDay' class="datepicker form-control" value='' onchange="getReserve();" required>
                         </div>
                         <div class="col-sm-2 text-center">～</div>
                         <div class="col-sm-4">
-                            <input type="date" id='EndDate' name='EndDate' class="form-control" value=''>
+                            <input type="text" id='EndDate' name='EndDate' class="datepicker form-control" value='' required>
                         </div>
                     </div>
                 </td>
@@ -78,17 +76,17 @@ $worker_group = $worker_group_stmt->fetch();
                     <div class="form-group row">
                         <label for="Remark" class="col-sm-2 col-form-label">備考</label>
                         <div class="col-sm-10">
-                            <input type="text" id='Remark' name='Remark' class="form-control" value=''>
+                            <textarea id='Remark' name='Remark' class="form-control"></textarea>
                         </div>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
-    <div class="btn btn-sm" style="background-color:#8fd19e" id="eqinsert">保存</div>
-    <input type="text" name="InputUserID" id="InputUserID" value="<?= $user['id'] ?>">
-    <input type="text" name="sbmtype" id="sbmtype" value="">
-    <input type="text" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
+    <div class="btn btn-sm px-4" style="background-color:#8fd19e" id="eqinsert">保存</div>
+    <input type="hidden" name="InputUserID" id="InputUserID" value="<?= $user['id'] ?>">
+    <input type="hidden" name="sbmtype" id="sbmtype" value="">
+    <input type="hidden" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
 </form>
 <script>
     function getReserve() {

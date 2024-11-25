@@ -10,11 +10,11 @@ try {
     // 挿入する値を配列に格納する
     $params = array(
         ':EquipmentID' => $_POST['EquipmentID'],
-        ':MaintenanceDetails' => $_POST['MaintenanceDetails'],
-        ':Cost' => $_POST['Cost'],
-        ':EffectiveDate' => $_POST['EffectiveDate'],
-        ':InputUserID' => $_POST['InputUserID'],
-        ':Remark' => $_POST['Remark']
+        ':MaintenanceDetails' => $_POST['MaintenanceDetails'] ?? NULL,
+        ':Cost' => $_POST['Cost'] ?? NULL,
+        ':EffectiveDate' => $_POST['EffectiveDate'] ?? NULL,
+        ':InputUserID' => $_POST['InputUserID'] ?? NULL,
+        ':Remark' => $_POST['Remark'] ?? NULL
     );
 
     // 挿入する値が入った変数をexecuteにセットしてSQLを実行

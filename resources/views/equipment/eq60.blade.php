@@ -6,10 +6,8 @@
                 <td>
                     <div class="form-group row">
                         <label for="EquipmentID" class="col-sm-2 col-form-label">重機</label>
-                        <div class="col-sm-1">
-                            <input type="text" id='EquipmentID' name='EquipmentID' class="form-control" value='<?= $_POST['machineID'] ?>' readonly>
-                        </div>
-                        <div class="col-sm-9">
+                        <input type="hidden" id='EquipmentID' name='EquipmentID' class="form-control" value='<?= $_POST['machineID'] ?>' readonly>
+                        <div class="col-sm-10">
                             <input type="text" id='MachineName' name='MachineName' class="form-control" value='<?= $_POST['MachineName'] ?>' readonly>
                         </div>
                     </div>
@@ -20,7 +18,7 @@
                     <div class="form-group row">
                         <label for="EffectiveDate" class="col-sm-2 col-form-label">実施日</label>
                         <div class="col-sm-10">
-                            <input type="date" id='EffectiveDate' name='EffectiveDate' class="form-control" value='' required>
+                            <input type="text" id='EffectiveDate' name='EffectiveDate' class="datepicker form-control" value='' required>
                         </div>
                     </div>
                 </td>
@@ -40,7 +38,7 @@
                     <div class="form-group row">
                         <label for="Cost" class="col-sm-2 col-form-label">費用</label>
                         <div class="col-sm-10">
-                            <input type="text" id='Cost' name='Cost' class="form-control" value=''>
+                            <input type="number" step="1" id='Cost' name='Cost' class="form-control" value=''>
                         </div>
                     </div>
                 </td>
@@ -57,10 +55,10 @@
             </tr>
         </tbody>
     </table>
-    <div class="btn btn-sm" style="background-color:#8fd19e" id="equpdate">保存</div>
-    <input type="text" name="InputUserID" id="InputUserID" value="<?= $user['id'] ?>">
-    <input type="text" name="sbmtype" id="sbmtype" value="">
-    <input type="text" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
+    <div class="btn btn-sm px-4" style="background-color:#8fd19e" id="equpdate">保存</div>
+    <input type="hidden" name="InputUserID" id="InputUserID" value="<?= $user['id'] ?>">
+    <input type="hidden" name="sbmtype" id="sbmtype" value="">
+    <input type="hidden" name="machineID" id="machineID" value="<?= $_POST['machineID'] ?>">
 
 </form>
 
