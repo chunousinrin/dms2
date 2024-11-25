@@ -12,3 +12,4 @@ while ($equipment = $equipment_stmt->fetch(PDO::FETCH_ASSOC)) {
     array_push($response2, $equipment);
 };
 echo (json_encode($response2));
+////////////////////////////////////
