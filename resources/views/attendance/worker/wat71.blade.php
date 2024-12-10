@@ -18,7 +18,7 @@ if (!empty($_GET['EndVal'])) {
 
 $response = array();
 
-$dbh = new PDO('mysql:host=localhost;dbname=cf756484_dms;charset=utf8mb4', 'cf444722_root', 'U7jC6Xaq');
+$dbh = new PDO('mysql:host=localhost;dbname=cf444722_dms;charset=utf8mb4', 'cf444722_root', 'U7jC6Xaq');
 //    $dbh = new PDO('mysql:host=localhost;dbname=' . env('DB_DATABASE') . ';charset=utf8', env('DB_USERNAME'), env('DB_PASSWORD'));
 
 $worker_sql = "select worker_attendance.WorkerNameID as ID, worker_group_member.WorkerName AS Name,"

@@ -88,6 +88,10 @@ Route::post('/worker/wat6', [App\Http\Controllers\AttendanceController::class, '
 Route::get('/worker/wat55', [App\Http\Controllers\AttendanceController::class, 'wat55'])->name('wat55');
 Route::post('/worker/wat55', [App\Http\Controllers\AttendanceController::class, 'wat55'])->name('wat55');
 
+Route::get('/worker/total', [App\Http\Controllers\AttendanceController::class, 'wat70'])->name('wat70');
+Route::post('/worker/total', [App\Http\Controllers\AttendanceController::class, 'wat70'])->name('wat70');
+Route::get('/worker/wat71', [App\Http\Controllers\AttendanceController::class, 'wat71'])->name('wat71');
+
 
 Route::get('/license', 'App\Http\Controllers\WorkController@license');
 

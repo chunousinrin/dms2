@@ -1,9 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>test</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
@@ -14,7 +17,6 @@
 </head>
 
 <body>
-
     <div class="form-row border border-success rounded-0 m-0 mb-2">
         <div class="form-group col-sm-5 mb-0 p-0">
             <input type="date" name="stdate" id="stdate" class="form-control border-0 rounded-0 text-center" value="">
@@ -51,7 +53,7 @@
     <script>
         function checkID() {
             $.getJSON(
-                "/test2.php", {
+                "/worker/wat71", {
                     StartVal: $("#stdate").val(),
                     EndVal: $("#eddate").val(),
                 },
@@ -73,7 +75,6 @@
                 });
         };
     </script>
-
 </body>
 
 </html>
