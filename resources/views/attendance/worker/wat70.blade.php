@@ -109,7 +109,7 @@
         }
 
         .table tr td {
-            border-right: 1px solid silver;
+            border-right: 1px solid lightslategray;
         }
 
         .table tr td:last-child {
@@ -117,15 +117,19 @@
         }
 
         .table thead tr {
-            border-bottom: 2px solid silver;
+            border-bottom: 2px solid lightslategray;
         }
 
         .table tbody tr {
-            border-bottom: 1px solid silver;
+            border-bottom: 1px solid lightslategray;
         }
 
         .table tbody tr:hover {
             background-color: rgba(68, 68, 68, 0.1);
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: whitesmoke;
         }
 
 
@@ -182,7 +186,7 @@
 
     <section>
         <div class="wrap">
-            <div id="ttl" class=""></div>
+            <div id="ttl" class="" style="margin-bottom: 1em;"></div>
             <table class="table" id="table" style="table-layout: fixed;">
                 <thead>
                     <tr>
