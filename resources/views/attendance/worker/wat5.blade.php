@@ -253,7 +253,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $g . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
+                            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $g . " ORDER BY WorkerGroupID,WorkerNameID ) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
                             $calstmt = $dbh->query($calsql);
                             $nodw = 0;
                             while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
