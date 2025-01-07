@@ -232,7 +232,7 @@
     <?php
     for ($g = 1; $g < $wgm['wgm'] + 1; $g++) { ?>
         <?php
-        $wgmnsql = "SELECT * FROM worker_group_member LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group_member.WorkerNameID = " . $g;
+        $wgmnsql = "SELECT * FROM worker_group_member LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group_member.WorkerNameID = " . $g . " ORDER BY worker_group_member.WorkerGroupID,WorkerNameID;";
         $wgmnstmt = $dbh->query($wgmnsql);
         $wgmn = $wgmnstmt->fetch();
         ?>
@@ -253,7 +253,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $g . " ORDER BY WorkerGroupID,WorkerNameID ) AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
+                            $calsql = "SELECT *,DAYOFWEEK(CalDate) AS wd FROM( SELECT * FROM worker_attendance_view WHERE WorkerNameID = " . $g . ") AS atview RIGHT JOIN cal_test ON atview.AttendanceDay=cal_test.CalDate;";
                             $calstmt = $dbh->query($calsql);
                             $nodw = 0;
                             while ($result = $calstmt->fetch(PDO::FETCH_BOTH)) : ?>
