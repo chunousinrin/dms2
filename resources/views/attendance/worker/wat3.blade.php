@@ -44,6 +44,7 @@ if (empty($_GET['ipt'])) {
                             <td class="form-group col-3 text-nowrap rb">
                                 <label class="col-form-label"><?= $result['WorkerName'] ?></label>
                                 <input type="hidden" name="workerid<?= $opt2; ?>" id="workerid<?= $opt2; ?>" value="<?= $result['WorkerNameID'] ?>" hidden>
+                                <input type="hidden" name="workergpid<?= $opt2; ?>" id="workergpid<?= $opt2; ?>" value="<?= $result['WorkerGroupID'] ?>" hidden>
                                 <input type="text" name="workername<?= $opt2; ?>" id="workername<?= $opt2; ?>" value="<?= $result['WorkerName'] ?>" hidden>
                                 <?php $wnicount += 1; ?>
                             </td>

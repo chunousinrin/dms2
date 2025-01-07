@@ -133,9 +133,9 @@
         <?php
         for ($i = 1; $i < $_POST['kensu'] + 1; $i++) {
             if (!empty($_POST['WorkerNameID' . $i])) {
-                $wasql = "INSERT INTO worker_attendance (AttendanceDay, WorkerNameID, watID, watID2, NumberOfDaysWorked) VALUES (:AttendanceDay, :WorkerNameID, :watID, :watID2, :NumberOfDaysWorked)";
+                $wasql = "INSERT INTO worker_attendance (AttendanceDay, WorkerGroupID, WorkerNameID, watID, watID2, NumberOfDaysWorked) VALUES (:AttendanceDay, :WorkerGroupID, :WorkerNameID, :watID, :watID2, :NumberOfDaysWorked)";
                 $wastmt = $dbh->prepare($wasql);
-                $params = array(':AttendanceDay' => $_POST['shukkinbi'], ':WorkerNameID' => $_POST['WorkerNameID' . $i], ':watID' => $_POST['watID' . $i], ':watID2' => $_POST['watID2' . $i], ':NumberOfDaysWorked' => $_POST['NumberOfDaysWorked' . $i]);
+                $params = array(':AttendanceDay' => $_POST['shukkinbi'], ':WorkerGroupID' => $_POST['WorkerGroupID'], ':WorkerNameID' => $_POST['WorkerNameID' . $i], ':watID' => $_POST['watID' . $i], ':watID2' => $_POST['watID2' . $i], ':NumberOfDaysWorked' => $_POST['NumberOfDaysWorked' . $i]);
                 $wastmt->execute($params);
             } else {
                 echo false;

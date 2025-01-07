@@ -63,6 +63,7 @@ if (empty($_GET['ipt'])) {
             </div>
             <div style="display:none;">
                 <input type="text" name="WorkerNameID<?= $i ?>" id="WorkerNameID<?= $i ?>" value="<?= $_POST['workerid' . $i] ?>">
+                <input type="text" name="WorkerGroupID<?= $i ?>" id="WorkerGroupID<?= $i ?>" value="<?= $_POST['workergpid' . $i] ?>">
                 <input type="text" name="watID<?= $i ?>" id="watID<?= $i ?>" value="<?= $shukkin ?>">
                 <input type="text" name="watID2<?= $i ?>" id="watID2<?= $i ?>" value="<?= $yukyu ?>">
                 <input type="text" name="NumberOfDaysWorked<?= $i ?>" id="NumberOfDaysWorked<?= $i ?>" value="<?= $wds ?>">
