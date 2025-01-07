@@ -1,5 +1,5 @@
 <?php
-$wg_sql = "SELECT * FROM worker_group ORDER BY WorkerGroupID ASC";
+$wg_sql = "SELECT * FROM worker_group WHERE DissolutionDate is null ORDER BY WorkerGroupID ASC";
 $wg_st = $dbh->query($wg_sql);
 if (empty($_GET['ipt'])) {
     $dtc = ' onchange="datecheck();"';
