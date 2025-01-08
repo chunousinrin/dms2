@@ -232,7 +232,7 @@
     <?php
     for ($g = 1; $g < $wgm['wgm'] + 1; $g++) { ?>
         <?php
-        $wgmnsql = "SELECT * FROM worker_group_member LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group_member.WorkerNameID = " . $g . " ORDER BY worker_group_member.WorkerGroupID,WorkerNameID;";
+        $wgmnsql = "SELECT * FROM worker_group_member LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group_member.WorkerNameID = " . $g;
         $wgmnstmt = $dbh->query($wgmnsql);
         $wgmn = $wgmnstmt->fetch();
         ?>
