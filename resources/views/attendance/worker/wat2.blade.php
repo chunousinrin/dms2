@@ -1,5 +1,7 @@
 <?php
-$wg_sql = "SELECT * FROM worker_group WHERE DissolutionDate is null ORDER BY WorkerGroupID ASC";
+$date = new DateTime('now');
+$today = $date->format('Y-m-d');
+$wg_sql = "SELECT * FROM `worker_group` WHERE `EstablishmentDate`<='" . $today . "' AND IF(`DissolutionDate` IS NULL,`DissolutionDate` IS NULL, `DissolutionDate`>='" . $today . "') ORDER BY WorkerGroupID ASC";
 $wg_st = $dbh->query($wg_sql);
 if (empty($_GET['ipt'])) {
     $dtc = ' onchange="datecheck();"';

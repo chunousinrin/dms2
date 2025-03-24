@@ -1,5 +1,5 @@
 <?php
-$wgl_sql = "SELECT * FROM worker_list WHERE WorkerGroupID = " . $_POST['options'] . " ORDER BY WorkerGroupID ASC,WorkerNameID ASC";
+$wgl_sql = "SELECT * FROM `worker_group_member` LEFT JOIN worker_group ON worker_group_member.WorkerGroupID=worker_group.WorkerGroupID WHERE worker_group.WorkerGroupID='" . $_POST['options'] . "'AND `Retirement` IS NULL OR `Retirement`>= '" . $_POST['shukkinbi'] . "' Order BY `OrderNum`";
 $wgl_st = $dbh->query($wgl_sql);
 if (empty($_GET['ipt'])) {
     $ipt = "";
