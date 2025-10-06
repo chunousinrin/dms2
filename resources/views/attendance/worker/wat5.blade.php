@@ -216,7 +216,7 @@
         $wgm_count = $wgm_count_st->fetch();
         if (!empty($_POST['tuki'])) :
 
-            for ($g = 1; $g < /*$wgm_count['wgm_count']*/ 25 + 1; $g++) :
+            for ($g = 1; $g < $wgm_count['wgm_count'] + 1; $g++) :
                 $sql = "SELECT 
                     worker_attendance.*,
                     worker_group.WorkerGroupName,
