@@ -210,7 +210,7 @@
         $firstDate = date('Y-m-d', strtotime('first day of ' . $month));
         $lastDate = date('Y-m-d', strtotime('last day of ' . $month));
 
-        /*作業班の有効人数を算出SELECT COUNT(*) AS wgm_count FROM `worker_group_member` WHERE Retirement IS NULL OR Retirement>="2025/09" AND Induction<="2025/09"*/
+        /*作業班の有効人数を算出*/
         $wgm_count_sql = "SELECT COUNT(*) AS wgm_count FROM `worker_group_member` WHERE Retirement IS NULL OR Retirement>='" . $lastDate . "'";
         $wgm_count_st = $dbh->query($wgm_count_sql);
         $wgm_count = $wgm_count_st->fetch();
@@ -230,7 +230,7 @@
 
                     LEFT JOIN
                     worker_group ON
-                    worker_group.WorkerGroupID=worker_attendance.WorkerGroupID+
+                    worker_group.WorkerGroupID=worker_attendance.WorkerGroupID
 
                     LEFT JOIN
                     (SELECT row_number() OVER( ORDER BY worker_group_member.WorkerGroupID,worker_group_member.OrderNum) AS `wgmorder`,worker_group_member.* FROM worker_group_member
