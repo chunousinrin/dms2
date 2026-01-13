@@ -137,3 +137,10 @@ Route::get('/equipment', [App\Http\Controllers\EquipmentController::class, 'equi
 Route::post('/equipment', [App\Http\Controllers\EquipmentController::class, 'equipment'])->name('equipment');
 Route::get('/equipment/eq42', [App\Http\Controllers\EquipmentController::class, 'eq42'])->name('eq42');
 Route::post('/equipment/eq42', [App\Http\Controllers\EquipmentController::class, 'eq42'])->name('eq42');
+
+use App\Http\Controllers\InvoiceController;
+
+Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::get('/invoices/{invoice}/pdf', [InvoiceController::class, 'showPdf'])->name('invoices.showPdf');
