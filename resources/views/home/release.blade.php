@@ -1,4 +1,4 @@
-<div class="table-wrap">
+<div class="table-wrap" style="width: 100%;">
     <h5>最新の投稿</h5>
     <table style="width: 100%;" class="table table-bordered table-sm">
         <thead>

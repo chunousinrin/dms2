@@ -1,4 +1,4 @@
-<div class="table-wrap">
+<div class="table-wrap" style="width: 100%;">
     <h5>各種許可期限
         <div style="display: flex;">
             <a href="/license" class="btn btn-sm"><span class="fa-solid fa-list"></span>一覧</a>

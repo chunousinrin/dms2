@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 ?>
-<div class="bg-white mb-3 p-2" style="box-shadow: 5px 5px 5px -5px #464646;">
+<div class="bg-white mb-3 p-2" style="box-shadow: 5px 5px 5px -5px #464646; width: 100%;">
     <form action="https://cf444722.cloudfree.jp/worker/wat6?kyo=<?= $_GET['kyo'] ?? null ?>" method="get" target="wath">
         @csrf
         <div class="d-flex">
