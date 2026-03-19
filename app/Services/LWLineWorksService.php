@@ -32,22 +32,22 @@ class LWLineWorksService
             "exp" => $now + 3600
         ];
 
-        $jwt = JWT::encode($payload, $privateKey, 'RS256');
+        $url = 'https://auth.worksmobile.com/oauth2/v2.0/token';
 
-        $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
-            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            'assertion'  => $jwt,
-            'client_id'  => $this->config['client_id'],
+        $response = Http::asForm()->post($url, [
+            'grant_type'    => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'assertion'     => $jwt,
+            'client_id'     => $this->config['client_id'],
             'client_secret' => $this->config['client_secret'],
-            'scope'      => 'bot'
+            'scope'         => 'bot', // ここは 'bot' で合っています
         ]);
 
-        // 【ここを追加】エラーの中身を画面に表示して停止させる
-        if ($response->failed() || !isset($response->json()['access_token'])) {
+        // 【デバッグ】404や401などのエラー時に中身を強制表示
+        if ($response->failed()) {
             dd([
-                'HTTPステータス' => $response->status(),
-                'LINEWORKSからの返答' => $response->json(),
-                '使用した設定' => $this->config
+                'URL' => $url,
+                'Status' => $response->status(),
+                'Body' => $response->body(), // json()ではなくbody()で生データを見る
             ]);
         }
 
