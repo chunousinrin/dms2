@@ -32,6 +32,9 @@ class LWLineWorksService
             "exp" => $now + 3600
         ];
 
+        $jwt = JWT::encode($payload, $privateKey, 'RS256');
+
+        // 正しいトークン発行用URL
         $url = 'https://auth.worksmobile.com/oauth2/v2.0/token';
 
         $response = Http::asForm()->post($url, [
@@ -39,15 +42,16 @@ class LWLineWorksService
             'assertion'     => $jwt,
             'client_id'     => $this->config['client_id'],
             'client_secret' => $this->config['client_secret'],
-            'scope'         => 'bot', // ここは 'bot' で合っています
+            'scope'         => 'bot',
         ]);
 
-        // 【デバッグ】404や401などのエラー時に中身を強制表示
+        // 【デバッグ】もし失敗したら、原因を画面に詳しく表示する
         if ($response->failed()) {
             dd([
-                'URL' => $url,
-                'Status' => $response->status(),
-                'Body' => $response->body(), // json()ではなくbody()で生データを見る
+                '状況' => 'トークン取得に失敗しました',
+                'ステータス' => $response->status(),
+                'LINEWORKSからのメッセージ' => $response->json() ?? $response->body(),
+                '設定値(Client ID)' => $this->config['client_id'],
             ]);
         }
 
