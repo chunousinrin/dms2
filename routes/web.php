@@ -145,6 +145,25 @@ Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invo
 Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
 Route::get('/invoices/{invoice}/pdf', [InvoiceController::class, 'showPdf'])->name('invoices.showPdf');
 
+use App\Http\Controllers\LWAttendanceWebhookController;
+
+Route::post('/lw/webhook', [LWAttendanceWebhookController::class, 'handle']);
+
 use App\Http\Controllers\LWAttendanceController;
 
-Route::post('/webhook/lineworks', [LWAttendanceController::class, 'handle']);
+Route::prefix('lw')->group(function () {
+    Route::get('/attendance', [LWAttendanceController::class, 'index'])->name('lw.attendance.index');
+});
+
+use App\Services\LWLineWorksService;
+
+Route::get('/lw-test', function (LWLineWorksService $service) {
+    try {
+        // サービス内で getAccessToken() を public にするか、
+        // あるいはダミーのメッセージを送ってみる
+        $res = $service->sendTextMessage('あなたのLINE_WORKS_USER_ID', '疎通テスト成功！');
+        return dd($res);
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
