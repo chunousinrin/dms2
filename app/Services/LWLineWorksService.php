@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+if (!defined('CURL_SSLVERSION_TLSv1_2')) define('CURL_SSLVERSION_TLSv1_2', 6);
+
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -32,13 +34,15 @@ class LWLineWorksService
 
         $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-        $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
-            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            'assertion'  => $jwt,
-            'client_id'  => $this->config['client_id'],
-            'client_secret' => $this->config['client_secret'],
-            'scope'      => 'bot'
-        ]);
+        // 極限までシンプルにした形式
+        $response = Http::asForm()
+            ->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
+                'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                'assertion'  => $jwt,
+                'client_id'  => $this->config['client_id'],
+                'client_secret' => $this->config['client_secret'],
+                'scope'      => 'bot'
+            ]);
 
         $this->accessToken = $response->json()['access_token'];
         return $this->accessToken;
