@@ -1,49 +1,72 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
-use Illuminate\Http\Request;
-use App\Models\LWAttendance;    // 変更
+use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class LWLineWorksService extends Controller
+class LWLineWorksService
 {
-    protected $lwService;
+    protected $config;
+    protected $accessToken;
 
-    public function __construct(LWLineWorksService $lwService)
+    public function __construct()
     {
-        $this->lwService = $lwService;
+        $this->config = config('lw_lineworks');
     }
 
-    public function handle(Request $request)
+    protected function getAccessToken()
     {
-        $userId = $request->input('source.userId');
-        $content = $request->input('content');
+        if ($this->accessToken) return $this->accessToken;
 
-        if ($content['type'] !== 'postback') {
-            return response()->json(['status' => 'ignored']);
-        }
+        $now = time();
+        $privateKey = file_get_contents(storage_path('app/lineworks/private_key.key'));
 
-        parse_str($content['postback'], $params);
+        $payload = [
+            "iss" => $this->config['client_id'],
+            "sub" => $this->config['service_account'],
+            "iat" => $now,
+            "exp" => $now + 3600
+        ];
 
-        // メニュー切り替え
-        if (isset($params['action'])) {
-            $configKey = ($params['action'] === 'show_sub_menu') ? 'attendance_sub' : 'attendance_main';
-            $flex = config("lw_lineworks.messages.{$configKey}");
-            $this->lwService->sendFlexibleMessage($userId, $flex);
-            return response()->json(['status' => 'menu_switched']);
-        }
+        $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-        // 保存処理
-        if (isset($params['status'])) {
-            LWAttendance::updateOrCreate(
-                ['line_works_id' => $userId, 'work_date' => now()->toDateString()],
-                ['status' => $params['status'], 'value' => $params['value']]
-            );
+        $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
+            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'assertion'  => $jwt,
+            'client_id'  => $this->config['client_id'],
+            'client_secret' => $this->config['client_secret'],
+            'scope'      => 'bot'
+        ]);
 
-            $this->lwService->sendTextMessage($userId, "【記録完了】\n状況を「{$params['status']}」で保存しました。");
-        }
+        $this->accessToken = $response->json()['access_token'];
+        return $this->accessToken;
+    }
 
-        return response()->json(['status' => 'success']);
+    public function sendTextMessage($userId, $text)
+    {
+        return $this->sendRequest($userId, [
+            'content' => ['type' => 'text', 'text' => $text]
+        ]);
+    }
+
+    public function sendFlexibleMessage($userId, $flexContent)
+    {
+        return $this->sendRequest($userId, [
+            'content' => [
+                'type' => 'flexible',
+                'altText' => '勤怠報告メニュー',
+                'contents' => $flexContent
+            ]
+        ]);
+    }
+
+    protected function sendRequest($userId, $body)
+    {
+        $token = $this->getAccessToken();
+        $botNo = $this->config['bot_no'];
+        $url = "https://www.worksmobile.com/jp/message/v1/bot/{$botNo}/users/{$userId}/messages";
+        return Http::withToken($token)->post($url, $body)->json();
     }
 }

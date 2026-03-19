@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LWAttendance;    // 変更
-use App\Services\LWLineWorksService; // 変更
+use App\Models\LWAttendance;
+use App\Services\LWLineWorksService; // これが必要です
 use Illuminate\Support\Facades\Log;
 
-class LWAttendanceWebhookController extends Controller
+class LWAttendanceWebhookController extends Controller // 名前を Controller に戻す
 {
     protected $lwService;
 
