@@ -32,7 +32,12 @@ class LWLineWorksService
 
         $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-        $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
+        $response = Http::withOptions([
+            'curl' => [
+                CURLOPT_SSLVERSION => 6, // 6 は CURL_SSLVERSION_TLSv1_2 と同等です
+            ],
+            'verify' => false, // 開発環境で証明書エラーが出る場合は一時的にfalseに（本番はtrue推奨）
+        ])->asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
             'assertion'  => $jwt,
             'client_id'  => $this->config['client_id'],
