@@ -163,7 +163,7 @@ use App\Services\LWLineWorksService;
 Route::get('/lw-test', function (LWLineWorksService $service) {
     try {
         // あなたのLINE WORKSのID（メールアドレス形式など）を入れてください
-        $userId = 'your-id@example.com';
+        $userId = 'wo.57832@works-287419';
 
         $res = $service->sendTextMessage($userId, '接続テスト成功！');
         return dd($res);
