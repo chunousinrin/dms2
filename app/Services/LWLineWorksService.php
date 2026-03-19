@@ -34,7 +34,6 @@ class LWLineWorksService
 
         $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-        // 極限までシンプルにした形式
         $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
             'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
             'assertion'  => $jwt,
@@ -43,11 +42,12 @@ class LWLineWorksService
             'scope'      => 'bot'
         ]);
 
-        if ($response->failed()) {
+        // 【ここを追加】エラーの中身を画面に表示して停止させる
+        if ($response->failed() || !isset($response->json()['access_token'])) {
             dd([
-                'status' => $response->status(),
-                'error_detail' => $response->json(),
-                'config_used' => $this->config // 設定値が正しく渡っているかも確認
+                'HTTPステータス' => $response->status(),
+                'LINEWORKSからの返答' => $response->json(),
+                '使用した設定' => $this->config
             ]);
         }
 
