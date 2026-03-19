@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\LWAttendance;    // 変更
-use App\Services\LWLineWorksService; // 変更
 use Illuminate\Support\Facades\Log;
 
-class LWAttendanceWebhookController extends Controller
+class LWLineWorksService extends Controller
 {
     protected $lwService;
 
