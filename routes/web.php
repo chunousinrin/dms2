@@ -157,13 +157,27 @@ Route::prefix('lw')->group(function () {
 
 use App\Services\LWLineWorksService;
 
+use Illuminate\Support\Facades\Http;
+
 Route::get('/lw-test', function (LWLineWorksService $service) {
+    // そもそも設定が読み込めているか？
+    $config = config('lw_lineworks');
+    if (empty($config['client_id'])) {
+        return "エラー: 設定(config/lw_lineworks.php)が読み込めていません。php artisan config:clear を試してください。";
+    }
+
+    // 直接 LINE WORKS にリクエストを投げて、エラーをキャッチする
     try {
-        // サービス内で getAccessToken() を public にするか、
-        // あるいはダミーのメッセージを送ってみる
-        $res = $service->sendTextMessage('あなたのLINE_WORKS_USER_ID', '疎通テスト成功！');
-        return dd($res);
+        $response = Http::timeout(5)->get('https://auth.worksmobile.com/.well-known/openid-configuration');
+
+        if ($response->failed()) {
+            return "通信失敗: LINE WORKS サーバーに接続できません。ステータス: " . $response->status();
+        }
+
+        // ここまで来れば通信はOK。次に Service を実行
+        return $service->sendTextMessage('あなたのID', 'テスト');
     } catch (\Exception $e) {
-        return $e->getMessage();
+        // ここで「なぜ失敗したか」の生メッセージが出るはずです
+        return "例外発生: " . $e->getMessage();
     }
 });
