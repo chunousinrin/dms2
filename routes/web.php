@@ -155,29 +155,19 @@ Route::prefix('lw')->group(function () {
     Route::get('/attendance', [LWAttendanceController::class, 'index'])->name('lw.attendance.index');
 });
 
-use App\Services\LWLineWorksService;
 
 use Illuminate\Support\Facades\Http;
 
+use App\Services\LWLineWorksService;
+
 Route::get('/lw-test', function (LWLineWorksService $service) {
-    // そもそも設定が読み込めているか？
-    $config = config('lw_lineworks');
-    if (empty($config['client_id'])) {
-        return "エラー: 設定(config/lw_lineworks.php)が読み込めていません。php artisan config:clear を試してください。";
-    }
-
-    // 直接 LINE WORKS にリクエストを投げて、エラーをキャッチする
     try {
-        $response = Http::timeout(5)->get('https://auth.worksmobile.com/.well-known/openid-configuration');
+        // あなたのLINE WORKSのID（メールアドレス形式など）を入れてください
+        $userId = 'your-id@example.com';
 
-        if ($response->failed()) {
-            return "通信失敗: LINE WORKS サーバーに接続できません。ステータス: " . $response->status();
-        }
-
-        // ここまで来れば通信はOK。次に Service を実行
-        return $service->sendTextMessage('あなたのID', 'テスト');
+        $res = $service->sendTextMessage($userId, '接続テスト成功！');
+        return dd($res);
     } catch (\Exception $e) {
-        // ここで「なぜ失敗したか」の生メッセージが出るはずです
         return "例外発生: " . $e->getMessage();
     }
 });
