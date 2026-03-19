@@ -35,14 +35,21 @@ class LWLineWorksService
         $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
         // 極限までシンプルにした形式
-        $response = Http::asForm()
-            ->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
-                'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-                'assertion'  => $jwt,
-                'client_id'  => $this->config['client_id'],
-                'client_secret' => $this->config['client_secret'],
-                'scope'      => 'bot'
+        $response = Http::asForm()->post('https://auth.worksmobile.com/oauth2/v2.0/token', [
+            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'assertion'  => $jwt,
+            'client_id'  => $this->config['client_id'],
+            'client_secret' => $this->config['client_secret'],
+            'scope'      => 'bot'
+        ]);
+
+        if ($response->failed()) {
+            dd([
+                'status' => $response->status(),
+                'error_detail' => $response->json(),
+                'config_used' => $this->config // 設定値が正しく渡っているかも確認
             ]);
+        }
 
         $this->accessToken = $response->json()['access_token'];
         return $this->accessToken;
