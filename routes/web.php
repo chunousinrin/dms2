@@ -166,7 +166,7 @@ Route::get('/lw-test', function (LWLineWorksService $service) {
         $userId = 'wo.57832@works-287419';
 
         $res = $service->sendTextMessage($userId, '接続テスト成功！');
-        return ($res);
+        return dd($res);
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
