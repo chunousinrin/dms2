@@ -80,8 +80,17 @@ class LWLineWorksService
     protected function sendRequest($userId, $body)
     {
         $token = $this->getAccessToken();
+        if (!$token) {
+            // ここでトークンが取れなかった時に、何も返していない(null)可能性があります
+            Log::error('トークンの取得に失敗したため送信を中止しました');
+            return null;
+        }
+
         $botNo = $this->config['bot_no'];
         $url = "https://www.worksmobile.com/jp/message/v1/bot/{$botNo}/users/{$userId}/messages";
-        return Http::withToken($token)->post($url, $body)->json();
+
+        $response = Http::withToken($token)->post($url, $body);
+
+        return $response->json(); // 通信エラー時、ここが null や空配列になることがあります
     }
 }
