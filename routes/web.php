@@ -156,18 +156,37 @@ Route::prefix('lw')->group(function () {
 });
 
 
-use Illuminate\Support\Facades\Http;
-
 use App\Services\LWLineWorksService;
+use Illuminate\Support\Facades\Config;
 
-Route::get('/lw-test', function (LWLineWorksService $service) {
+Route::get('/lw-test', function () {
+    // 1. 設定がそもそも取れているか？
+    $config = config('lw_lineworks');
+    if (!$config || empty($config['client_id'])) {
+        return "【エラー】config/lw_lineworks.php が読み込めていません。php artisan config:clear を実行してください。";
+    }
+
+    // 2. サービスを手動で生成して実行
     try {
-        // あなたのLINE WORKSのID（メールアドレス形式など）を入れてください
-        $userId = 'wo.57832@works-287419';
+        $service = new LWLineWorksService();
 
-        $res = $service->sendTextMessage($userId, '接続テスト成功！');
-        return dd($res);
-    } catch (\Exception $e) {
-        return "例外発生: " . $e->getMessage();
+        // getAccessToken を外部から呼べるようにするか、
+        // もしくは直接 sendTextMessage を呼ぶ
+        $userId = 'wo.57832@works-287419'; // ここを書き換える
+        $result = $service->sendTextMessage($userId, 'テスト');
+
+        if (is_null($result)) {
+            return "【エラー】sendTextMessage の戻り値が null です。通信が途中で失敗しています。";
+        }
+
+        dd($result);
+    } catch (\Throwable $e) {
+        // ここで「なぜ止まったか」が100%分かります
+        dd([
+            'メッセージ' => $e->getMessage(),
+            'ファイル' => $e->getFile(),
+            '行' => $e->getLine(),
+            'トレース' => $e->getTraceAsString()
+        ]);
     }
 });
