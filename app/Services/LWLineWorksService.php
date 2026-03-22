@@ -80,10 +80,10 @@ class LWLineWorksService
     protected function sendRequest($userId, $body)
     {
         $token = $this->getAccessToken();
+
+        // 【チェック1】トークン自体が取れているか？
         if (!$token) {
-            // ここでトークンが取れなかった時に、何も返していない(null)可能性があります
-            Log::error('トークンの取得に失敗したため送信を中止しました');
-            return null;
+            dd('エラー: アクセストークンが空です。認証(JWT)に失敗しています。');
         }
 
         $botNo = $this->config['bot_no'];
@@ -91,6 +91,18 @@ class LWLineWorksService
 
         $response = Http::withToken($token)->post($url, $body);
 
-        return $response->json(); // 通信エラー時、ここが null や空配列になることがあります
+        // 【チェック2】送信リクエストの結果を確認
+        if ($response->failed()) {
+            dd([
+                '状況' => 'メッセージ送信に失敗しました',
+                'URL' => $url,
+                'ステータス' => $response->status(),
+                'エラー詳細' => $response->json() ?? $response->body(),
+                '送信先ユーザーID' => $userId,
+                '使用トークン' => substr($token, 0, 10) . '...' // セキュリティのため一部表示
+            ]);
+        }
+
+        return $response->json();
     }
 }
