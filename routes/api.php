@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Log;
 
 Route::get('/upload-simple', function () {
     $token = App\Services\LwApiService::getAccessToken();
-    $apiId = config('lineworks.api_id');
     $botId = config('lineworks.bot_id');
     $richMenuId = "rm-2205961";
 
@@ -39,8 +38,10 @@ Route::get('/upload-simple', function () {
         'consumerKey' => config('lineworks.consumer_key'),
         'Authorization' => 'Bearer ' . $token,
         'Content-Type' => 'image/png',
-    ])->withBody($binary, 'image/png')
-        ->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/content");
+    ])->withBody(
+        $binary,
+        'image/png'
+    )->post("https://www.worksapis.com/v1.0/contents");
 
     if (!$upload->successful()) {
         return "画像アップロード失敗：" . $upload->body();
@@ -53,7 +54,7 @@ Route::get('/upload-simple', function () {
         'consumerKey' => config('lineworks.consumer_key'),
         'Authorization' => 'Bearer ' . $token,
         'Content-Type' => 'application/json',
-    ])->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/bot/{$botId}/richmenu/{$richMenuId}/content", [
+    ])->post("https://www.worksapis.com/v1.0/bots/{$botId}/richmenus/{$richMenuId}/image", [
         'resourceId' => $resourceId
     ]);
 
