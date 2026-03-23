@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/upload-image', function () {
+Route::get('/upload-menu-image', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = env('LW_BOT_NO');
     $richMenuId = 'rm-2205959';
