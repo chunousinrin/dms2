@@ -61,7 +61,7 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+        $url = "https://www.worksapis.com/v2/bots/{$botId}/users/{$userId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
@@ -95,6 +95,7 @@ class LwApiService
         ]);
 
         // ★ 2. ここにデバッグ用のログ出力を差し込む！ ★
+        \Log::info("LINE WORKS API Status: " . $response->status());
         \Log::info("LINE WORKS API Response: " . $response->body());
 
         return $response;
