@@ -32,23 +32,34 @@ Route::get('/upload-menu-image', function () {
         $botNo = env('LW_BOT_NO');
         $richMenuId = 'rm-2205959'; // ここにコピーしたIDを貼る
 
-        $imagePath = public_path('/images/lw_full.png'); // 画像のパス
+        $imagePath = public_path('images/menu.png');
 
         if (!file_exists($imagePath)) {
-            return "エラー: 画像ファイルが {$imagePath} に見つかりません。";
+            return "エラー: 画像ファイルがありません。パス: " . $imagePath;
         }
 
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
+        // 画像ファイルを読み込む
+        $fileStream = fopen($imagePath, 'r');
+
+        // attachを使用して、ファイルとして送信
         $response = Http::withToken($token)
-            ->attach('file', file_get_contents($imagePath), 'menu.png') // 画像を添付
+            ->attach(
+                'file',             // フィールド名
+                $fileStream,        // ファイルストリーム
+                'menu.png',         // ファイル名
+                ['Content-Type' => 'image/png'] // Content-Typeを明示
+            )
             ->post($url);
 
+        fclose($fileStream); // ファイルを閉じる
+
         if ($response->failed()) {
-            return "アップロードエラー: " . $response->body();
+            return "アップロード失敗詳細: " . $response->body();
         }
 
-        return "成功！画像がアップロードされました。";
+        return "画像アップロード成功！これでメニューが完成しました。";
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
