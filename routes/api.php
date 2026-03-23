@@ -26,29 +26,45 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/upload-menu-image', function () {
+Route::get('/create-menu', function () {
     try {
+        echo "1. 処理開始...<br>";
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = env('LW_BOT_NO');
-        $richMenuId = 'あなたが取得したID(rm-xxxx...)'; // ここにコピーしたIDを貼る
-
-        $imagePath = public_path('images/menu.png'); // 画像のパス
-
-        if (!file_exists($imagePath)) {
-            return "エラー: 画像ファイルが {$imagePath} に見つかりません。";
-        }
-
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+        $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus";
 
         $response = Http::withToken($token)
-            ->attach('file', file_get_contents($imagePath), 'menu.png') // 画像を添付
-            ->post($url);
+            ->post($url, [
+                "size" => [
+                    "width" => 2500,
+                    "height" => 1686,
+                ],
+                "selected" => true,
+                "richmenuName" => "勤怠メニュー", // 'name' から 'richmenuName' に変更
+                "areas" => [
+                    [
+                        "bounds" => [
+                            "x" => 0,
+                            "y" => 0,
+                            "width" => 2500,
+                            "height" => 1686
+                        ],
+                        "action" => [
+                            "type" => "message",
+                            "label" => "出勤入力",
+                            "text" => "出勤入力"
+                        ]
+                    ]
+                ]
+            ]);
 
         if ($response->failed()) {
-            return "アップロードエラー: " . $response->body();
+            return "APIエラー詳細: " . $response->body();
         }
 
-        return "成功！画像がアップロードされました。";
+        // ついにIDが返ってくるはず！
+        return "成功！ Rich Menu ID: " . $response->json('richmenuId'); // 'richMenuId' (Mが大文字) の可能性もあるため注意
+
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
