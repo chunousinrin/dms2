@@ -54,35 +54,30 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botId = "6811630";
-
-        // ✅ 修正：公式の 2.0 1:1メッセージ送信エンドポイント
-        // 「www.worksapis.com」ではなく「www.worksapis.com/v2/bot/」がベースです
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
         $options = [
-            ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
-            ['label' => '1.0 有給', 'val' => '1.0/有給'],
-            ['label' => '1.0 特休', 'val' => '1.0/特休'],
+            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
+            ['label' => '1.0 有給',      'val' => '1.0/有給'],
+            ['label' => '1.0 特休',      'val' => '1.0/特休'],
             ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
             ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
             ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            ['label' => '0.0 欠勤', 'val' => '0.0/欠勤'],
+            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
         ];
 
-        $items = [];
-        foreach ($options as $opt) {
-            $items[] = [
+        $items = array_map(function ($opt) {
+            return [
                 "action" => [
                     "type" => "message",
                     "label" => $opt['label'],
                     "text" => "【打刻】" . $opt['val']
                 ]
             ];
-        }
+        }, $options);
 
-        // 送信
-        $response = Http::withToken($token)->post($url, [
+        return Http::withToken($token)->post($url, [
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
@@ -91,10 +86,22 @@ class LwApiService
                 "items" => $items
             ]
         ]);
-
-        \Log::info("LINE WORKS API Status: " . $response->status());
-        \Log::info("LINE WORKS API Response: " . $response->body());
-
-        return $response;
     }
-}
+
+    /**
+     * シンプルなテキスト送信
+     */
+    public static function sendSimpleText($userId, $text)
+    {
+        $token = self::getAccessToken();
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => $text
+            ]
+        ]);
+    }
+}}
