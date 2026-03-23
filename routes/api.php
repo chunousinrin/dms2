@@ -65,8 +65,10 @@ Route::get('/upload-simple', function () {
 Route::get('/upload-simplex', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $apiId = config('lineworks.api_id');
+    $botId = config('lineworks.bot_id');
+    $richMenuId = "rm-2205961";
 
-    // ① 画像アップロード（resourceId を取得）
+    // ① 画像アップロード
     $binary = file_get_contents(public_path('images/menu.png'));
 
     $upload = Http::withHeaders([
@@ -76,5 +78,5 @@ Route::get('/upload-simplex', function () {
     ])->withBody($binary, 'image/png')
         ->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/content");
 
-    dd($upload->body()); // ← まずこれでレスポンスを確認
+    dd($upload->body()); // ← まずこれを確認
 });
