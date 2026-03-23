@@ -35,7 +35,7 @@ return [
         'client_id' => env('LINEWORKS_CLIENT_ID'),
         'client_secret' => env('LINEWORKS_CLIENT_SECRET'),
         'service_account' => env('LINEWORKS_SERVICE_ACCOUNT'),
-        'private_key' => storage_path('app/private_key.pem'), // パスを固定
+        'private_key' => storage_path('app/private_key.key'), // パスを固定
     ],
 
 ];
