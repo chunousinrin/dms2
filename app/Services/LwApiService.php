@@ -73,15 +73,16 @@ class LwApiService
             ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
         ];
 
-        $items = array_map(function ($opt) {
-            return [
+        $items = [];
+        foreach ($options as $opt) {
+            $items[] = [
                 "action" => [
                     "type" => "message",
-                    "label" => $opt['label'],
-                    "text" => "【打刻】" . $opt['val']
+                    "label" => $opt['label'], // ボタンに表示される文字
+                    "text" => "【打刻】" . $opt['val'] // タップした時に送信される文字
                 ]
             ];
-        }, $options);
+        }
 
         return Http::withToken($token)->post($url, [
             "content" => [
