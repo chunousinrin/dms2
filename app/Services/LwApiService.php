@@ -43,16 +43,15 @@ class LwApiService
         }
 
         return $response->json()['access_token'];
-    }
+    };
 
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
         $botId = "6811630";
 
-        // ✅ API 2.0 正式URL（特定ユーザー宛）: 
-        // v2の後は「bot」単数形、その後「bots」複数形が続く構造です
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+        // ✅ API 2.0 正解URL: ユーザーIDはURLに含めず、末尾は /messages
+        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
 
         $options = [
             ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
@@ -75,7 +74,11 @@ class LwApiService
             ];
         }
 
+        // ✅ API 2.0 では "to" 項目が必須です
         $response = Http::withToken($token)->post($url, [
+            "to" => [
+                "userId" => $userId
+            ],
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
@@ -85,17 +88,17 @@ class LwApiService
             ]
         ]);
 
-        Log::info("LINE WORKS API Status: " . $response->status());
-        Log::info("LINE WORKS API Response: " . $response->body());
+        \Log::info("LINE WORKS API Status: " . $response->status());
+        \Log::info("LINE WORKS API Response: " . $response->body());
 
         return $response;
-    }
+    };
 
     public static function sendSimpleText($userId, $text)
     {
         $token = self::getAccessToken();
         $botId = "6811630";
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
 
         return Http::withToken($token)->post($url, [
             "content" => [
