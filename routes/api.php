@@ -29,23 +29,18 @@ use Illuminate\Support\Facades\Log;
 Route::get('/create-menu', function () {
     try {
         echo "1. 処理開始...<br>";
-
         $token = App\Services\LwApiService::getAccessToken();
-        $botNo = env('LW_BOT_NO'); // .envから取得
-
-        echo "2. トークン取得成功。Bot No: " . $botNo . "<br>";
-
-        // URLの組み立てを確実に
+        $botNo = env('LW_BOT_NO');
         $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus";
 
         $response = Http::withToken($token)
             ->post($url, [
-                "size" => [           // ← ここを 'size' で囲む必要があります
+                "size" => [
                     "width" => 2500,
                     "height" => 1686,
                 ],
                 "selected" => true,
-                "name" => "勤怠メニュー",
+                "richmenuName" => "勤怠メニュー", // 'name' から 'richmenuName' に変更
                 "areas" => [
                     [
                         "bounds" => [
@@ -63,14 +58,13 @@ Route::get('/create-menu', function () {
                 ]
             ]);
 
-        echo "3. APIリクエスト完了。URL: " . $url . "<br>";
-        echo "ステータスコード: " . $response->status() . "<br>";
-
         if ($response->failed()) {
             return "APIエラー詳細: " . $response->body();
         }
 
-        return "成功！ Rich Menu ID: " . $response->json('richMenuId');
+        // ついにIDが返ってくるはず！
+        return "成功！ Rich Menu ID: " . $response->json('richmenuId'); // 'richMenuId' (Mが大文字) の可能性もあるため注意
+
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
