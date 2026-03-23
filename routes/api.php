@@ -37,7 +37,7 @@ Route::get('/create-menu', function () {
         echo "2. トークン取得成功: " . substr($token, 0, 10) . "...<br>";
 
         $response = Http::withToken($token)
-            ->post("https://www.line-works.com/jp/reference/messaging-api/v2/rich-menus", [
+            ->post("https://www.worksapis.com/v1.0/bots/{env('LW_BOT_NO')}/richmenus", [ // URLを変更
                 "width" => 2500,
                 "height" => 1686,
                 "selected" => true,
