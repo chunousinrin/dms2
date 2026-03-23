@@ -38,28 +38,24 @@ Route::get('/upload-menu-image', function () {
             return "エラー: 画像ファイルがありません。パス: " . $imagePath;
         }
 
+        // 1. 画像をバイナリとして読み込む
+        $imageData = file_get_contents($imagePath);
+
+        // 2. MIMEタイプを特定（念のためチェック）
+        $mimeType = mime_content_type($imagePath); // image/png または image/jpeg
+
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
-        // 画像ファイルを読み込む
-        $fileStream = fopen($imagePath, 'r');
-
-        // attachを使用して、ファイルとして送信
+        // 3. 実行：attachを使わず、withBodyで直接送る
         $response = Http::withToken($token)
-            ->attach(
-                'file',             // フィールド名
-                $fileStream,        // ファイルストリーム
-                'lw_full.png',         // ファイル名
-                ['Content-Type' => 'image/png'] // Content-Typeを明示
-            )
+            ->withBody($imageData, $mimeType) // ここがポイント！バイナリを直接セット
             ->post($url);
 
-        fclose($fileStream); // ファイルを閉じる
-
         if ($response->failed()) {
-            return "アップロード失敗詳細: " . $response->body();
+            return "アップロード失敗詳細 (Status: " . $response->status() . "): " . $response->body();
         }
 
-        return "画像アップロード成功！これでメニューが完成しました。";
+        return "成功！！画像が紐付きました。次は「有効化」です！";
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
