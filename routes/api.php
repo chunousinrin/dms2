@@ -27,33 +27,46 @@ use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
 
-Route::get('/upload-final-qiita-fix', function () {
+Route::get('/upload-resize-fix', function () {
     try {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = "6811630";
-        $richMenuId = "rm-2205959"; // 固定したID
+        $richMenuId = "rm-2205959";
         $imagePath = public_path('images/menu.png');
 
-        if (!file_exists($imagePath)) {
-            return "画像がないです！ public/images/menu.png を確認してください。";
-        }
+        // 1. 画像を読み込んで 2500x1686 にリサイズする
+        $source = imagecreatefrompng($imagePath);
+        $trueWidth = 2500;
+        $trueHeight = 1686;
+        $target = imagecreatetruecolor($trueWidth, $trueHeight);
+
+        // 背景を白で塗りつぶす
+        $white = imagecolorallocate($target, 255, 255, 255);
+        imagefill($target, 0, 0, $white);
+
+        // 元画像をアスペクト比を無視して引き伸ばす（または余白を作る）
+        imagecopyresampled($target, $source, 0, 0, 0, 0, $trueWidth, $trueHeight, imagesx($source), imagesy($source));
+
+        // 2. 一時ファイルとして保存
+        $tempFile = tempnam(sys_get_temp_dir(), 'richmenu');
+        imagepng($target, $tempFile);
 
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
-        // Qiitaの記事と公式の挙動を合わせた「勝負のパケット」
+        // 3. アップロード実行
         $response = Http::withToken($token)
-            ->attach(
-                'file',                       // ← キー名は絶対これ
-                file_get_contents($imagePath), // 中身
-                'menu.png'                    // ← ファイル名を明示（これが大事！）
-            )
+            ->attach('file', file_get_contents($tempFile), 'menu.png', ['Content-Type' => 'image/png'])
             ->post($url);
 
+        // 後片付け
+        imagedestroy($source);
+        imagedestroy($target);
+        unlink($tempFile);
+
         if ($response->successful()) {
-            return "【大・勝・利！！】ついに画像が乗りました！ /api/activate-menu を叩いてください！";
+            return "【歓喜】サイズを強制修正してアップロード成功！ /api/activate-menu を叩いてください！";
         }
 
-        // 400が出るなら、詳細を表示
         return "Status: " . $response->status() . "<br>詳細: " . $response->body();
     } catch (\Exception $e) {
         return "エラー: " . $e->getMessage();
