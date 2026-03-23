@@ -30,7 +30,7 @@ Route::get('/upload-menu-image', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = env('LW_BOT_NO');
     $richMenuId = 'rm-2205959';
-    $imagePath = public_path('images/lw_full.png');
+    $imagePath = public_path('images/menu.png');
 
     if (!file_exists($imagePath)) {
         return "画像なし: " . $imagePath;
