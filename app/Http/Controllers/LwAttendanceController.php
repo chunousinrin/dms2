@@ -10,16 +10,24 @@ class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+
         $rawBody = $request->getContent();
+        // まず、届いた生の文字列を無条件でログに取る（これが一番大事！）
         Log::info('Raw Webhook Body: ' . $rawBody);
 
         $allData = json_decode($rawBody, true);
 
+        // ★ ここにチェックコードを入れます ★
         if (json_last_error() !== JSON_ERROR_NONE) {
             Log::error('JSON Decode Error: ' . json_last_error_msg());
-            return response()->json(['status' => 'error'], 400);
+            Log::error('Invalid Body Content: ' . $rawBody); // 壊れた中身をログに残す
+            return response()->json([
+                'status' => 'error',
+                'reason' => json_last_error_msg()
+            ], 400); // ここで400を返して終了させる
         }
 
+        // ここから下は、JSONが正しかった場合のみ実行される
         if (($allData['type'] ?? null) !== 'postback') {
             return response()->json(['status' => 'ignored']);
         }
@@ -50,6 +58,13 @@ class LwAttendanceController extends Controller
         } catch (\Exception $e) {
             Log::error('LwAttendance Save Error: ' . $e->getMessage());
             return response()->json(['status' => 'error'], 500);
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            // どんな文字列が届いて、なぜ失敗したかログに出す
+            Log::error('JSON Decode Error: ' . json_last_error_msg());
+            Log::error('Received Invalid Body: ' . $rawBody);
+            return response()->json(['status' => 'error', 'reason' => json_last_error_msg()], 400);
         }
     }
 }
