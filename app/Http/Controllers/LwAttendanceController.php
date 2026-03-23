@@ -11,12 +11,14 @@ class LwAttendanceController extends Controller
     public function handleWebhook(Request $request)
     {
         // 1. 届いたデータそのものを出力
-        \Log::info('Raw Request:', $request->all());
+        \Log::info('Full Request Data:', $request->all()); // 全データ出力
 
         // 2. typeがpostbackになっているかチェック
-        if ($request->input('type') !== 'postback') {
-            \Log::warning('Type is not postback: ' . $request->input('type'));
-            return response()->json(['status' => 'ignored']);
+        $type = $request->json('type'); // または $request->input('type')
+
+        if ($type !== 'postback') {
+            \Log::warning('Received type: ' . ($type ?: 'NULL or EMPTY'));
+            return response()->json(['status' => 'ignored', 'received_type' => $type]);
         }
 
         try {
