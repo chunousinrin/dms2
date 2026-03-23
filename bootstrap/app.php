@@ -1,5 +1,26 @@
 <?php
 
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Http\Kernel;
+use Illuminate\Foundation\Exceptions\Handler as Exceptions;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
+
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        // ...
+    )
+    // ⬇️ ここから丸ごと追記
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'api/lw/webhook',
+        ]);
+    })
+    // ⬆️ ここまで
+    ->withExceptions(function (Exceptions $exceptions) {
+        // ...
+    })->create();
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
