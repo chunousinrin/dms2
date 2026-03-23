@@ -37,17 +37,18 @@ Route::get('/get-token', function () {
     }
 });
 
-Route::get('/upload-final-fix', function () {
+
+Route::get('/upload-ultra-fix', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = "6811630";
     $richMenuId = "rm-2205959";
+    $imagePath = public_path('images/menu.png'); // 2500x1686の画像
 
-    // 1. 画像生成（2500x1686）
-    $image = imagecreatetruecolor(2500, 1686);
-    $tempFile = tempnam(sys_get_temp_dir(), 'richmenu');
-    imagepng($image, $tempFile); // 一時ファイルとして保存
-    imagedestroy($image);
+    if (!file_exists($imagePath)) {
+        return "エラー: 画像が {$imagePath} にありません。";
+    }
 
+    $imageData = file_get_contents($imagePath);
     $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
     $ch = curl_init();
@@ -55,24 +56,21 @@ Route::get('/upload-final-fix', function () {
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    // 2. 重要：CURLFile を使って「ファイル」として定義する
-    $postFields = [
-        'file' => new \CURLFile($tempFile, 'image/png', 'menu.png')
-    ];
+    // 重要：Bodyに画像バイナリをそのままセット（名前なし）
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData);
 
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer " . $token,
-        "Content-Type: multipart/form-data" // これが必要
+        "Content-Type: image/png", // multipartではなくimage/png
+        "Content-Length: " . strlen($imageData)
     ]);
 
     $response = curl_exec($ch);
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    unlink($tempFile); // 一時ファイルを削除
 
     if ($status == 201 || $status == 200) {
-        return "【成功】画像がアップロードされました！直ちに /api/activate-menu を叩いてください！";
+        return "【祝・成功！！】画像が紐付きました！今すぐ /api/activate-menu を実行してください！";
     }
 
     return "Status: {$status} <br> Response: " . $response;
