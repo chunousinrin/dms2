@@ -33,8 +33,13 @@ class LwApiService
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot,bot.read,bot.message" // 必要なスコープ
+            "scope" => "bot" // まずは最小限のスコープでテスト
         ]);
+
+        if (!$response->successful()) {
+            // ここでエラー内容を画面に出す
+            return dd($response->json());
+        }
 
         return $response->json()['access_token'];
     }
