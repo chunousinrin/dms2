@@ -30,19 +30,30 @@ Route::get('/upload-menu-image', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = env('LW_BOT_NO');
     $richMenuId = 'rm-2205959';
-    $imagePath = public_path('images/menu.png');
 
-    $imageData = file_get_contents($imagePath);
+    // 1. プログラムで 2500x1686 の真っ黒な画像を生成 (GDライブラリ使用)
+    $width = 2500;
+    $height = 1686;
+    $image = imagecreatetruecolor($width, $height);
+
+    // 2. バッファにPNGとして書き出し、バイナリを取得
+    ob_start();
+    imagepng($image);
+    $imageData = ob_get_contents();
+    ob_end_clean();
+    imagedestroy($image);
+
     $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
+    // 3. 実行：純粋なバイナリとして送信
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData); // パラメータ名なしでデータを直接入れる
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer {$token}",
-        "Content-Type: image/png", // multipartではなくimage/pngを指定
+        "Content-Type: image/png",
         "Content-Length: " . strlen($imageData)
     ]);
 
@@ -50,5 +61,5 @@ Route::get('/upload-menu-image', function () {
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    return "Status: {$status} / Response: " . $response;
+    return "テスト結果 (Status: {$status}): " . $response;
 });
