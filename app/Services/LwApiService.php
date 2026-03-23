@@ -12,9 +12,17 @@ class LwApiService
      */
     public static function getAccessToken()
     {
-        // config/lineworks.php などに値を逃がしている想定です
+
         $clientId = config('services.lineworks.client_id');
         $clientSecret = config('services.lineworks.client_secret');
+
+        // 【デバッグ用】もし値が取れていなければここで止まります
+        if (!$clientId || !$clientSecret) {
+            throw new \Exception("Configが読み込めていません。envを確認してください。");
+        }
+        // config/lineworks.php などに値を逃がしている想定です
+        //$clientId = config('services.lineworks.client_id');
+        //$clientSecret = config('services.lineworks.client_secret');
         $serviceAccount = config('services.lineworks.service_account');
         $privateKey = file_get_contents(storage_path('app/private_key.pem')); // 読み込んだ中身
 
