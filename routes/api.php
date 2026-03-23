@@ -26,45 +26,29 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/create-menu', function () {
+Route::get('/upload-menu-image', function () {
     try {
-        echo "1. 処理開始...<br>";
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = env('LW_BOT_NO');
-        $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus";
+        $richMenuId = 'あなたが取得したID(2205959...)'; // ここにコピーしたIDを貼る
 
-        $response = Http::withToken($token)
-            ->post($url, [
-                "size" => [
-                    "width" => 2500,
-                    "height" => 1686,
-                ],
-                "selected" => true,
-                "richmenuName" => "勤怠メニュー", // 'name' から 'richmenuName' に変更
-                "areas" => [
-                    [
-                        "bounds" => [
-                            "x" => 0,
-                            "y" => 0,
-                            "width" => 2500,
-                            "height" => 1686
-                        ],
-                        "action" => [
-                            "type" => "message",
-                            "label" => "出勤入力",
-                            "text" => "出勤入力"
-                        ]
-                    ]
-                ]
-            ]);
+        $imagePath = public_path('C:\Users\k-shibata\Desktop\lw_full.png'); // 画像のパス
 
-        if ($response->failed()) {
-            return "APIエラー詳細: " . $response->body();
+        if (!file_exists($imagePath)) {
+            return "エラー: 画像ファイルが {$imagePath} に見つかりません。";
         }
 
-        // ついにIDが返ってくるはず！
-        return "成功！ Rich Menu ID: " . $response->json('richmenuId'); // 'richMenuId' (Mが大文字) の可能性もあるため注意
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
+        $response = Http::withToken($token)
+            ->attach('file', file_get_contents($imagePath), 'menu.png') // 画像を添付
+            ->post($url);
+
+        if ($response->failed()) {
+            return "アップロードエラー: " . $response->body();
+        }
+
+        return "成功！画像がアップロードされました。";
     } catch (\Exception $e) {
         return "例外発生: " . $e->getMessage();
     }
