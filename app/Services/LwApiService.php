@@ -10,16 +10,22 @@ class LwApiService
 {
     public static function getAccessToken()
     {
-        $clientId = 'WPcmfuIP1CiGM4ahu_eZ';
-        $clientSecret = 'Rmm9WTCneq';
-        $serviceAccount = 'd1gwz.serviceaccount@works-287419';
-        $privateKeyPath = storage_path('app/certs/private_key.key');
+        // 1. もう Config や .env は見ない！ここに直接書く
+        $clientId = 'あなたのClient_ID'; // ←実際の値をここに貼る
+        $clientSecret = 'あなたのClient_Secret'; // ←実際の値をここに貼る
+        $serviceAccount = 'あなたのService_Account'; // ←実際の値をここに貼る
 
+        // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
+        $privateKeyPath = storage_path('app/private_key.key');
+
+        // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
             throw new \Exception("秘密鍵ファイルがありません: " . $privateKeyPath);
         }
 
         $privateKey = file_get_contents($privateKeyPath);
+
+        // JWTの生成（以下、前回と同じ）
         $now = time();
         $payload = [
             "iss" => $clientId,
@@ -35,7 +41,7 @@ class LwApiService
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot"
+            "scope" => "bot" // 一旦 'bot' だけにしてみる
         ]);
 
         if (!$response->successful()) {
