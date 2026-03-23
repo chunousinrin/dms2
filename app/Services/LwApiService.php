@@ -3,45 +3,49 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Firebase\JWT\JWT; // composer require firebase/php-jwt が必要
 
 class LwApiService
 {
-    // アクセストークン取得メソッドは既存のものを使用
-
-    public static function sendAttendanceSelection($userId)
+    /**
+     * API 2.0 アクセストークンの取得
+     */
+    public static function getAccessToken()
     {
-        $token = self::getAccessToken();
-        $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+        // config/lineworks.php などに値を逃がしている想定です
+        $clientId = config('services.lineworks.client_id');
+        $clientSecret = config('services.lineworks.client_secret');
+        $serviceAccount = config('services.lineworks.service_account');
+        $privateKey = config('services.lineworks.private_key'); // 読み込んだ中身
 
-        // ラベルと、実際にDBに振り分ける値のセット
-        $options = [
-            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
-            ['label' => '1.0 有給',      'val' => '1.0/有給'],
-            ['label' => '1.0 特休',      'val' => '1.0/特休'],
-            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
-            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
-            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
+        $now = time();
+        $payload = [
+            "iss" => $clientId,
+            "sub" => $serviceAccount,
+            "iat" => $now,
+            "exp" => $now + 3600
         ];
 
-        $items = [];
-        foreach ($options as $opt) {
-            $items[] = [
-                "action" => [
-                    "type" => "message",
-                    "label" => $opt['label'],
-                    "text" => "【打刻】" . $opt['val'] // 例: 【打刻】1.0/出勤
-                ]
-            ];
-        }
+        $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
-        return Http::withToken($token)->post($url, [
-            "content" => [
-                "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-            "quickReply" => ["items" => $items]
+        $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
+            "assertion" => $assertion,
+            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            "client_id" => $clientId,
+            "client_secret" => $clientSecret,
+            "scope" => "bot,bot.read,bot.message" // 必要なスコープ
         ]);
+
+        return $response->json()['access_token'];
+    }
+
+    /**
+     * クイッキリプライ送信
+     */
+    public static function sendAttendanceSelection($userId)
+    {
+        $token = self::getAccessToken(); // ここで呼び出し
+        $botNo = "6811630";
+        // ... (以下、前回お伝えしたクイッキリプライのコード)
     }
 }
