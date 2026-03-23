@@ -21,5 +21,5 @@ Route::post('/lw/webhook', [LwAttendanceController::class, 'handleWebhook']);
 // テスト用：ブラウザでここを叩くと、あなたにボタンが届く
 Route::get('/test-options', function () {
     // あなたのLINE WORKS ユーザーIDを直接入れてテスト
-    return App\Services\LwApiService::sendAttendanceSelection("あなたのユーザーID");
+    return App\Services\LwApiService::sendAttendanceSelection("wo.57832@works-287419");
 });
