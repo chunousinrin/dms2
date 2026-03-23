@@ -26,33 +26,40 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/upload-menu-image', function () {
-    $token = App\Services\LwApiService::getAccessToken();
-    $botNo = env('LW_BOT_NO');
-    $richMenuId = 'rm-2205959';
 
-    // 1. プログラムで 2500x1686 の真っ黒な画像を生成 (GDライブラリ使用)
-    $width = 2500;
-    $height = 1686;
-    $image = imagecreatetruecolor($width, $height);
+Route::get('/get-token', function () {
+    try {
+        // あなたが作った LwApiService を使ってトークンを生成
+        $token = App\Services\LwApiService::getAccessToken();
+        return "これをコピーしてください：<br><br><textarea style='width:100%;height:100px;'>" . $token . "</textarea>";
+    } catch (\Exception $e) {
+        return "エラー発生: " . $e->getMessage();
+    }
+});
 
-    // 2. バッファにPNGとして書き出し、バイナリを取得
+Route::get('/upload-final-check', function () {
+    // 1. ここに「生」の値を直接コピペしてください（前後にスペースが入らないよう注意！）
+    $token = "あなたのアクセストークン（前回のログに出ていた長い文字列）";
+    $botNo = "6811630";
+    $richMenuId = "rm-2205959"; // あなたが取得したID
+
+    // 2. 画像生成（念のため再掲）
+    $image = imagecreatetruecolor(2500, 1686);
     ob_start();
     imagepng($image);
     $imageData = ob_get_contents();
     ob_end_clean();
-    imagedestroy($image);
 
-    $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+    // 3. URLを完全に手動で組み立てる
+    $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus/" . $richMenuId . "/image";
 
-    // 3. 実行：純粋なバイナリとして送信
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer {$token}",
+        "Authorization: Bearer " . trim($token), // trimで念のため空白除去
         "Content-Type: image/png",
         "Content-Length: " . strlen($imageData)
     ]);
@@ -61,5 +68,5 @@ Route::get('/upload-menu-image', function () {
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    return "テスト結果 (Status: {$status}): " . $response;
+    return "URL: {$url} <br> Status: {$status} <br> Response: " . $response;
 });
