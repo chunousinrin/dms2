@@ -32,7 +32,7 @@ Route::get('/upload-final-fix', function () {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = "6811630";
         $richMenuId = "rm-2205959";
-        $imagePath = public_path('images/menu.png');
+        $imagePath = public_path('images/menu.jpg');
 
         if (!file_exists($imagePath)) {
             return "画像が見つかりません: " . $imagePath;
@@ -46,8 +46,8 @@ Route::get('/upload-final-fix', function () {
             ->attach(
                 'file',                       // キー名は 'file' 固定
                 file_get_contents($imagePath), // 画像バイナリ
-                'menu.png',                   // ファイル名
-                ['Content-Type' => 'image/png'] // MIMEタイプを明示
+                'menu.jpg',                   // ファイル名
+                ['Content-Type' => 'image/jpeg'] // MIMEタイプを明示
             )
             ->post($url);
 
