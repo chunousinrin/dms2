@@ -48,14 +48,16 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+        $botId = "6811630";
 
-        // 最小限の3つに絞る
+        // ✅ 1. URL: 共通ガイドに従い www.worksapis.com/v2 を使用
+        // 1対1メッセージ送信の正式なパス構造です
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+
         $options = [
-            ['label' => '出勤', 'val' => '1.0/出勤'],
-            ['label' => '有給', 'val' => '1.0/有給'],
-            ['label' => '欠勤', 'val' => '0.0/欠勤'],
+            ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
+            ['label' => '1.0 有給', 'val' => '1.0/有給'],
+            ['label' => '0.0 欠勤', 'val' => '0.0/欠勤'],
         ];
 
         $items = [];
@@ -69,15 +71,20 @@ class LwApiService
             ];
         }
 
-        $response = Http::withToken($token)->post($url, [
-            "content" => [
-                "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-            "quickReply" => [
-                "items" => $items
-            ]
-        ]);
+        // ✅ 2. 送信: ヘッダーには Bearer トークン、Body は content と quickReply
+        $response = Http::withToken($token)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+            ])
+            ->post($url, [
+                "content" => [
+                    "type" => "text",
+                    "text" => "本日の出勤内訳を選択してください。"
+                ],
+                "quickReply" => [
+                    "items" => $items
+                ]
+            ]);
 
         \Log::info("API Status: " . $response->status());
         \Log::info("API Body: " . $response->body());
