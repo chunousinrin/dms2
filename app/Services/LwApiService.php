@@ -49,24 +49,25 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botNo = "6811630";
-        // ✅ 一旦このURL(v1.0形式)で通るか再確認
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
+        // 最小限の3つに絞る
         $options = [
             ['label' => '出勤', 'val' => '1.0/出勤'],
             ['label' => '有給', 'val' => '1.0/有給'],
             ['label' => '欠勤', 'val' => '0.0/欠勤'],
         ];
 
-        $items = array_map(function ($opt) {
-            return [
+        $items = [];
+        foreach ($options as $opt) {
+            $items[] = [
                 "action" => [
                     "type" => "message",
                     "label" => $opt['label'],
                     "text" => "【打刻】" . $opt['val']
                 ]
             ];
-        }, $options);
+        }
 
         $response = Http::withToken($token)->post($url, [
             "content" => [
@@ -78,24 +79,9 @@ class LwApiService
             ]
         ]);
 
-        // ✅ デバッグログ：ここが何と返ってくるかだけ見たい
         \Log::info("API Status: " . $response->status());
         \Log::info("API Body: " . $response->body());
 
         return $response;
-    }
-
-    public static function sendSimpleText($userId, $text)
-    {
-        $token = self::getAccessToken();
-        $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
-
-        return Http::withToken($token)->post($url, [
-            "content" => [
-                "type" => "text",
-                "text" => $text
-            ]
-        ]);
     }
 }
