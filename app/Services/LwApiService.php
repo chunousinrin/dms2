@@ -60,7 +60,7 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botNo = "6811630";
+        $botId = "6811630";
         $url = "https://www.worksapis.com/v2/bots/{$botId}/users/{$userId}/messages";
 
         $options = [
