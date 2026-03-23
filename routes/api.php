@@ -36,10 +36,10 @@ Route::get('/upload-simple', function () {
 
     $response = Http::withHeaders([
         'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'image/png',
+        'Content-Type' => 'image/png', // ← これが必須
     ])->withBody(
         $binary,
-        'image/png'
+        'image/png' // ← これも必要
     )->post("https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image");
 
     return $response->successful() ? "成功！" : "失敗：" . $response->body();
