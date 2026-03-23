@@ -30,9 +30,9 @@ Route::get('/upload-menu-image', function () {
     try {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = env('LW_BOT_NO');
-        $richMenuId = 'あなたが取得したID(rm-2205959)'; // ここにコピーしたIDを貼る
+        $richMenuId = 'rm-2205959'; // ここにコピーしたIDを貼る
 
-        $imagePath = public_path('C:\Users\k-shibata\Desktop\lw_full.png'); // 画像のパス
+        $imagePath = public_path('C /home/cf444722/cf444722.cloudfree.jp/public_html/dms/public/images/lw_full.png'); // 画像のパス
 
         if (!file_exists($imagePath)) {
             return "エラー: 画像ファイルが {$imagePath} に見つかりません。";
