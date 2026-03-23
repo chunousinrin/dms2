@@ -30,14 +30,16 @@ Route::get('/create-menu', function () {
     try {
         echo "1. 処理開始...<br>";
 
-        $token = LwApiService::getAccessToken();
-        if (!$token) {
-            return "エラー: トークンの取得に失敗しました。.envやPrivate Keyを確認してください。";
-        }
-        echo "2. トークン取得成功: " . substr($token, 0, 10) . "...<br>";
+        $token = App\Services\LwApiService::getAccessToken();
+        $botNo = env('LW_BOT_NO'); // .envから取得
+
+        echo "2. トークン取得成功。Bot No: " . $botNo . "<br>";
+
+        // URLの組み立てを確実に
+        $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus";
 
         $response = Http::withToken($token)
-            ->post("https://www.worksapis.com/v1.0/bots/{env('LW_BOT_NO')}/richmenus", [ // URLを変更
+            ->post($url, [
                 "width" => 2500,
                 "height" => 1686,
                 "selected" => true,
@@ -54,7 +56,8 @@ Route::get('/create-menu', function () {
                 ]
             ]);
 
-        echo "3. APIリクエスト完了。ステータスコード: " . $response->status() . "<br>";
+        echo "3. APIリクエスト完了。URL: " . $url . "<br>";
+        echo "ステータスコード: " . $response->status() . "<br>";
 
         if ($response->failed()) {
             return "APIエラー詳細: " . $response->body();
@@ -62,6 +65,6 @@ Route::get('/create-menu', function () {
 
         return "成功！ Rich Menu ID: " . $response->json('richMenuId');
     } catch (\Exception $e) {
-        return "例外発生: " . $e->getMessage() . "<br>場所: " . $e->getFile() . ":" . $e->getLine();
+        return "例外発生: " . $e->getMessage();
     }
 });
