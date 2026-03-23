@@ -39,7 +39,7 @@ Route::get('/get-token', function () {
 
 Route::get('/upload-final-check', function () {
     // 1. ここに「生」の値を直接コピペしてください（前後にスペースが入らないよう注意！）
-    $token = "あなたのアクセストークン（前回のログに出ていた長い文字列）";
+    $token = "jp2AAABK8+dcEf1P6LpiIIn2XgReTfhAkz8XoC5UooLf8nTb8+fnsM93QbQmr82JGuBJz3AAtv+1/CA5IEvsnOaZCN0pKAenTnhE+FdvaTcy8/noTukKWrMVRR+NprecuDs6mx4wZM0iW/muqyxipguj62gJELSDaLtw5Cksut9oQk0cibaZrrTTVVHfIqVPbvpCdWMal3Jv6VXIw4wg/LTvO/+cIhgPBh4rV2JybAZdYa0ZoMobgWIkEOLM9bbi0T2qXj1lTaL3kMG7vSf8r0Fow4Fbf8eM1bo9FKIGRbKF8FUtVv3v2ZtHgC6prFAqXm2WB1Dofovv8gcblLIMqeOM7MoA3/zG0plZRKoQsI2Ax+S5Sopt5hT15KU4z4TqP3dpD/JIwQWt7essDSduvwF5T8wEXw=.kwiu9yNovfcs8Rumz2QSOg";
     $botNo = "6811630";
     $richMenuId = "rm-2205959"; // あなたが取得したID
 
