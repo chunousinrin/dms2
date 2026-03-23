@@ -1,25 +1,29 @@
 <?php
 
 use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Http\Kernel;
-use Illuminate\Foundation\Exceptions\Handler as Exceptions;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
+use Illuminate\Foundation\Configuration\Exceptions;
+// ❌ これを消す（もしあれば）
+// use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken; 
 
+// ✅ これを使う（Laravel 11の標準的な設定用クラス）
+use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        // ...
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
+        health: '/up',
     )
-    // ⬇️ ここから丸ごと追記
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware) { // ← ここが「Middleware」クラスである必要があります
         $middleware->validateCsrfTokens(except: [
             'api/lw/webhook',
         ]);
     })
-    // ⬆️ ここまで
     ->withExceptions(function (Exceptions $exceptions) {
-        // ...
+        //
     })->create();
+
 
 /*
 |--------------------------------------------------------------------------
