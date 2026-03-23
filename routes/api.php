@@ -72,17 +72,18 @@ Route::get('/create-new-menu', function () {
 });
 
 
-Route::get('/upload-to-new', function () {
+Route::get('/upload-simple', function () {
     $token = App\Services\LwApiService::getAccessToken();
-    $newId = "rm-2205961";
-    $imagePath = public_path('images/menu.png');
+    $botNo = "6811630";
+    $richMenuId = "rm-2205961"; // 作成済みのID
 
     $response = Http::withToken($token)
-        ->attach('file', file_get_contents($imagePath), 'menu.png')
-        ->post("https://www.worksapis.com/v1.0/bots/6811630/richmenus/{$newId}/image");
+        ->attach(
+            'file',
+            file_get_contents(public_path('images/menu.png')),
+            'menu.png'
+        )
+        ->post("https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image");
 
-    if ($response->successful()) {
-        return "【ついに成功！！】画像が乗りました。次は有効化です。 ID: " . $newId;
-    }
-    return "まだダメでした: " . $response->body();
+    return $response->successful() ? "成功！" : "失敗：" . $response->body();
 });
