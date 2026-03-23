@@ -50,9 +50,8 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811630";
 
-        // ✅ API 2.0 正解URL（特定ユーザーへの1対1メッセージ）
-        // ドメインは www.worksapis.com
-        // パスは v2/bot/{botId}/users/{userId}/messages
+        // ✅ 修正：公式の 2.0 1:1メッセージ送信エンドポイント
+        // 「www.worksapis.com」ではなく「www.worksapis.com/v2/bot/」がベースです
         $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         $options = [
@@ -76,7 +75,7 @@ class LwApiService
             ];
         }
 
-        // 送信実行
+        // 送信
         $response = Http::withToken($token)->post($url, [
             "content" => [
                 "type" => "text",
