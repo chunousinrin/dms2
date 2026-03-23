@@ -3,34 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LwAttendance; // 事前にModelを作成してください
+use App\Models\lw_attendances; // 事前にModelを作成してください
 use Illuminate\Support\Facades\Log;
 
 class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+        // 1. 届いたデータそのものを出力
+        \Log::info('Raw Request:', $request->all());
 
-        // 届いたデータをすべてログ(storage/logs/laravel.log)に出力
-        Log::info('LINE WORKS Webhook Data:', $request->all());
-
-        // LINE WORKSからのデータを取得
-        $content = $request->input('content');
-        $source = $request->input('source');
-
-        // ボタン(postback)イベントのみ処理
+        // 2. typeがpostbackになっているかチェック
         if ($request->input('type') !== 'postback') {
+            \Log::warning('Type is not postback: ' . $request->input('type'));
             return response()->json(['status' => 'ignored']);
         }
 
         try {
-            // postbackデータ（JSON文字列を想定）をデコード
-            // 例: {"date":"2026-03-23", "cat":"出勤-有給", "val":1.0}
-            $data = json_decode($request->input('data'), true);
+            // 3. dataの中身をパース
+            $rawData = $request->input('data');
+            \Log::info('Raw Data String:', ['data' => $rawData]);
 
-            LwAttendance::updateOrCreate(
+            $data = json_decode($rawData, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                \Log::error('JSON Decode Error: ' . json_last_error_msg());
+            }
+
+            // 4. 保存実行直前のデータを確認
+            \Log::info('Data to Save:', [
+                'lw_user_id' => $request->input('source')['userId'] ?? 'MISSING',
+                'work_date'  => $data['date'] ?? 'MISSING',
+                'category'   => $data['cat'] ?? 'MISSING',
+                'work_value' => $data['val'] ?? 'MISSING',
+            ]);
+
+            $record = lw_attendances::updateOrCreate(
                 [
-                    'lw_user_id' => $source['userId'],
+                    'lw_user_id' => $request->input('source')['userId'],
                     'work_date'  => $data['date'] ?? now()->format('Y-m-d'),
                 ],
                 [
@@ -40,11 +50,11 @@ class LwAttendanceController extends Controller
                 ]
             );
 
-            // ここでLINE WORKS側に「記録完了」のメッセージを返す処理(Messaging API)を呼ぶのが理想です
+            \Log::info('Save Success! ID: ' . $record->id);
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            Log::error('LwAttendance Error: ' . $e->getMessage());
+            \Log::error('LwAttendance Error: ' . $e->getMessage());
             return response()->json(['status' => 'error'], 500);
         }
     }
