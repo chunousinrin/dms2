@@ -24,10 +24,17 @@ Route::post('/webhook', [LwAttendanceController::class, 'handleWebhook']);
 
 use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/create-menu', function () {
     try {
+        echo "1. 処理開始...<br>";
+
         $token = LwApiService::getAccessToken();
+        if (!$token) {
+            return "エラー: トークンの取得に失敗しました。.envやPrivate Keyを確認してください。";
+        }
+        echo "2. トークン取得成功: " . substr($token, 0, 10) . "...<br>";
 
         $response = Http::withToken($token)
             ->post("https://www.line-works.com/jp/reference/messaging-api/v2/rich-menus", [
@@ -47,9 +54,14 @@ Route::get('/create-menu', function () {
                 ]
             ]);
 
-        // 結果を画面に表示
-        return $response->json();
+        echo "3. APIリクエスト完了。ステータスコード: " . $response->status() . "<br>";
+
+        if ($response->failed()) {
+            return "APIエラー詳細: " . $response->body();
+        }
+
+        return "成功！ Rich Menu ID: " . $response->json('richMenuId');
     } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()]);
+        return "例外発生: " . $e->getMessage() . "<br>場所: " . $e->getFile() . ":" . $e->getLine();
     }
 });
