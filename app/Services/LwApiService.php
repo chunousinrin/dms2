@@ -49,8 +49,10 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botId = "6811630";
-        // ✅ API 2.0 正式URL: ユーザーIDをパスに含めず、末尾は /messages
-        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
+
+        // ✅ API 2.0 正式URL（特定ユーザー宛）: 
+        // v2の後は「bot」単数形、その後「bots」複数形が続く構造です
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         $options = [
             ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
@@ -78,10 +80,6 @@ class LwApiService
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
             ],
-            // ✅ API 2.0 では Body の中に宛先 (userId) を入れる
-            "to" => [
-                "userId" => $userId
-            ],
             "quickReply" => [
                 "items" => $items
             ]
@@ -97,7 +95,7 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botId = "6811630";
-        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         return Http::withToken($token)->post($url, [
             "content" => [
