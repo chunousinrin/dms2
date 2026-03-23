@@ -12,7 +12,12 @@ class LwApiService
         $clientId = env('LW_CLIENT_ID');
         $clientSecret = env('LW_CLIENT_SECRET');
         $serviceAccount = env('LW_SERVICE_ACCOUNT');
-        $privateKey = file_get_contents(storage_path('app/private_key.pem'));
+        $keyPath = storage_path('app/private_key.pem');
+
+        if (!file_exists($keyPath)) {
+            throw new \Exception("Private Key ファイルが見つかりません: {$keyPath}");
+        }
+        $privateKey = file_get_contents($keyPath);
 
         $now = time();
         $payload = [
@@ -22,10 +27,12 @@ class LwApiService
             "exp" => $now + 3600
         ];
 
-        // JWTの生成
-        $assertion = JWT::encode($payload, $privateKey, 'RS256');
+        try {
+            $assertion = JWT::encode($payload, $privateKey, 'RS256');
+        } catch (\Exception $e) {
+            throw new \Exception("JWTエンコード失敗: " . $e->getMessage());
+        }
 
-        // トークンの取得
         $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "assertion" => $assertion,
@@ -33,6 +40,11 @@ class LwApiService
             "client_secret" => $clientSecret,
             "scope" => "bot,bot.read,richmenu,richmenu.read"
         ]);
+
+        if ($response->failed()) {
+            // ここで LINE WORKS から返ってきたエラーを直接投げる
+            throw new \Exception("LINE WORKS認証エラー: " . $response->body());
+        }
 
         return $response->json('access_token');
     }
