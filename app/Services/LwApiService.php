@@ -38,7 +38,7 @@ class LwApiService
             "assertion" => $assertion,
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot,bot.read,richmenu,richmenu.read"
+            "scope" => "bot" // ここを 'bot' だけにする（コンマ区切りも不要です）
         ]);
 
         if ($response->failed()) {
