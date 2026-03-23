@@ -3,60 +3,52 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\lw_attendances; // 事前にModelを作成してください
+use App\Models\LwAttendance; // モデル名を修正
 use Illuminate\Support\Facades\Log;
 
 class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
-        // 1. 届いたデータそのものを出力
-        \Log::info('Full Request Data:', $request->all()); // 全データ出力
+        $rawBody = $request->getContent();
+        Log::info('Raw Webhook Body: ' . $rawBody);
 
-        // 2. typeがpostbackになっているかチェック
-        $type = $request->json('type'); // または $request->input('type')
+        $allData = json_decode($rawBody, true);
 
-        if ($type !== 'postback') {
-            \Log::warning('Received type: ' . ($type ?: 'NULL or EMPTY'));
-            return response()->json(['status' => 'ignored', 'received_type' => $type]);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            Log::error('JSON Decode Error: ' . json_last_error_msg());
+            return response()->json(['status' => 'error'], 400);
+        }
+
+        if (($allData['type'] ?? null) !== 'postback') {
+            return response()->json(['status' => 'ignored']);
         }
 
         try {
-            // 3. dataの中身をパース
-            $rawData = $request->input('data');
-            \Log::info('Raw Data String:', ['data' => $rawData]);
+            $postbackData = json_decode($allData['data'] ?? '{}', true);
 
-            $data = json_decode($rawData, true);
+            $lwUserId = $allData['source']['userId'] ?? null;
+            // 日付が指定されていない場合は今日の日付を入れる
+            $workDate = $postbackData['date'] ?? now()->format('Y-m-d');
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                \Log::error('JSON Decode Error: ' . json_last_error_msg());
-            }
-
-            // 4. 保存実行直前のデータを確認
-            \Log::info('Data to Save:', [
-                'lw_user_id' => $request->input('source')['userId'] ?? 'MISSING',
-                'work_date'  => $data['date'] ?? 'MISSING',
-                'category'   => $data['cat'] ?? 'MISSING',
-                'work_value' => $data['val'] ?? 'MISSING',
-            ]);
-
-            $record = lw_attendances::updateOrCreate(
+            // データベース保存実行 (既存データがあれば更新、なければ作成)
+            $record = LwAttendance::updateOrCreate(
                 [
-                    'lw_user_id' => $request->input('source')['userId'],
-                    'work_date'  => $data['date'] ?? now()->format('Y-m-d'),
+                    'lw_user_id' => $lwUserId,
+                    'work_date'  => $workDate,
                 ],
                 [
-                    'user_name'  => $request->input('user_name', 'Unknown'),
-                    'category'   => $data['cat'],
-                    'work_value' => $data['val'],
+                    'user_name'  => $allData['user_name'] ?? 'LINE WORKS User',
+                    'category'   => $postbackData['cat'] ?? '未分類',
+                    'work_value' => (float)($postbackData['val'] ?? 0.0),
                 ]
             );
 
-            \Log::info('Save Success! ID: ' . $record->id);
+            Log::info("Success: Saved LwAttendance ID {$record->id} for User {$lwUserId}");
 
-            return response()->json(['status' => 'success']);
+            return response()->json(['status' => 'success', 'id' => $record->id]);
         } catch (\Exception $e) {
-            \Log::error('LwAttendance Error: ' . $e->getMessage());
+            Log::error('LwAttendance Save Error: ' . $e->getMessage());
             return response()->json(['status' => 'error'], 500);
         }
     }
