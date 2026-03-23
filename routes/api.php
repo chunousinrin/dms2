@@ -40,13 +40,20 @@ Route::get('/create-menu', function () {
 
         $response = Http::withToken($token)
             ->post($url, [
-                "width" => 2500,
-                "height" => 1686,
+                "size" => [           // ← ここを 'size' で囲む必要があります
+                    "width" => 2500,
+                    "height" => 1686,
+                ],
                 "selected" => true,
                 "name" => "勤怠メニュー",
                 "areas" => [
                     [
-                        "bounds" => ["x" => 0, "y" => 0, "width" => 2500, "height" => 1686],
+                        "bounds" => [
+                            "x" => 0,
+                            "y" => 0,
+                            "width" => 2500,
+                            "height" => 1686
+                        ],
                         "action" => [
                             "type" => "message",
                             "label" => "出勤入力",
