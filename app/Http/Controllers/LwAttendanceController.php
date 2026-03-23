@@ -11,8 +11,6 @@ class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
-        \Log::info("Webhook Received: " . json_encode($request->all()));
-
         $content = $request->input('content');
         $source = $request->input('source');
 
