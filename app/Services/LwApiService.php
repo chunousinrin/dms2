@@ -21,11 +21,11 @@ class LwApiService
 
         // 2. もし .env が読み込めていない場合の「緊急避難用」
         // ※ 上記が null の場合、ここに直接文字列を貼り付けても動きます
-        $clientId = $clientId ?? 'あなたのClient_ID';
-        $clientSecret = $clientSecret ?? 'あなたのClient_Secret';
-        $serviceAccount = $serviceAccount ?? 'あなたのService_Account';
+        $clientId = $clientId ?? 'WPcmfuIP1CiGM4ahu_eZ';
+        $clientSecret = $clientSecret ?? 'Rmm9WTCneq';
+        $serviceAccount = $serviceAccount ?? 'd1gwz.serviceaccount@works-287419';
 
-        if (!$clientId || $clientId === 'あなたのClient_ID') {
+        if (!$clientId || $clientId === 'WPcmfuIP1CiGM4ahu_eZ') {
             throw new \Exception("LINE WORKSの設定（Client ID等）が空です。.envまたはLwApiServiceを確認してください。");
         }
 
