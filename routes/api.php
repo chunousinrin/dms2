@@ -27,35 +27,34 @@ use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
 
-Route::get('/upload-final-fix', function () {
+Route::get('/upload-final-qiita-fix', function () {
     try {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = "6811630";
-        $richMenuId = "2205959";
-        $imagePath = public_path('images/menu.jpg');
+        $richMenuId = "rm-2205959"; // 固定したID
+        $imagePath = public_path('images/menu.png');
 
         if (!file_exists($imagePath)) {
-            return "画像が見つかりません: " . $imagePath;
+            return "画像がないです！ public/images/menu.png を確認してください。";
         }
 
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
-        // 掲示板の解決策: multipart/form-data で 'file' キーに
-        // (ファイル名, バイナリ, Content-Type) をセットする
+        // Qiitaの記事と公式の挙動を合わせた「勝負のパケット」
         $response = Http::withToken($token)
             ->attach(
-                'file',                       // キー名は 'file' 固定
-                file_get_contents($imagePath), // 画像バイナリ
-                'menu.jpg',                   // ファイル名
-                ['Content-Type' => 'image/jpeg'] // MIMEタイプを明示
+                'file',                       // ← キー名は絶対これ
+                file_get_contents($imagePath), // 中身
+                'menu.png'                    // ← ファイル名を明示（これが大事！）
             )
             ->post($url);
 
         if ($response->successful()) {
-            return "【大勝利！！】画像が登録されました！直ちに /api/activate-menu を実行してください！";
+            return "【大・勝・利！！】ついに画像が乗りました！ /api/activate-menu を叩いてください！";
         }
 
-        return "Status: " . $response->status() . "<br> Response: " . $response->body();
+        // 400が出るなら、詳細を表示
+        return "Status: " . $response->status() . "<br>詳細: " . $response->body();
     } catch (\Exception $e) {
         return "エラー: " . $e->getMessage();
     }
