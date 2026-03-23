@@ -59,3 +59,22 @@ Route::get('/upload-simple', function () {
 
     return $response->successful() ? "成功！" : "失敗：" . $response->body();
 });
+
+
+
+Route::get('/upload-simplex', function () {
+    $token = App\Services\LwApiService::getAccessToken();
+    $apiId = config('lineworks.api_id');
+
+    // ① 画像アップロード（resourceId を取得）
+    $binary = file_get_contents(public_path('images/menu.png'));
+
+    $upload = Http::withHeaders([
+        'consumerKey' => config('lineworks.consumer_key'),
+        'Authorization' => 'Bearer ' . $token,
+        'Content-Type' => 'image/png',
+    ])->withBody($binary, 'image/png')
+        ->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/content");
+
+    dd($upload->body()); // ← まずこれでレスポンスを確認
+});
