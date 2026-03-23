@@ -48,7 +48,7 @@ Route::get('/upload-menu-image', function () {
             ->attach(
                 'file',             // フィールド名
                 $fileStream,        // ファイルストリーム
-                'menu.png',         // ファイル名
+                'lw_full.png',         // ファイル名
                 ['Content-Type' => 'image/png'] // Content-Typeを明示
             )
             ->post($url);
