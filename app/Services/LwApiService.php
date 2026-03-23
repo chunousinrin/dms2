@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Firebase\JWT\JWT; // composer require firebase/php-jwt が必要
+use Illuminate\Support\Facades\Log;
+use Firebase\JWT\JWT;
 
 class LwApiService
 {
@@ -12,25 +13,29 @@ class LwApiService
      */
     public static function getAccessToken()
     {
-
-        dd([
-            'env_check' => env('LINEWORKS_CLIENT_ID'),
-            'config_check' => config('services.lineworks.client_id'),
-        ]);
-
+        // 1. Configから取得（基本）
         $clientId = config('services.lineworks.client_id');
         $clientSecret = config('services.lineworks.client_secret');
-
-        // 【デバッグ用】もし値が取れていなければここで止まります
-        if (!$clientId || !$clientSecret) {
-            throw new \Exception("Configが読み込めていません。envを確認してください。");
-        }
-        // config/lineworks.php などに値を逃がしている想定です
-        //$clientId = config('services.lineworks.client_id');
-        //$clientSecret = config('services.lineworks.client_secret');
         $serviceAccount = config('services.lineworks.service_account');
-        $privateKey = file_get_contents(storage_path('app/private_key.pem')); // 読み込んだ中身
+        $privateKeyPath = config('services.lineworks.private_key');
 
+        // 2. もし .env が読み込めていない場合の「緊急避難用」
+        // ※ 上記が null の場合、ここに直接文字列を貼り付けても動きます
+        $clientId = $clientId ?? 'あなたのClient_ID';
+        $clientSecret = $clientSecret ?? 'あなたのClient_Secret';
+        $serviceAccount = $serviceAccount ?? 'あなたのService_Account';
+
+        if (!$clientId || $clientId === 'あなたのClient_ID') {
+            throw new \Exception("LINE WORKSの設定（Client ID等）が空です。.envまたはLwApiServiceを確認してください。");
+        }
+
+        // 秘密鍵の読み込み
+        if (!file_exists($privateKeyPath)) {
+            throw new \Exception("秘密鍵ファイルが見つかりません: {$privateKeyPath}");
+        }
+        $privateKey = file_get_contents($privateKeyPath);
+
+        // JWTの生成
         $now = time();
         $payload = [
             "iss" => $clientId,
@@ -41,29 +46,77 @@ class LwApiService
 
         $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
+        // トークン要求
         $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
             "assertion" => $assertion,
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot" // まずは最小限のスコープでテスト
+            "scope" => "bot,bot.read,bot.message"
         ]);
 
         if (!$response->successful()) {
-            // ここでエラー内容を画面に出す
-            return dd($response->json());
+            Log::error("LINE WORKS Token Error: " . $response->body());
+            throw new \Exception("トークン取得失敗: " . $response->body());
         }
 
         return $response->json()['access_token'];
     }
 
     /**
-     * クイッキリプライ送信
+     * クイッキリプライ（出勤内訳ボタン）の送信
      */
     public static function sendAttendanceSelection($userId)
     {
-        $token = self::getAccessToken(); // ここで呼び出し
+        $token = self::getAccessToken();
         $botNo = "6811630";
-        // ... (以下、前回お伝えしたクイッキリプライのコード)
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+
+        $options = [
+            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
+            ['label' => '1.0 有給',      'val' => '1.0/有給'],
+            ['label' => '1.0 特休',      'val' => '1.0/特休'],
+            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
+            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
+            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
+            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
+        ];
+
+        $items = array_map(function ($opt) {
+            return [
+                "action" => [
+                    "type" => "message",
+                    "label" => $opt['label'],
+                    "text" => "【打刻】" . $opt['val']
+                ]
+            ];
+        }, $options);
+
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => "本日の出勤内訳を選択してください。"
+            ],
+            "quickReply" => [
+                "items" => $items
+            ]
+        ]);
+    }
+
+    /**
+     * シンプルなテキスト送信
+     */
+    public static function sendSimpleText($userId, $text)
+    {
+        $token = self::getAccessToken();
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => $text
+            ]
+        ]);
     }
 }
