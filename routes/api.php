@@ -28,20 +28,34 @@ use Illuminate\Support\Facades\Log;
 
 Route::get('/upload-simple', function () {
     $token = App\Services\LwApiService::getAccessToken();
-    $botNo = "6811630";
+    $apiId = config('lineworks.api_id');
+    $botId = config('lineworks.bot_id');
     $richMenuId = "rm-2205961";
 
-    $imagePath = public_path('images/menu.png');
-    $binary = file_get_contents($imagePath);
+    // ① 画像アップロード（resourceId を取得）
+    $binary = file_get_contents(public_path('images/menu.png'));
 
-    $response = Http::withHeaders([
-        'consumerKey' => config('lineworks.consumer_key'), // ← 必須
+    $upload = Http::withHeaders([
+        'consumerKey' => config('lineworks.consumer_key'),
         'Authorization' => 'Bearer ' . $token,
         'Content-Type' => 'image/png',
-    ])->withBody(
-        $binary,
-        'image/png'
-    )->post("https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image");
+    ])->withBody($binary, 'image/png')
+        ->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/content");
+
+    if (!$upload->successful()) {
+        return "画像アップロード失敗：" . $upload->body();
+    }
+
+    $resourceId = $upload['resourceId'];
+
+    // ② リッチメニューに画像を紐付け
+    $response = Http::withHeaders([
+        'consumerKey' => config('lineworks.consumer_key'),
+        'Authorization' => 'Bearer ' . $token,
+        'Content-Type' => 'application/json',
+    ])->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/bot/{$botId}/richmenu/{$richMenuId}/content", [
+        'resourceId' => $resourceId
+    ]);
 
     return $response->successful() ? "成功！" : "失敗：" . $response->body();
 });
