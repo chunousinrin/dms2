@@ -10,22 +10,16 @@ class LwApiService
 {
     public static function getAccessToken()
     {
-        // 1. もう Config や .env は見ない！ここに直接書く
-        $clientId = 'WPcmfuIP1CiGM4ahu_eZ'; // ←実際の値をここに貼る
-        $clientSecret = 'Rmm9WTCneq'; // ←実際の値をここに貼る
-        $serviceAccount = 'd1gwz.serviceaccount@works-287419'; // ←実際の値をここに貼る
-
-        // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
+        $clientId = 'WPcmfuIP1CiGM4ahu_eZ';
+        $clientSecret = 'Rmm9WTCneq';
+        $serviceAccount = 'd1gwz.serviceaccount@works-287419';
         $privateKeyPath = storage_path('app/certs/private_key.key');
 
-        // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
             throw new \Exception("秘密鍵ファイルがありません: " . $privateKeyPath);
         }
 
         $privateKey = file_get_contents($privateKeyPath);
-
-        // JWTの生成（以下、前回と同じ）
         $now = time();
         $payload = [
             "iss" => $clientId,
@@ -41,7 +35,7 @@ class LwApiService
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot" // 一旦 'bot' だけにしてみる
+            "scope" => "bot"
         ]);
 
         if (!$response->successful()) {
@@ -55,6 +49,7 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botNo = "6811630";
+        // ✅ 一旦このURL(v1.0形式)で通るか再確認
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
         $options = [
@@ -77,7 +72,7 @@ class LwApiService
             ];
         }, $options);
 
-        return Http::withToken($token)->post($url, [
+        $response = Http::withToken($token)->post($url, [
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
@@ -86,11 +81,14 @@ class LwApiService
                 "items" => $items
             ]
         ]);
+
+        // ✅ デバッグログ：ここが何と返ってくるかだけ見たい
+        \Log::info("API Status: " . $response->status());
+        \Log::info("API Body: " . $response->body());
+
+        return $response;
     }
 
-    /**
-     * シンプルなテキスト送信
-     */
     public static function sendSimpleText($userId, $text)
     {
         $token = self::getAccessToken();
