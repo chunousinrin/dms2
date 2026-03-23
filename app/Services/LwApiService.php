@@ -16,7 +16,7 @@ class LwApiService
         $clientId = config('services.lineworks.client_id');
         $clientSecret = config('services.lineworks.client_secret');
         $serviceAccount = config('services.lineworks.service_account');
-        $privateKey = config('services.lineworks.private_key'); // 読み込んだ中身
+        $privateKey = file_get_contents(storage_path('app/private_key.pem')); // 読み込んだ中身
 
         $now = time();
         $payload = [
