@@ -3,49 +3,45 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Firebase\JWT\JWT; // composer require firebase/php-jwt が必要です
 
 class LwApiService
 {
-    public static function getAccessToken()
+    // アクセストークン取得メソッドは既存のものを使用
+
+    public static function sendAttendanceSelection($userId)
     {
-        $clientId = env('LW_CLIENT_ID');
-        $clientSecret = env('LW_CLIENT_SECRET');
-        $serviceAccount = env('LW_SERVICE_ACCOUNT');
-        $keyPath = storage_path('app/private_key.pem');
+        $token = self::getAccessToken();
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
-        if (!file_exists($keyPath)) {
-            throw new \Exception("Private Key ファイルが見つかりません: {$keyPath}");
-        }
-        $privateKey = file_get_contents($keyPath);
-
-        $now = time();
-        $payload = [
-            "iss" => $clientId,
-            "sub" => $serviceAccount,
-            "iat" => $now,
-            "exp" => $now + 3600
+        // ラベルと、実際にDBに振り分ける値のセット
+        $options = [
+            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
+            ['label' => '1.0 有給',      'val' => '1.0/有給'],
+            ['label' => '1.0 特休',      'val' => '1.0/特休'],
+            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
+            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
+            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
+            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
         ];
 
-        try {
-            $assertion = JWT::encode($payload, $privateKey, 'RS256');
-        } catch (\Exception $e) {
-            throw new \Exception("JWTエンコード失敗: " . $e->getMessage());
+        $items = [];
+        foreach ($options as $opt) {
+            $items[] = [
+                "action" => [
+                    "type" => "message",
+                    "label" => $opt['label'],
+                    "text" => "【打刻】" . $opt['val'] // 例: 【打刻】1.0/出勤
+                ]
+            ];
         }
 
-        $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
-            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            "assertion" => $assertion,
-            "client_id" => $clientId,
-            "client_secret" => $clientSecret,
-            "scope" => "bot" // ここを 'bot' だけにする（コンマ区切りも不要です）
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => "本日の出勤内訳を選択してください。"
+            ],
+            "quickReply" => ["items" => $items]
         ]);
-
-        if ($response->failed()) {
-            // ここで LINE WORKS から返ってきたエラーを直接投げる
-            throw new \Exception("LINE WORKS認証エラー: " . $response->body());
-        }
-
-        return $response->json('access_token');
     }
 }

@@ -3,68 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LwAttendance; // モデル名を修正
-use Illuminate\Support\Facades\Log;
+use App\Services\LwApiService;
+use App\Models\LwAttendance;
 
 class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+        $content = $request->input('content');
+        $source = $request->input('source');
+        if (!$content || !$source) return response()->json(['status' => 'ignore']);
 
-        $rawBody = $request->getContent();
-        // まず、届いた生の文字列を無条件でログに取る（これが一番大事！）
-        Log::info('Raw Webhook Body: ' . $rawBody);
+        $userId = $source['userId'];
+        $text = $content['text'] ?? '';
 
-        $allData = json_decode($rawBody, true);
-
-        // ★ ここにチェックコードを入れます ★
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            Log::error('JSON Decode Error: ' . json_last_error_msg());
-            Log::error('Invalid Body Content: ' . $rawBody); // 壊れた中身をログに残す
-            return response()->json([
-                'status' => 'error',
-                'reason' => json_last_error_msg()
-            ], 400); // ここで400を返して終了させる
+        // 1. トリガーワードの処理
+        if ($text === '出勤' || $text === '記録') {
+            LwApiService::sendAttendanceSelection($userId);
+            return response()->json(['status' => 'ok']);
         }
 
-        // ここから下は、JSONが正しかった場合のみ実行される
-        if (($allData['type'] ?? null) !== 'postback') {
-            return response()->json(['status' => 'ignored']);
+        // 2. 打刻データの保存処理
+        if (str_starts_with($text, '【打刻】')) {
+            // "【打刻】1.0/出勤-有給" -> "1.0/出勤-有給"
+            $rawPayload = str_replace('【打刻】', '', $text);
+            $parts = explode('/', $rawPayload); // [0]=>1.0, [1]=>出勤-有給
+
+            if (count($parts) === 2) {
+                try {
+                    LwAttendance::updateOrCreate(
+                        [
+                            'lw_user_id' => $userId,
+                            'work_date'  => now()->toDateString(), // 今日の日付
+                        ],
+                        [
+                            'work_value' => $parts[0], // 1.0
+                            'category'   => $parts[1], // 出勤-有給
+                            // 'user_name' => $userName, // 必要に応じてProfile APIから取得
+                        ]
+                    );
+
+                    LwApiService::sendSimpleText($userId, "✅ 記録完了しました！\n日付: " . now()->format('m/d') . "\n区分: {$parts[1]} ({$parts[0]})");
+                } catch (\Exception $e) {
+                    // Unique制約エラー等のハンドリング
+                    LwApiService::sendSimpleText($userId, "⚠️ 記録に失敗しました。既に今日データが存在するか、システムエラーです。");
+                }
+            }
         }
 
-        try {
-            $postbackData = json_decode($allData['data'] ?? '{}', true);
-
-            $lwUserId = $allData['source']['userId'] ?? null;
-            // 日付が指定されていない場合は今日の日付を入れる
-            $workDate = $postbackData['date'] ?? now()->format('Y-m-d');
-
-            // データベース保存実行 (既存データがあれば更新、なければ作成)
-            $record = LwAttendance::updateOrCreate(
-                [
-                    'lw_user_id' => $lwUserId,
-                    'work_date'  => $workDate,
-                ],
-                [
-                    'user_name'  => $allData['user_name'] ?? 'LINE WORKS User',
-                    'category'   => $postbackData['cat'] ?? '未分類',
-                    'work_value' => (float)($postbackData['val'] ?? 0.0),
-                ]
-            );
-
-            Log::info("Success: Saved LwAttendance ID {$record->id} for User {$lwUserId}");
-
-            return response()->json(['status' => 'success', 'id' => $record->id]);
-        } catch (\Exception $e) {
-            Log::error('LwAttendance Save Error: ' . $e->getMessage());
-            return response()->json(['status' => 'error'], 500);
-        }
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            // どんな文字列が届いて、なぜ失敗したかログに出す
-            Log::error('JSON Decode Error: ' . json_last_error_msg());
-            Log::error('Received Invalid Body: ' . $rawBody);
-            return response()->json(['status' => 'error', 'reason' => json_last_error_msg()], 400);
-        }
+        return response()->json(['status' => 'ok']);
     }
 }
