@@ -11,12 +11,12 @@ class LwApiService
     public static function getAccessToken()
     {
         // 1. もう Config や .env は見ない！ここに直接書く
-        $clientId = 'あなたのClient_ID'; // ←実際の値をここに貼る
-        $clientSecret = 'あなたのClient_Secret'; // ←実際の値をここに貼る
-        $serviceAccount = 'あなたのService_Account'; // ←実際の値をここに貼る
+        $clientId = 'WPcmfuIP1CiGM4ahu_eZ'; // ←実際の値をここに貼る
+        $clientSecret = 'Rmm9WTCneq'; // ←実際の値をここに貼る
+        $serviceAccount = 'd1gwz.serviceaccount@works-287419'; // ←実際の値をここに貼る
 
         // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
-        $privateKeyPath = storage_path('app/private_key.key');
+        $privateKeyPath = storage_path('app/certs/private_key.key');
 
         // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
