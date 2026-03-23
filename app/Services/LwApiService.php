@@ -13,6 +13,11 @@ class LwApiService
     public static function getAccessToken()
     {
 
+        dd([
+            'env_check' => env('LINEWORKS_CLIENT_ID'),
+            'config_check' => config('services.lineworks.client_id'),
+        ]);
+
         $clientId = config('services.lineworks.client_id');
         $clientSecret = config('services.lineworks.client_secret');
 
