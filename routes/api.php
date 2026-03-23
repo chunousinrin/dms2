@@ -26,58 +26,46 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/upload-simple', function () {
-    $token = App\Services\LwApiService::getAccessToken();
-    $botId = config('lineworks.bot_id');
-    $richMenuId = "rm-2205961";
+Route::get('/upload-perfect-binary', function () {
+    try {
+        $token = App\Services\LwApiService::getAccessToken();
+        $botNo = "6811630";
+        $richMenuId = "rm-2205961"; // 既存のIDを使用
 
-    // ① 画像アップロード（resourceId を取得）
-    $binary = file_get_contents(public_path('images/menu.png'));
+        // 1. メモリ上で完璧な 2500x1686 の画像を作成
+        $width = 2500;
+        $height = 1686;
+        $image = imagecreatetruecolor($width, $height);
 
-    $upload = Http::withHeaders([
-        'consumerKey' => config('lineworks.consumer_key'),
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'image/png',
-    ])->withBody(
-        $binary,
-        'image/png'
-    )->post("https://www.worksapis.com/v1.0/contents");
+        // 背景を中濃森林組合様のイメージに近い緑色 (#70bd29) で塗りつぶし
+        $green = imagecolorallocate($target = $image, 112, 189, 41);
+        imagefill($image, 0, 0, $green);
 
-    if (!$upload->successful()) {
-        return "画像アップロード失敗：" . $upload->body();
+        // 2. バイナリデータをキャプチャ
+        ob_start();
+        imagepng($image);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($image);
+
+        // 3. 送信（LaravelのHttpクライアントで、最も成功率の高い構成）
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+
+        $response = Http::withToken($token)
+            ->attach(
+                'file',       // キー名
+                $imageData,   // 生成したバイナリ
+                'test.png',   // ダミーファイル名
+                ['Content-Type' => 'image/png']
+            )
+            ->post($url);
+
+        if ($response->successful()) {
+            return "【成功】完璧なバイナリでアップロードに成功しました！次は /api/activate-menu です。";
+        }
+
+        return "失敗 (Status: " . $response->status() . "): " . $response->body();
+    } catch (\Exception $e) {
+        return "エラー発生: " . $e->getMessage();
     }
-
-    $resourceId = $upload['resourceId'];
-
-    // ② リッチメニューに画像を紐付け
-    $response = Http::withHeaders([
-        'consumerKey' => config('lineworks.consumer_key'),
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'application/json',
-    ])->post("https://www.worksapis.com/v1.0/bots/{$botId}/richmenus/{$richMenuId}/image", [
-        'resourceId' => $resourceId
-    ]);
-
-    return $response->successful() ? "成功！" : "失敗：" . $response->body();
-});
-
-
-
-Route::get('/upload-simplex', function () {
-    $token = App\Services\LwApiService::getAccessToken();
-    $apiId = config('lineworks.api_id');
-    $botId = config('lineworks.bot_id');
-    $richMenuId = "rm-2205961";
-
-    // ① 画像アップロード
-    $binary = file_get_contents(public_path('images/menu.png'));
-
-    $upload = Http::withHeaders([
-        'consumerKey' => config('lineworks.consumer_key'),
-        'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'image/png',
-    ])->withBody($binary, 'image/png')
-        ->post("https://apis.worksmobile.com/r/{$apiId}/message/v1/content");
-
-    dd($upload->body()); // ← まずこれを確認
 });
