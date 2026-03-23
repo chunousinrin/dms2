@@ -32,7 +32,7 @@ Route::get('/upload-menu-image', function () {
         $botNo = env('LW_BOT_NO');
         $richMenuId = 'rm-2205959'; // ここにコピーしたIDを貼る
 
-        $imagePath = public_path('images/menu.png');
+        $imagePath = public_path('images/lw_full.png');
 
         if (!file_exists($imagePath)) {
             return "エラー: 画像ファイルがありません。パス: " . $imagePath;
