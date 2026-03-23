@@ -37,21 +37,26 @@ Route::get('/get-token', function () {
     }
 });
 
-Route::get('/upload-final-check', function () {
-    // 1. ここに「生」の値を直接コピペしてください（前後にスペースが入らないよう注意！）
-    $token = "jp2AAABK8+dcEf1P6LpiIIn2XgReTfhAkz8XoC5UooLf8nTb8+fnsM93QbQmr82JGuBJz3AAtv+1/CA5IEvsnOaZCN0pKAenTnhE+FdvaTcy8/noTukKWrMVRR+NprecuDs6mx4wZM0iW/muqyxipguj62gJELSDaLtw5Cksut9oQk0cibaZrrTTVVHfIqVPbvpCdWMal3Jv6VXIw4wg/LTvO/+cIhgPBh4rV2JybAZdYa0ZoMobgWIkEOLM9bbi0T2qXj1lTaL3kMG7vSf8r0Fow4Fbf8eM1bo9FKIGRbKF8FUtVv3v2ZtHgC6prFAqXm2WB1Dofovv8gcblLIMqeOM7MoA3/zG0plZRKoQsI2Ax+S5Sopt5hT15KU4z4TqP3dpD/JIwQWt7essDSduvwF5T8wEXw=.kwiu9yNovfcs8Rumz2QSOg";
-    $botNo = "6811630";
-    $richMenuId = "rm-2205959"; // あなたが取得したID
 
-    // 2. 画像生成（念のため再掲）
+
+Route::get('/upload-final-check', function () {
+    // 1. 手動でコピーした値をここに貼り付け（前後にスペースがあってもtrimで消します）
+    $rawToken = "jp2AAABK8+dcEf1P6LpiIIn2XgReTfhAkz8XoC5UooLf8nTb8+fnsM93QbQmr82JGuBJz3AAtv+1/CA5IEvsnOaZCN0pKAenTnhE+FdvaTcy8/noTukKWrMVRR+NprecuDs6mx4wZM0iW/muqyxipguj62gJELSDaLtw5Cksut9oQk0cibaZrrTTVVHfIqVPbvpCdWMal3Jv6VXIw4wg/LTvO/+cIhgPBh4rV2JybAZdYa0ZoMobgWIkEOLM9bbi0T2qXj1lTaL3kMG7vSf8r0Fow4Fbf8eM1bo9FKIGRbKF8FUtVv3v2ZtHgC6prFAqXm2WB1Dofovv8gcblLIMqeOM7MoA3/zG0plZRKoQsI2Ax+S5Sopt5hT15KU4z4TqP3dpD/JIwQWt7essDSduvwF5T8wEXw=.kwiu9yNovfcs8Rumz2QSOg";
+    $botNo = "6811630";
+    $richMenuId = "rm-2205959"; // 先ほど表示されたID
+
+    // 2. トークンを掃除
+    $cleanToken = trim($rawToken);
+
+    // 3. 画像生成 (2500x1686)
     $image = imagecreatetruecolor(2500, 1686);
     ob_start();
     imagepng($image);
     $imageData = ob_get_contents();
     ob_end_clean();
+    imagedestroy($image);
 
-    // 3. URLを完全に手動で組み立てる
-    $url = "https://www.worksapis.com/v1.0/bots/" . $botNo . "/richmenus/" . $richMenuId . "/image";
+    $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -59,7 +64,7 @@ Route::get('/upload-final-check', function () {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer " . trim($token), // trimで念のため空白除去
+        "Authorization: Bearer " . $cleanToken, // 間にスペース1つ
         "Content-Type: image/png",
         "Content-Length: " . strlen($imageData)
     ]);
@@ -68,5 +73,5 @@ Route::get('/upload-final-check', function () {
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    return "URL: {$url} <br> Status: {$status} <br> Response: " . $response;
+    return "Status: {$status} <br> Response: " . $response;
 });
