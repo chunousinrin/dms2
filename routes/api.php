@@ -31,14 +31,14 @@ Route::get('/upload-final-fix', function () {
     try {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = "6811630";
-        $richMenuId = "rm-2205959";
+        $richMenuId = "2205959";
         $imagePath = public_path('images/menu.jpg');
 
         if (!file_exists($imagePath)) {
             return "画像が見つかりません: " . $imagePath;
         }
 
-        $url = "https://www.worksapis.com/v2.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
         // 掲示板の解決策: multipart/form-data で 'file' キーに
         // (ファイル名, バイナリ, Content-Type) をセットする
