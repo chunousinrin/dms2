@@ -26,16 +26,21 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-
-Route::get('/upload-final-retry', function () {
+Route::get('/create-new-menu', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = "6811630";
-    $richMenuId = "rm-2205959";
-    $imagePath = public_path('images/menu.png');
+    $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus";
 
-    $response = Http::withToken($token)
-        ->attach('file', file_get_contents($imagePath), 'menu.png')
-        ->post("https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image");
+    $response = Http::withToken($token)->post($url, [
+        "name" => "Forest Menu New",
+        "size" => ["width" => 2500, "height" => 1686], // サイズ指定
+        "areas" => [
+            [
+                "bounds" => ["x" => 0, "y" => 0, "width" => 2500, "height" => 1686],
+                "action" => ["type" => "uri", "label" => "HP", "uri" => "https://www.jforest-chuno.com/"]
+            ]
+        ]
+    ]);
 
-    return "Status: " . $response->status() . " / Body: " . $response->body();
+    return $response->json(); // 新しいIDをメモしてください
 });
