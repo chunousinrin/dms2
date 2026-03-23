@@ -26,37 +26,41 @@ use Illuminate\Support\Facades\Http;
 use App\Services\LwApiService;
 use Illuminate\Support\Facades\Log;
 
-Route::get('/upload-menu-image', function () {
-    try {
-        $token = App\Services\LwApiService::getAccessToken();
-        $botNo = env('LW_BOT_NO');
-        $richMenuId = 'rm-2205959'; // ここにコピーしたIDを貼る
+Route::get('/upload-image', function () {
+    $token = App\Services\LwApiService::getAccessToken();
+    $botNo = env('LW_BOT_NO');
+    $richMenuId = 'rm-2205959';
+    $imagePath = public_path('images/lw_full.png');
 
-        $imagePath = public_path('images/lw_full.png');
-
-        if (!file_exists($imagePath)) {
-            return "エラー: 画像ファイルがありません。パス: " . $imagePath;
-        }
-
-        // 1. 画像をバイナリとして読み込む
-        $imageData = file_get_contents($imagePath);
-
-        // 2. MIMEタイプを特定（念のためチェック）
-        $mimeType = mime_content_type($imagePath); // image/png または image/jpeg
-
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
-
-        // 3. 実行：attachを使わず、withBodyで直接送る
-        $response = Http::withToken($token)
-            ->withBody($imageData, $mimeType) // ここがポイント！バイナリを直接セット
-            ->post($url);
-
-        if ($response->failed()) {
-            return "アップロード失敗詳細 (Status: " . $response->status() . "): " . $response->body();
-        }
-
-        return "成功！！画像が紐付きました。次は「有効化」です！";
-    } catch (\Exception $e) {
-        return "例外発生: " . $e->getMessage();
+    if (!file_exists($imagePath)) {
+        return "画像なし: " . $imagePath;
     }
+
+    $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+
+    // cURLで直接リクエストを構成
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer {$token}",
+        "Content-Type: multipart/form-data"
+    ]);
+
+    // CURLFileを使ってファイルを指定
+    $postFields = [
+        'file' => new \CURLFile($imagePath, 'image/png', 'menu.png')
+    ];
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+
+    $response = curl_exec($ch);
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($status !== 201 && $status !== 200) {
+        return "cURL失敗 (Status: {$status}): " . $response;
+    }
+
+    return "成功！！画像がアップロードされました。";
 });
