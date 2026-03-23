@@ -32,35 +32,23 @@ Route::get('/upload-menu-image', function () {
     $richMenuId = 'rm-2205959';
     $imagePath = public_path('images/menu.png');
 
-    if (!file_exists($imagePath)) {
-        return "画像なし: " . $imagePath;
-    }
-
+    $imageData = file_get_contents($imagePath);
     $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
 
-    // cURLで直接リクエストを構成
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData); // パラメータ名なしでデータを直接入れる
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         "Authorization: Bearer {$token}",
-        "Content-Type: multipart/form-data"
+        "Content-Type: image/png", // multipartではなくimage/pngを指定
+        "Content-Length: " . strlen($imageData)
     ]);
-
-    // CURLFileを使ってファイルを指定
-    $postFields = [
-        'file' => new \CURLFile($imagePath, 'image/png', 'menu.png')
-    ];
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
 
     $response = curl_exec($ch);
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($status !== 201 && $status !== 200) {
-        return "cURL失敗 (Status: {$status}): " . $response;
-    }
-
-    return "成功！！画像がアップロードされました。";
+    return "Status: {$status} / Response: " . $response;
 });
