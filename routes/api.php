@@ -35,11 +35,12 @@ Route::get('/upload-simple', function () {
     $binary = file_get_contents($imagePath);
 
     $response = Http::withHeaders([
+        'consumerKey' => config('lineworks.consumer_key'), // ← 必須
         'Authorization' => 'Bearer ' . $token,
-        'Content-Type' => 'image/png', // ← これが必須
+        'Content-Type' => 'image/png',
     ])->withBody(
         $binary,
-        'image/png' // ← これも必要
+        'image/png'
     )->post("https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image");
 
     return $response->successful() ? "成功！" : "失敗：" . $response->body();
