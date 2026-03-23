@@ -10,6 +10,10 @@ class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+
+        // 届いたデータをすべてログ(storage/logs/laravel.log)に出力
+        Log::info('LINE WORKS Webhook Data:', $request->all());
+
         // LINE WORKSからのデータを取得
         $content = $request->input('content');
         $source = $request->input('source');
