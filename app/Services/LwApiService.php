@@ -13,29 +13,22 @@ class LwApiService
      */
     public static function getAccessToken()
     {
-        // 1. Configから取得（基本）
-        $clientId = config('services.lineworks.client_id');
-        $clientSecret = config('services.lineworks.client_secret');
-        $serviceAccount = config('services.lineworks.service_account');
-        $privateKeyPath = config('services.lineworks.private_key');
+        // 1. もう Config や .env は見ない！ここに直接書く
+        $clientId = 'WPcmfuIP1CiGM4ahu_eZ'; // ←実際の値をここに貼る
+        $clientSecret = 'Rmm9WTCneq'; // ←実際の値をここに貼る
+        $serviceAccount = 'd1gwz.serviceaccount@works-287419'; // ←実際の値をここに貼る
 
-        // 2. もし .env が読み込めていない場合の「緊急避難用」
-        // ※ 上記が null の場合、ここに直接文字列を貼り付けても動きます
-        $clientId = $clientId ?? 'WPcmfuIP1CiGM4ahu_eZ';
-        $clientSecret = $clientSecret ?? 'Rmm9WTCneq';
-        $serviceAccount = $serviceAccount ?? 'd1gwz.serviceaccount@works-287419';
+        // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
+        $privateKeyPath = storage_path('app/certs/private_key.key');
 
-        if (!$clientId || $clientId === 'WPcmfuIP1CiGM4ahu_eZ') {
-            throw new \Exception("LINE WORKSの設定（Client ID等）が空です。.envまたはLwApiServiceを確認してください。");
-        }
-
-        // 秘密鍵の読み込み
+        // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
-            throw new \Exception("秘密鍵ファイルが見つかりません: {$privateKeyPath}");
+            throw new \Exception("秘密鍵ファイルがありません: " . $privateKeyPath);
         }
+
         $privateKey = file_get_contents($privateKeyPath);
 
-        // JWTの生成
+        // JWTの生成（以下、前回と同じ）
         $now = time();
         $payload = [
             "iss" => $clientId,
@@ -46,7 +39,6 @@ class LwApiService
 
         $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
-        // トークン要求
         $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
             "assertion" => $assertion,
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
@@ -56,7 +48,6 @@ class LwApiService
         ]);
 
         if (!$response->successful()) {
-            Log::error("LINE WORKS Token Error: " . $response->body());
             throw new \Exception("トークン取得失敗: " . $response->body());
         }
 
