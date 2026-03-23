@@ -84,7 +84,7 @@ class LwApiService
             ];
         }
 
-        return Http::withToken($token)->post($url, [
+        $response = Http::withToken($token)->post($url, [
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
@@ -93,6 +93,11 @@ class LwApiService
                 "items" => $items
             ]
         ]);
+
+        // ★ 2. ここにデバッグ用のログ出力を差し込む！ ★
+        \Log::info("LINE WORKS API Response: " . $response->body());
+
+        return $response;
     }
 
     /**
