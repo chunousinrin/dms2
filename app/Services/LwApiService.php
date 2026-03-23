@@ -44,8 +44,9 @@ class LwApiService
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot" // 一旦 'bot' だけにしてみる
+            "scope" => "bot" // ここを一旦 "bot" だけにする
         ]);
+
         if (!$response->successful()) {
             throw new \Exception("トークン取得失敗: " . $response->body());
         }
