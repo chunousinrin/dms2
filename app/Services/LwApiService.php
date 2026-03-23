@@ -53,13 +53,9 @@ class LwApiService
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
         $options = [
-            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
-            ['label' => '1.0 有給',      'val' => '1.0/有給'],
-            ['label' => '1.0 特休',      'val' => '1.0/特休'],
-            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
-            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
-            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
+            ['label' => '出勤', 'val' => '1.0/出勤'],
+            ['label' => '有給', 'val' => '1.0/有給'],
+            ['label' => '欠勤', 'val' => '0.0/欠勤'],
         ];
 
         $items = array_map(function ($opt) {
