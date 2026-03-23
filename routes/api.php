@@ -29,18 +29,35 @@ use Illuminate\Support\Facades\Log;
 Route::get('/create-new-menu', function () {
     $token = App\Services\LwApiService::getAccessToken();
     $botNo = "6811630";
+    // 末尾にスラッシュを入れないURL
     $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus";
 
     $response = Http::withToken($token)->post($url, [
-        "name" => "Forest Menu New",
-        "size" => ["width" => 2500, "height" => 1686], // サイズ指定
+        "richmenuName" => "ForestMenuV2", // 'name' ではなく 'richmenuName'
+        "size" => [
+            "width" => 2500,
+            "height" => 1686
+        ],
         "areas" => [
             [
-                "bounds" => ["x" => 0, "y" => 0, "width" => 2500, "height" => 1686],
-                "action" => ["type" => "uri", "label" => "HP", "uri" => "https://www.jforest-chuno.com/"]
+                "bounds" => [
+                    "x" => 0,
+                    "y" => 0,
+                    "width" => 2500,
+                    "height" => 1686
+                ],
+                "action" => [
+                    "type" => "uri",
+                    "label" => "HPを表示",
+                    "uri" => "https://www.jforest-chuno.com/"
+                ]
             ]
         ]
     ]);
 
-    return $response->json(); // 新しいIDをメモしてください
+    if ($response->successful()) {
+        return "新しいIDが発行されました！: " . $response->json()['richmenuId'];
+    }
+
+    return "作成失敗 (" . $response->status() . "): " . $response->body();
 });
