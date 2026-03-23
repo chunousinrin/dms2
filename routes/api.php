@@ -30,7 +30,7 @@ Route::get('/upload-menu-image', function () {
     try {
         $token = App\Services\LwApiService::getAccessToken();
         $botNo = env('LW_BOT_NO');
-        $richMenuId = 'あなたが取得したID(2205959...)'; // ここにコピーしたIDを貼る
+        $richMenuId = 'あなたが取得したID(rm-2205959)'; // ここにコピーしたIDを貼る
 
         $imagePath = public_path('C:\Users\k-shibata\Desktop\lw_full.png'); // 画像のパス
 
