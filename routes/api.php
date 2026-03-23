@@ -38,40 +38,36 @@ Route::get('/get-token', function () {
 });
 
 
-Route::get('/upload-ultra-fix', function () {
-    $token = App\Services\LwApiService::getAccessToken();
-    $botNo = "6811630";
-    $richMenuId = "rm-2205959";
-    $imagePath = public_path('images/menu.png'); // 2500x1686の画像
 
-    if (!file_exists($imagePath)) {
-        return "エラー: 画像が {$imagePath} にありません。";
+Route::get('/upload-ultimate', function () {
+    try {
+        $token = App\Services\LwApiService::getAccessToken();
+        $botNo = "6811630";
+        $richMenuId = "rm-2205959";
+        $imagePath = public_path('images/menu.png');
+
+        if (!file_exists($imagePath)) {
+            return "画像がありません: " . $imagePath;
+        }
+
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
+
+        // ポイント：withHeadersでContent-Typeを指定「しない」のがコツです。
+        // attachを使うと、Laravelが自動で正しいマルチパートヘッダーを作ってくれます。
+        $response = Http::withToken($token)
+            ->attach(
+                'file',                   // APIが求めている名前
+                file_get_contents($imagePath),
+                'menu.png'                // ファイル名
+            )
+            ->post($url);
+
+        if ($response->successful()) {
+            return "【祝・成功！！】ついにアップロードされました！すぐに /api/activate-menu を実行してください！";
+        }
+
+        return "Status: " . $response->status() . "<br> Response: " . $response->body();
+    } catch (\Exception $e) {
+        return "例外: " . $e->getMessage();
     }
-
-    $imageData = file_get_contents($imagePath);
-    $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/richmenus/{$richMenuId}/image";
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // 重要：Bodyに画像バイナリをそのままセット（名前なし）
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $imageData);
-
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Authorization: Bearer " . $token,
-        "Content-Type: image/png", // multipartではなくimage/png
-        "Content-Length: " . strlen($imageData)
-    ]);
-
-    $response = curl_exec($ch);
-    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($status == 201 || $status == 200) {
-        return "【祝・成功！！】画像が紐付きました！今すぐ /api/activate-menu を実行してください！";
-    }
-
-    return "Status: {$status} <br> Response: " . $response;
 });
