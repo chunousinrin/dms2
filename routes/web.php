@@ -144,3 +144,7 @@ Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.ind
 Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
 Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
 Route::get('/invoices/{invoice}/pdf', [InvoiceController::class, 'showPdf'])->name('invoices.showPdf');
+
+use App\Http\Controllers\LwAttendanceController;
+
+Route::get('/test-send', [LwAttendanceController::class, 'testSend']);
