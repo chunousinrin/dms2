@@ -92,13 +92,13 @@ class LwApiService
         }, $options);
 
         $payload = [
-            "accountId" => $userId, // ← 必ず user@works-xxxxx 形式
+            "accountId" => $userId,
             "content" => [
                 "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。",
-                "quickReply" => [
-                    "items" => $items
-                ]
+                "text" => "本日の出勤内訳を選択してください。"
+            ],
+            "quickReply" => [
+                "items" => $items
             ]
         ];
 
