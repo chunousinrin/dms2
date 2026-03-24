@@ -70,7 +70,7 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811673";
 
-        $url = "https://www.worksapis.com/v1.0/bots/{$botId}/messages";
+        $url = "https://apis.worksmobile.com/v1.0/bots/{$botId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
