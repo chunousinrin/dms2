@@ -56,49 +56,20 @@ class LwApiService
     {
         $token = self::getAccessToken();
 
-        // ✅ API 2.0用に新しく発行された Bot No.
+        $token = self::getAccessToken();
         $botId = "6811673";
 
-        // ✅ 2.0の標準URL (bots 複数形)
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
-
-        $options = [
-            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
-            ['label' => '1.0 有給',      'val' => '1.0/有給'],
-            ['label' => '1.0 特休',      'val' => '1.0/特休'],
-            // ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'], // ⚠️ 5個制限のため一旦コメントアウト
-            // ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
-            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
-        ];
-
-        $items = array_map(function ($opt) {
-            return [
-                "action" => [
-                    "type" => "message",
-                    "label" => $opt['label'],
-                    "text" => "【打刻】" . $opt['val']
-                ]
-            ];
-        }, array_slice($options, 0, 5)); // ✅ 確実に5個以内に収める
+        // ✅ URLの末尾に「s」をつけないパターンも試す価値あり
+        $url = "https://www.worksapis.com/v2/bot/{$botId}";
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
-            'Content-Type' => 'application/json',
-        ])->post($url, [
-            "content" => [
-                "type" => "text",
-                "text" => "本日の出刻内訳を選択してください。"
-            ],
-            "quickReply" => [
-                "items" => array_slice($items, 0, 5) // 5個制限厳守
-            ]
-        ]);
+        ])->get($url);
 
-        \Log::info("LAST TEST Status: " . $response->status());
-        \Log::info("LAST TEST Body: " . $response->body());
+        \Log::info("DEBUG Token Status: " . $response->status());
+        \Log::info("DEBUG Token Body: " . $response->body());
 
-        return $response;
+        return $response->status();
     }
 
 
@@ -108,7 +79,7 @@ class LwApiService
     public static function sendSimpleText($userId, $text)
     {
         $token = self::getAccessToken();
-        $botNo = "6811630";
+        $botId = "6811630";
         $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
 
         return Http::withToken($token)->post($url, [
