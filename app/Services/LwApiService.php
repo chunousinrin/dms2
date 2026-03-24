@@ -56,6 +56,8 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botNo = "6811673";
+
+        // ✅ 正しいエンドポイント
         $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/messages";
 
         $options = [
@@ -64,12 +66,12 @@ class LwApiService
             ['label' => '1.0 特休',      'val' => '1.0/特休'],
             ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
             ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
-            //['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            //['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
         ];
 
+        // ✅ LINE WORKS用 quickReply形式
         $items = array_map(function ($opt) {
             return [
+                "type" => "action",
                 "action" => [
                     "type" => "message",
                     "label" => $opt['label'],
@@ -78,15 +80,25 @@ class LwApiService
             ];
         }, $options);
 
-        return Http::withToken($token)->post($url, [
+        $payload = [
+            // ✅ ユーザー指定はここ
+            "accountId" => $userId,
+
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
             ],
+
             "quickReply" => [
                 "items" => $items
             ]
-        ]);
+        ];
+
+        return Http::withToken($token)
+            ->withHeaders([
+                "Content-Type" => "application/json"
+            ])
+            ->post($url, $payload);
     }
 
 
