@@ -62,6 +62,26 @@ class LwApiService
         // ✅ API 2.0 の正しいURL（www.worksapis.com + v2）
         $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
+        $options = [
+            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
+            ['label' => '1.0 有給',      'val' => '1.0/有給'],
+            ['label' => '1.0 特休',      'val' => '1.0/特休'],
+            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
+            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
+            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
+            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
+        ];
+
+        $items = array_map(function ($opt) {
+            return [
+                "action" => [
+                    "type" => "message",
+                    "label" => $opt['label'],
+                    "text" => "【打刻】" . $opt['val']
+                ]
+            ];
+        }, $options);
+
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
