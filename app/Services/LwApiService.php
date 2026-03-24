@@ -31,7 +31,6 @@ class LwApiService
         $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
         $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
-
             "headers" => [
                 "Content-Type" => "application/x-www-form-urlencoded",
             ],
@@ -56,9 +55,9 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811630";
 
-        // ✅ API 2.0 正解候補：bots（複数形）＋ messages
-        // ユーザー指定はパスではなく、Body（to）に入れる形式を「2.0ドメイン」で試します
-        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
+        // ✅ 1. URL: 共通ガイドに従い www.worksapis.com/v2 を使用
+        // 1対1メッセージ送信の正式なパス構造です
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         $options = [
             ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
@@ -77,20 +76,20 @@ class LwApiService
             ];
         }
 
-        // ✅ 2.0 の「マルチキャスト送信」に近い形式（これが一番エラーが出にくいです）
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'Content-Type' => 'application/json',
-        ])->post($url, [
-            "to" => [$userId], // 👈 配列で userId を指定
-            "content" => [
-                "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-            "quickReply" => [
-                "items" => $items
-            ]
-        ]);
+        // ✅ 2. 送信: ヘッダーには Bearer トークン、Body は content と quickReply
+        $response = Http::withToken($token)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+            ])
+            ->post($url, [
+                "content" => [
+                    "type" => "text",
+                    "text" => "本日の出勤内訳を選択してください。"
+                ],
+                "quickReply" => [
+                    "items" => $items
+                ]
+            ]);
 
         \Log::info("API Status: " . $response->status());
         \Log::info("API Body: " . $response->body());
