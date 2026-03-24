@@ -96,7 +96,7 @@ class LwApiService
     {
         $token = self::getAccessToken();
         $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
 
         return Http::withToken($token)->post($url, [
             "content" => [
