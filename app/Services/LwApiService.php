@@ -55,38 +55,50 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botNo = "6811630";
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
+
+        // 🚨 重要：Developer Console の「Bot」メニューにある「Bot No.」を再確認してください。
+        // もし「6811630」で404なら、その数字の前後に空白がないか、
+        // あるいは別の「ID」という項目がないか見てください。
+        $botId = "6811630";
+
+        // ✅ API 2.0 公式ドキュメント通りの1:1送信URL
+        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
 
         $options = [
-            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
-            ['label' => '1.0 有給',      'val' => '1.0/有給'],
-            ['label' => '1.0 特休',      'val' => '1.0/特休'],
-            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
-            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
-            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
-            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
+            ['label' => '出勤', 'val' => '1.0/出勤'],
+            ['label' => '有給', 'val' => '1.0/有給'],
+            ['label' => '欠勤', 'val' => '0.0/欠勤'],
         ];
 
-        $items = array_map(function ($opt) {
-            return [
+        $items = [];
+        foreach ($options as $opt) {
+            $items[] = [
                 "action" => [
                     "type" => "message",
                     "label" => $opt['label'],
                     "text" => "【打刻】" . $opt['val']
                 ]
             ];
-        }, $options);
+        }
 
-        return Http::withToken($token)->post($url, [
+        // ✅ Guzzle(Http)のpostメソッドで、ヘッダーを確実に固定して送る
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => 'application/json',
+        ])->post($url, [
             "content" => [
                 "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
+                "text" => "本日の出刻内訳を選択してください。"
             ],
             "quickReply" => [
                 "items" => $items
             ]
         ]);
+
+        \Log::info("API Status: " . $response->status());
+        \Log::info("API Body: " . $response->body());
+
+        return $response;
     }
 
     /**
@@ -111,7 +123,7 @@ class LwApiService
         $botId = "6811630";
 
         // ✅ メッセージ送信より単純な「Bot情報取得」API
-        $url = "https://www.worksapis.com/v2/bots/{$botId}";
+        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
