@@ -50,7 +50,8 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811630";
 
-        // ✅ 2.0の正式URL（単数形 bot / 複数形 users）
+        // ✅ 1. URL: 共通ガイドに従い www.worksapis.com/v2 を使用
+        // 1対1メッセージ送信の正式なパス構造です
         $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         $options = [
@@ -70,19 +71,20 @@ class LwApiService
             ];
         }
 
-        // ✅ フォーラムの指摘通り、Headersを明示的に指定
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'Content-Type' => 'application/json',
-        ])->post($url, [
-            "content" => [
-                "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-            "quickReply" => [
-                "items" => $items
-            ]
-        ]);
+        // ✅ 2. 送信: ヘッダーには Bearer トークン、Body は content と quickReply
+        $response = Http::withToken($token)
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+            ])
+            ->post($url, [
+                "content" => [
+                    "type" => "text",
+                    "text" => "本日の出勤内訳を選択してください。"
+                ],
+                "quickReply" => [
+                    "items" => $items
+                ]
+            ]);
 
         \Log::info("API Status: " . $response->status());
         \Log::info("API Body: " . $response->body());
