@@ -120,16 +120,19 @@ class LwApiService
     public static function sendSimpleText($userId, $text)
     {
         $token = self::getAccessToken();
-        $botId = "6811630";
-        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
+        $botId = "6811673";
+
+        $url = "https://apis.worksmobile.com/v1.0/bots/{$botId}/messages";
 
         return Http::withToken($token)->post($url, [
+            "accountId" => $userId,
             "content" => [
                 "type" => "text",
                 "text" => $text
             ]
         ]);
     }
+
     public static function debugToken()
     {
         $token = self::getAccessToken();
