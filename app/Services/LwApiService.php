@@ -10,16 +10,22 @@ class LwApiService
 {
     public static function getAccessToken()
     {
-        $clientId = 'WPcmfuIP1CiGM4ahu_eZ';
-        $clientSecret = 'Rmm9WTCneq';
-        $serviceAccount = 'd1gwz.serviceaccount@works-287419';
+        // 1. もう Config や .env は見ない！ここに直接書く
+        $clientId = 'WPcmfuIP1CiGM4ahu_eZ'; // ←実際の値をここに貼る
+        $clientSecret = 'Rmm9WTCneq'; // ←実際の値をここに貼る
+        $serviceAccount = 'd1gwz.serviceaccount@works-287419'; // ←実際の値をここに貼る
+
+        // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
         $privateKeyPath = storage_path('app/certs/private_key.key');
 
+        // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
             throw new \Exception("秘密鍵ファイルがありません: " . $privateKeyPath);
         }
 
         $privateKey = file_get_contents($privateKeyPath);
+
+        // JWTの生成（以下、前回と同じ）
         $now = time();
         $payload = [
             "iss" => $clientId,
@@ -39,7 +45,7 @@ class LwApiService
                 "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
                 "client_id" => $clientId,
                 "client_secret" => $clientSecret,
-                "scope" => "bot"
+                "scope" => "bot" // 一旦 'bot' だけにしてみる
             ]
         ]);
 
@@ -53,47 +59,54 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botId = "6811630";
-
-        // ✅ 1. URL: 共通ガイドに従い www.worksapis.com/v2 を使用
-        // 1対1メッセージ送信の正式なパス構造です
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
         $options = [
-            ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
-            ['label' => '1.0 有給', 'val' => '1.0/有給'],
-            ['label' => '0.0 欠勤', 'val' => '0.0/欠勤'],
+            ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
+            ['label' => '1.0 有給',      'val' => '1.0/有給'],
+            ['label' => '1.0 特休',      'val' => '1.0/特休'],
+            ['label' => '1.0 出勤-有給', 'val' => '1.0/出勤-有給'],
+            ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
+            ['label' => '0.5 有給-欠勤', 'val' => '0.5/有給-欠勤'],
+            ['label' => '0.0 欠勤',      'val' => '0.0/欠勤'],
         ];
 
-        $items = [];
-        foreach ($options as $opt) {
-            $items[] = [
+        $items = array_map(function ($opt) {
+            return [
                 "action" => [
                     "type" => "message",
                     "label" => $opt['label'],
                     "text" => "【打刻】" . $opt['val']
                 ]
             ];
-        }
+        }, $options);
 
-        // ✅ 2. 送信: ヘッダーには Bearer トークン、Body は content と quickReply
-        $response = Http::withToken($token)
-            ->withHeaders([
-                'Content-Type' => 'application/json',
-            ])
-            ->post($url, [
-                "content" => [
-                    "type" => "text",
-                    "text" => "本日の出勤内訳を選択してください。"
-                ],
-                "quickReply" => [
-                    "items" => $items
-                ]
-            ]);
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => "本日の出勤内訳を選択してください。"
+            ],
+            "quickReply" => [
+                "items" => $items
+            ]
+        ]);
+    }
 
-        \Log::info("API Status: " . $response->status());
-        \Log::info("API Body: " . $response->body());
+    /**
+     * シンプルなテキスト送信
+     */
+    public static function sendSimpleText($userId, $text)
+    {
+        $token = self::getAccessToken();
+        $botNo = "6811630";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/users/{$userId}/messages";
 
-        return $response;
+        return Http::withToken($token)->post($url, [
+            "content" => [
+                "type" => "text",
+                "text" => $text
+            ]
+        ]);
     }
 }
