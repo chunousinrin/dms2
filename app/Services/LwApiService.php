@@ -36,7 +36,7 @@ class LwApiService
 
         $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
-        $response = Http::asForm()->post("https://auth.worksapis.com/oauth2/v2.0/token", [
+        $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
             "assertion" => $assertion,
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
