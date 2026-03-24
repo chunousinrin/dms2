@@ -55,49 +55,30 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botId = "6811630";
 
-        // ✅ 解決策：1.0のBotが反応できる「唯一のURL」
-        // ドメインを apis.worksmobile.com にし、パスを 1.0形式にします
-        $url = "https://apis.worksmobile.com/r/{$botId}/message/v1/bot/message/push";
+        // 🚨 新しく発行された 7xxxxxx 系の ID に差し替え
+        $botId = "6811673";
 
-        $options = [
-            ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
-            ['label' => '1.0 有給', 'val' => '1.0/有給'],
-            ['label' => '0.0 欠勤', 'val' => '0.0/欠勤'],
-        ];
+        // ✅ API 2.0 の正しいURL（www.worksapis.com + v2）
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
-        $items = [];
-        foreach ($options as $opt) {
-            $items[] = [
-                "action" => [
-                    "type" => "message",
-                    "label" => $opt['label'],
-                    "text" => "【打刻】" . $opt['val']
-                ]
-            ];
-        }
-
-        // ✅ API 1.0 形式の Body 構造（重要：2.0とは項目名が違います）
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
         ])->post($url, [
-            "accountId" => $userId, // 👈 2.0の "to" ではなく、1.0の "accountId" を使う
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
             ],
             "quickReply" => [
-                "items" => $items
+                "items" => $items // 以前作成したボタンの配列
             ]
         ]);
 
-        \Log::info("1.0 Hybrid Status: " . $response->status());
-        \Log::info("1.0 Hybrid Body: " . $response->body());
-
+        \Log::info("API 2.0 Final Status: " . $response->status());
         return $response;
     }
+
 
     /**
      * シンプルなテキスト送信
