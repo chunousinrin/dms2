@@ -60,7 +60,7 @@ class LwApiService
         $botId = "6811673";
 
         // ✅ 2.0の標準URL (bots 複数形)
-        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
+        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
@@ -86,13 +86,12 @@ class LwApiService
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
         ])->post($url, [
-            "to" => [$userId], // 👈 2.0では必須の配列形式
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
             ],
             "quickReply" => [
-                "items" => $items
+                "items" => $items // 5個以内の配列
             ]
         ]);
 
