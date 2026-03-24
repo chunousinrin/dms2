@@ -70,7 +70,8 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811673";
 
-        $url = "https://apis.worksmobile.com/v1.0/bots/{$botId}/messages";
+        // ✅ ここが最重要修正ポイント
+        $url = "https://apis.worksmobile.com/v2/bots/{$botId}/users/{$userId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
@@ -92,13 +93,12 @@ class LwApiService
         }, $options);
 
         $payload = [
-            "accountId" => $userId,
             "content" => [
                 "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-            "quickReply" => [
-                "items" => $items
+                "text" => "本日の出勤内訳を選択してください。",
+                "quickReply" => [
+                    "items" => $items
+                ]
             ]
         ];
 
@@ -113,7 +113,6 @@ class LwApiService
 
         return $response;
     }
-
     /**
      * シンプルなテキスト送信
      */
@@ -122,7 +121,7 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811673";
 
-        $url = "https://apis.worksmobile.com/v1.0/bots/{$botId}/messages";
+        $url = "https://apis.worksmobile.com/v2/bots/{$botId}/users/{$userId}/messages";
 
         return Http::withToken($token)->post($url, [
             "accountId" => $userId,
