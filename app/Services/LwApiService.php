@@ -55,19 +55,16 @@ class LwApiService
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-
-        // 🚨 重要：Developer Console の「Bot」メニューにある「Bot No.」を再確認してください。
-        // もし「6811630」で404なら、その数字の前後に空白がないか、
-        // あるいは別の「ID」という項目がないか見てください。
         $botId = "6811630";
 
-        // ✅ API 2.0 公式ドキュメント通りの1:1送信URL
-        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
+        // ✅ 解決策：1.0のBotが反応できる「唯一のURL」
+        // ドメインを apis.worksmobile.com にし、パスを 1.0形式にします
+        $url = "https://apis.worksmobile.com/r/{$botId}/message/v1/bot/message/push";
 
         $options = [
-            ['label' => '出勤', 'val' => '1.0/出勤'],
-            ['label' => '有給', 'val' => '1.0/有給'],
-            ['label' => '欠勤', 'val' => '0.0/欠勤'],
+            ['label' => '1.0 出勤', 'val' => '1.0/出勤'],
+            ['label' => '1.0 有給', 'val' => '1.0/有給'],
+            ['label' => '0.0 欠勤', 'val' => '0.0/欠勤'],
         ];
 
         $items = [];
@@ -81,22 +78,23 @@ class LwApiService
             ];
         }
 
-        // ✅ Guzzle(Http)のpostメソッドで、ヘッダーを確実に固定して送る
+        // ✅ API 1.0 形式の Body 構造（重要：2.0とは項目名が違います）
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
         ])->post($url, [
+            "accountId" => $userId, // 👈 2.0の "to" ではなく、1.0の "accountId" を使う
             "content" => [
                 "type" => "text",
-                "text" => "本日の出刻内訳を選択してください。"
+                "text" => "本日の出勤内訳を選択してください。"
             ],
             "quickReply" => [
                 "items" => $items
             ]
         ]);
 
-        \Log::info("API Status: " . $response->status());
-        \Log::info("API Body: " . $response->body());
+        \Log::info("1.0 Hybrid Status: " . $response->status());
+        \Log::info("1.0 Hybrid Body: " . $response->body());
 
         return $response;
     }
