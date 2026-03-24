@@ -60,7 +60,7 @@ class LwApiService
         $botId = "6811673";
 
         // ✅ API 2.0 の正しいURL（www.worksapis.com + v2）
-        $url = "https://www.worksapis.com/v2/bot/{$botId}/users/{$userId}/messages";
+        $url = "https://www.worksapis.com/v2/bots/{$botId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
@@ -86,16 +86,19 @@ class LwApiService
             'Authorization' => 'Bearer ' . $token,
             'Content-Type' => 'application/json',
         ])->post($url, [
+            "to" => [$userId], // 👈 ユーザーIDをここに入れる
             "content" => [
                 "type" => "text",
                 "text" => "本日の出勤内訳を選択してください。"
             ],
             "quickReply" => [
-                "items" => $items // 以前作成したボタンの配列
+                "items" => $items
             ]
         ]);
 
-        \Log::info("API 2.0 Final Status: " . $response->status());
+        \Log::info("API 2.0 Result Status: " . $response->status());
+        \Log::info("API 2.0 Result Body: " . $response->body());
+
         return $response;
     }
 
