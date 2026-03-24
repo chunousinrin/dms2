@@ -37,16 +37,12 @@ class LwApiService
         $assertion = JWT::encode($payload, $privateKey, 'RS256');
 
         $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
-            "headers" => [
-                "Content-Type" => "application/x-www-form-urlencoded",
-            ],
-            'form_params' => [
-                "assertion" => $assertion,
-                "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-                "client_id" => $clientId,
-                "client_secret" => $clientSecret,
-                "scope" => "bot" // 一旦 'bot' だけにしてみる
-            ]
+            "assertion" => $assertion,
+            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            "client_id" => $clientId,
+            "client_secret" => $clientSecret,
+            "scope" => "bot" // 一旦 'bot' だけにしてみる
+
         ]);
 
         if (!$response->successful()) {
@@ -108,5 +104,22 @@ class LwApiService
                 "text" => $text
             ]
         ]);
+    }
+    public static function debugToken()
+    {
+        $token = self::getAccessToken();
+        $botId = "6811630";
+
+        // ✅ メッセージ送信より単純な「Bot情報取得」API
+        $url = "https://www.worksapis.com/v2/bots/{$botId}";
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->get($url);
+
+        \Log::info("DEBUG Token Status: " . $response->status());
+        \Log::info("DEBUG Token Body: " . $response->body());
+
+        return $response->status();
     }
 }

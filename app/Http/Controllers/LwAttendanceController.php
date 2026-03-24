@@ -11,6 +11,8 @@ class LwAttendanceController extends Controller
 {
     public function handleWebhook(Request $request)
     {
+        \App\Services\LwApiService::debugToken();
+
         $content = $request->input('content');
         $source = $request->input('source');
 
