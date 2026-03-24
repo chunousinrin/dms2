@@ -136,7 +136,7 @@ class LwApiService
     public static function debugToken()
     {
         $token = self::getAccessToken();
-        $botId = "6811630";
+        $botId = "6811673";
 
         // ✅ URLに $userId を含めない「Bot詳細取得」API
         // これで 200 OK が出れば、IDとトークンは正しいことが証明されます
