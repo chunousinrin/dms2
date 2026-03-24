@@ -13,47 +13,58 @@ class LwAttendanceController extends Controller
     {
         \App\Services\LwApiService::debugToken();
 
-        $content = $request->input('content');
-        $source = $request->input('source');
+        $userId = $request->input('source.accountId');
+        $text   = $request->input('content.text');
 
-        if (!$content || !$source) return response()->json(['status' => 'ignore']);
+        if (!$userId || !$text) {
+            return response()->json(['status' => 'ignore']);
+        }
 
-        $userId = $source['userId'];
-        $text = $content['text'] ?? '';
-
-        // 1. 「出勤」という文字に反応してクイッキリプライを出す
+        // ① 出勤でクイックリプライ
         if ($text === '出勤' || $text === '記録') {
             LwApiService::sendAttendanceSelection($userId);
             return response()->json(['status' => 'ok']);
         }
 
-        // 2. ボタンタップで飛んできた「【打刻】1.0/出勤」を保存
+        // ② 打刻処理
         if (str_starts_with($text, '【打刻】')) {
+
             $rawPayload = str_replace('【打刻】', '', $text);
-            $parts = explode('/', $rawPayload); // [0]=>1.0, [1]=>出勤
+            $parts = explode('/', $rawPayload);
 
             if (count($parts) === 2) {
                 try {
                     LwAttendance::updateOrCreate(
                         [
                             'lw_user_id' => $userId,
-                            'work_date'  => now()->toDateString(), // 今日の日付
+                            'work_date'  => now()->toDateString(),
                         ],
                         [
-                            'category'   => $parts[1], // "出勤"
-                            'work_value' => $parts[0], // 1.0
-                            'user_name'  => 'LINE WORKS User', // 必要ならProfile APIで取得
+                            'category'   => $parts[1],
+                            'work_value' => $parts[0],
+                            'user_name'  => 'LINE WORKS User',
                         ]
                     );
 
-                    LwApiService::sendSimpleText($userId, "✅ 記録しました！\n区分: {$parts[1]}\n数値: {$parts[0]}");
+                    LwApiService::sendSimpleText(
+                        $userId,
+                        "✅ 記録しました！\n区分: {$parts[1]}\n数値: {$parts[0]}"
+                    );
                 } catch (\Exception $e) {
-                    Log::error("DB保存失敗: " . $e->getMessage());
-                    LwApiService::sendSimpleText($userId, "⚠️ 保存に失敗しました。管理者へ連絡してください。");
+                    \Log::error("DB保存失敗: " . $e->getMessage());
+
+                    LwApiService::sendSimpleText(
+                        $userId,
+                        "⚠️ 保存に失敗しました"
+                    );
                 }
             }
         }
 
         return response()->json(['status' => 'ok']);
+    }
+    public function testSend()
+    {
+        return LwApiService::sendAttendanceSelection("wo.57832@works-287419");
     }
 }

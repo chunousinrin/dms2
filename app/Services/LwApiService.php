@@ -10,55 +10,67 @@ class LwApiService
 {
     public static function getAccessToken()
     {
-        // 1. もう Config や .env は見ない！ここに直接書く
-        $clientId = 'WPcmfuIP1CiGM4ahu_eZ'; // ←実際の値をここに貼る
-        $clientSecret = 'Rmm9WTCneq'; // ←実際の値をここに貼る
-        $serviceAccount = 'd1gwz.serviceaccount@works-287419'; // ←実際の値をここに貼る
+        $clientId = 'WPcmfuIP1CiGM4ahu_eZ';
+        $clientSecret = 'Rmm9WTCneq';
+        $serviceAccount = 'd1gwz.serviceaccount@works-287419';
 
-        // 2. 秘密鍵のパス（先ほどの config/services.php のパスに合わせる）
         $privateKeyPath = storage_path('app/certs/private_key.key');
 
-        // --- ここから下はチェックなしで突き進む ---
         if (!file_exists($privateKeyPath)) {
             throw new \Exception("秘密鍵ファイルがありません: " . $privateKeyPath);
         }
 
         $privateKey = file_get_contents($privateKeyPath);
 
-        // JWTの生成（以下、前回と同じ）
         $now = time();
+
+        // ✅ ここが重要（aud追加）
         $payload = [
             "iss" => $clientId,
             "sub" => $serviceAccount,
             "iat" => $now,
-            "exp" => $now + 3600
+            "exp" => $now + 3600,
+            "aud" => "https://auth.worksmobile.com/oauth2/v2.0/token"
         ];
 
-        $assertion = JWT::encode($payload, $privateKey, 'RS256');
+        $jwt = JWT::encode($payload, $privateKey, 'RS256');
 
-        $response = Http::asForm()->post("https://auth.worksmobile.com/oauth2/v2.0/token", [
-            "assertion" => $assertion,
-            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            "client_id" => $clientId,
-            "client_secret" => $clientSecret,
-            "scope" => "bot bot.message bot.read"
+        $response = Http::asForm()->post(
+            "https://auth.worksmobile.com/oauth2/v2.0/token",
+            [
+                "assertion" => $jwt,
+                "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                "client_id" => $clientId,
+                "client_secret" => $clientSecret,
 
-        ]);
+                // ✅ スコープ完全一致
+                "scope" => "bot bot.message bot.read user.read"
+            ]
+        );
+
+        // 🔍 デバッグログ
+        \Log::info('TOKEN STATUS: ' . $response->status());
+        \Log::info('TOKEN BODY: ' . $response->body());
 
         if (!$response->successful()) {
             throw new \Exception("トークン取得失敗: " . $response->body());
         }
 
-        return $response->json()['access_token'];
+        $json = $response->json();
+
+        if (!isset($json['access_token'])) {
+            throw new \Exception("アクセストークンなし: " . json_encode($json));
+        }
+
+        return $json['access_token'];
     }
 
     public static function sendAttendanceSelection($userId)
     {
         $token = self::getAccessToken();
-        $botNo = "6811673";
+        $botId = "6811673";
 
-        // ✅ 正しいエンドポイント
-        $url = "https://www.worksapis.com/v1.0/bots/{$botNo}/messages";
+        $url = "https://www.worksapis.com/v1.0/bots/{$botId}/messages";
 
         $options = [
             ['label' => '1.0 出勤',      'val' => '1.0/出勤'],
@@ -68,7 +80,6 @@ class LwApiService
             ['label' => '0.5 出勤-欠勤', 'val' => '0.5/出勤-欠勤'],
         ];
 
-        // ✅ LINE WORKS用 quickReply形式
         $items = array_map(function ($opt) {
             return [
                 "type" => "action",
@@ -81,26 +92,27 @@ class LwApiService
         }, $options);
 
         $payload = [
-            // ✅ ユーザー指定はここ
-            "accountId" => $userId,
-
+            "accountId" => $userId, // ← 必ず user@works-xxxxx 形式
             "content" => [
                 "type" => "text",
-                "text" => "本日の出勤内訳を選択してください。"
-            ],
-
-            "quickReply" => [
-                "items" => $items
+                "text" => "本日の出勤内訳を選択してください。",
+                "quickReply" => [
+                    "items" => $items
+                ]
             ]
         ];
 
-        return Http::withToken($token)
+        $response = Http::withToken($token)
             ->withHeaders([
                 "Content-Type" => "application/json"
             ])
             ->post($url, $payload);
-    }
 
+        \Log::info('SEND STATUS: ' . $response->status());
+        \Log::info('SEND BODY: ' . $response->body());
+
+        return $response;
+    }
 
     /**
      * シンプルなテキスト送信
