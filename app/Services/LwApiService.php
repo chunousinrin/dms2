@@ -41,7 +41,8 @@ class LwApiService
             "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
             "client_id" => $clientId,
             "client_secret" => $clientSecret,
-            "scope" => "bot bot.message"
+            "scope" => "bot bot.message bot.read"
+
         ]);
 
         if (!$response->successful()) {
