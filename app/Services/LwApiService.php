@@ -122,8 +122,9 @@ class LwApiService
         $token = self::getAccessToken();
         $botId = "6811630";
 
-        // ✅ メッセージ送信より単純な「Bot情報取得」API
-        $url = "https://apis.worksmobile.com/v2/bot/6811630/users/{$userId}/messages";
+        // ✅ URLに $userId を含めない「Bot詳細取得」API
+        // これで 200 OK が出れば、IDとトークンは正しいことが証明されます
+        $url = "https://apis.worksmobile.com/v2/bots/{$botId}";
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token,
