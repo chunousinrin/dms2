@@ -55,7 +55,9 @@
                 {{-- 退勤 --}}
                 <form method="POST" action="{{ url('/v2/attendance/clock-out') }}">
                     @csrf
+
                     <input type="hidden" name="worker_id" value="{{ $worker->id }}">
+                    <input type="hidden" name="group_id" value="{{ $attendance->group_id ?? $defaultGroupId }}">
 
                     <button
                         class="btn btn-danger btn-lg btn-block"
