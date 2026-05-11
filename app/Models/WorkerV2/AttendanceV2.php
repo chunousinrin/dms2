@@ -32,7 +32,7 @@ class AttendanceV2 extends Model
 
     public function group()
     {
-        return $this->belongsTo(WorkergroupV2::class, 'group_id');
+        return $this->belongsTo(WorkerGroupV2::class, 'group_id');
     }
 
     // ステータス判定（UIで使う）
