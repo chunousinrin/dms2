@@ -162,6 +162,10 @@ use App\Http\Controllers\HomeController;
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
     // Public
+
+    Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
+        ->name('index');
+
     Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])
         ->name('create');
 
@@ -177,9 +181,6 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
     // Admin
     Route::middleware('auth')->group(function () {
-
-        Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
-            ->name('index');
 
         Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
             ->name('exportCsv');
