@@ -6,19 +6,100 @@ use Illuminate\Http\Request;
 use App\Models\WorkerV2\WorkerV2;
 use App\Models\WorkerV2\AttendanceV2;
 use App\Models\WorkerV2\WorkerGroupV2;
+use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AttendanceV2Controller extends Controller
 {
     /**
      * 管理画面
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attendances = AttendanceV2::with(['worker', 'group'])
-            ->where('work_date', today())
+        /*
+    |--------------------------------------------------------------------------
+    | 日付（デフォルト今日）
+    |--------------------------------------------------------------------------
+    */
+        $workDate = $request->work_date ?? today()->toDateString();
+
+        /*
+    |--------------------------------------------------------------------------
+    | 一覧Query
+    |--------------------------------------------------------------------------
+    */
+        $query = AttendanceV2::with(['worker', 'group'])
+            ->whereDate('work_date', $workDate);
+
+        /*
+    |--------------------------------------------------------------------------
+    | 作業員絞り込み
+    |--------------------------------------------------------------------------
+    */
+        if ($request->filled('worker_id')) {
+
+            $query->where('worker_id', $request->worker_id);
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 未退勤のみ
+    |--------------------------------------------------------------------------
+    */
+        if ($request->filled('only_working')) {
+
+            $query->whereNull('clock_out');
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 一覧取得
+    |--------------------------------------------------------------------------
+    */
+        $attendances = $query
+            ->orderBy('worker_id')
             ->get();
 
-        return view('attendance_v2.index', compact('attendances'));
+        /*
+    |--------------------------------------------------------------------------
+    | 集計
+    |--------------------------------------------------------------------------
+    */
+        $totalCount = $attendances->count();
+
+        $workingCount = $attendances
+            ->whereNull('clock_out')
+            ->count();
+
+        $completedCount = $attendances
+            ->whereNotNull('clock_out')
+            ->count();
+
+        /*
+    |--------------------------------------------------------------------------
+    | 指定日で有効な作業員一覧
+    |--------------------------------------------------------------------------
+    */
+        $workers = WorkerV2::whereHas('groupHistories', function ($q) use ($workDate) {
+
+            $q->where('start_date', '<=', $workDate)
+                ->where(function ($q2) use ($workDate) {
+
+                    $q2->whereNull('end_date')
+                        ->orWhere('end_date', '>=', $workDate);
+                });
+        })
+            ->orderBy('id')
+            ->get();
+
+        return view('attendance_v2.index', compact(
+            'attendances',
+            'workers',
+            'workDate',
+            'totalCount',
+            'workingCount',
+            'completedCount'
+        ));
     }
 
     /**
@@ -176,5 +257,131 @@ class AttendanceV2Controller extends Controller
         $attendance->save();
 
         return back()->with('success', 'コメント保存しました');
+    }
+    public function exportCsv(Request $request)
+    {
+        /*
+    |--------------------------------------------------------------------------
+    | 対象月
+    |--------------------------------------------------------------------------
+    */
+        $targetMonth = $request->target_month;
+
+        /*
+    |--------------------------------------------------------------------------
+    | 未指定なら今月
+    |--------------------------------------------------------------------------
+    */
+        if (!$targetMonth) {
+
+            $targetMonth = now()->format('Y-m');
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 月初・月末
+    |--------------------------------------------------------------------------
+    */
+        $startDate = Carbon::parse($targetMonth . '-01')->startOfMonth();
+
+        $endDate = Carbon::parse($targetMonth . '-01')->endOfMonth();
+
+        /*
+    |--------------------------------------------------------------------------
+    | データ取得
+    |--------------------------------------------------------------------------
+    */
+        $attendances = AttendanceV2::with(['worker', 'group'])
+            ->whereBetween('work_date', [$startDate, $endDate])
+            ->orderBy('work_date')
+            ->orderBy('worker_id')
+            ->get();
+
+        /*
+    |--------------------------------------------------------------------------
+    | ファイル名
+    |--------------------------------------------------------------------------
+    */
+        $fileName = $targetMonth . '_attendance.csv';
+
+        /*
+    |--------------------------------------------------------------------------
+    | CSVレスポンス
+    |--------------------------------------------------------------------------
+    */
+        $response = new StreamedResponse(function () use ($attendances) {
+
+            $handle = fopen('php://output', 'w');
+
+            /*
+        |--------------------------------------------------------------------------
+        | Excel文字化け対策（重要）
+        |--------------------------------------------------------------------------
+        */
+            fprintf($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            /*
+        |--------------------------------------------------------------------------
+        | ヘッダー
+        |--------------------------------------------------------------------------
+        */
+            fputcsv($handle, [
+                '日付',
+                '作業員ID',
+                '氏名',
+                '班ID',
+                '班名',
+                '出勤',
+                '退勤',
+                'コメント',
+            ]);
+
+            /*
+        |--------------------------------------------------------------------------
+        | データ
+        |--------------------------------------------------------------------------
+        */
+            foreach ($attendances as $attendance) {
+
+                fputcsv($handle, [
+
+                    optional($attendance->work_date)->format('Y-m-d'),
+
+                    $attendance->worker_id,
+
+                    $attendance->worker->name ?? '',
+
+                    $attendance->group_id,
+
+                    $attendance->group->name ?? '',
+
+                    optional($attendance->clock_in)->format('H:i'),
+
+                    optional($attendance->clock_out)->format('H:i'),
+
+                    $attendance->comment,
+
+                ]);
+            }
+
+            fclose($handle);
+        });
+
+        /*
+    |--------------------------------------------------------------------------
+    | Header
+    |--------------------------------------------------------------------------
+    */
+        $response->headers->set(
+            'Content-Type',
+            'text/csv; charset=UTF-8'
+        );
+
+        $response->headers->set(
+            'Content-Disposition',
+            'attachment; filename="' . $fileName . '"'
+        );
+
+        return $response;
     }
 }

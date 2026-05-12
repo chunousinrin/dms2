@@ -149,37 +149,32 @@ use App\Http\Controllers\LwAttendanceController;
 
 Route::get('/test-send', [LwAttendanceController::class, 'testSend']);
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceV2Controller;
 
-Route::prefix('v2')->group(function () {
+Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | 打刻（ログイン不要）
-    |-------------------------------------------------------------------------- 
-    */
+    // Public
     Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])
-        ->name('attendance_v2.create');
+        ->name('create');
 
     Route::post('/attendance/clock-in', [AttendanceV2Controller::class, 'clockIn'])
         ->middleware('throttle:30,1')
-        ->name('attendance_v2.clockIn');
+        ->name('clockIn');
 
     Route::post('/attendance/clock-out', [AttendanceV2Controller::class, 'clockOut'])
         ->middleware('throttle:30,1')
-        ->name('attendance_v2.clockOut');
+        ->name('clockOut');
 
-    // ★これだけ残す
     Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment']);
 
-    /*
-    |--------------------------------------------------------------------------
-    | 管理画面（ログイン必須）
-    |-------------------------------------------------------------------------- 
-    */
-    Route::middleware(['auth'])->group(function () {
+    // Admin
+    Route::middleware('auth')->group(function () {
 
         Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
-            ->name('attendance_v2.index');
+            ->name('index');
+
+        Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
+            ->name('exportCsv');
     });
 });

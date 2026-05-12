@@ -1,0 +1,205 @@
+:root {
+    --dms-green: #70bd29;
+    --dms-light-green: #c3e6cb;
+}
+.content-wrapper {
+    padding-bottom: 2rem; /* 好きな余白 */
+}
+
+.align-middle {
+    vertical-align: middle !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--dms-green) !important;
+}
+
+.nav-treeview > .nav-item > .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+}
+/*----------------------------------------------------------
+Datepicker
+----------------------------------------------------------*/
+/* --- 全体レイアウト --- */
+.ui-datepicker {
+    background-color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px !important; /* 少し余裕を持たせる */
+    width: 260px !important;
+    font-family:
+        "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+        sans-serif;
+    z-index: 9999 !important;
+    border-radius: 8px;
+}
+
+/* --- ヘッダー（年月・前後ボタン） --- */
+.ui-datepicker-header {
+    background: #ffffff !important;
+    border: none !important;
+    color: #333 !important;
+    padding: 0 0 10px 0 !important;
+}
+
+.ui-datepicker-title {
+    font-weight: bold !important;
+    font-size: 16px !important;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    cursor: pointer !important;
+    top: 2px !important;
+}
+
+/* --- カレンダー部分 --- */
+.ui-datepicker-calendar {
+    width: 100% !important;
+    table-layout: fixed !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.ui-datepicker-calendar th {
+    padding: 5px 0 !important;
+    font-weight: normal !important;
+    color: #000 !important;
+}
+
+/* 土日の色設定 */
+.ui-datepicker-calendar th:first-child, /* 日 */
+.ui-datepicker-calendar td:first-child a {
+    color: #f44336 !important; /* 赤 */
+}
+
+.ui-datepicker-calendar th:last-child, /* 土 */
+.ui-datepicker-calendar td:last-child a {
+    color: #2196f3 !important; /* 青 */
+}
+
+/* --- 日付セルの基本スタイル --- */
+.ui-state-default,
+.ui-widget-content .ui-state-default {
+    background: none !important;
+    border: none !important;
+    text-align: center !important;
+    color: #333 !important;
+    height: 35px !important;
+    width: 35px !important;
+    line-height: 35px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0px auto !important;
+    font-size: 14px !important;
+}
+
+/* 今日の日付（緑の丸） */
+.ui-datepicker-today a.ui-state-default {
+    background-color: #28a745 !important; /* 画像の鮮やかな緑 */
+    color: #ffffff !important;
+    border-radius: 50% !important;
+}
+
+/* ホバー・選択時（グレーの丸） */
+.ui-state-hover,
+.ui-state-active {
+    background-color: #f0f0f0 !important;
+    border-radius: 50% !important;
+    color: #333 !important;
+}
+
+/* --- 下部ボタンエリア --- */
+/* 親要素のレイアウト調整 */
+.ui-datepicker .ui-datepicker-buttonpane {
+    background: #ffffff !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* ボタン共通のスタイル上書き */
+/* セレクタを長くしてjQueryUIの標準設定を完全に封じ込めます */
+.ui-datepicker .ui-datepicker-buttonpane button,
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current,
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-close {
+    background: none !important; /* 楕円の背景を消す */
+    border: none !important; /* 枠線を消す */
+    color: #000000 !important; /* 文字を真っ黒にする */
+    font-size: 16px !important;
+    /*font-weight: bold !important;
+    /*padding: 10px 0 !important; /* 上下の余白 */
+    width: 100% !important; /* ホバー範囲が広すぎないよう調整 */
+    height: 30px !important;
+    min-height: auto !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    float: none !important; /* 横並び解除 */
+    box-shadow: none !important;
+    border-radius: 0px !important; /* ホバーした時の角丸 */
+    transition: background-color 0.2s; /* ふわっと色を変える */
+}
+
+/* ホバーした時の設定 */
+.ui-datepicker .ui-datepicker-buttonpane button:hover,
+.ui-datepicker .ui-datepicker-buttonpane button.ui-state-hover {
+    background-color: #f0f0f0 !important; /* 薄いグレーの背景 */
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+.ui-priority-primary,
+.ui-widget-content .ui-priority-primary,
+.ui-widget-header .ui-priority-primary {
+    font-weight: normal !important;
+}
+/* 「閉じる」を「クリア」に変えるための擬似的な対応（JSを変えられない場合） */
+/* ※可能であれば前述の通りJavaScript側で closeText: 'クリア' とするのがベストです */
+/*----------------------------------------------------------
+    Datepickerここまで
+    ----------------------------------------------------------*/
+
+/*----------------------------------------------------------
+FancyBox
+----------------------------------------------------------*/
+
+.fancybox__content {
+    background: none !important;
+    overflow: visible;
+}
+
+.fancybox__html-contents {
+    padding: 0 !important;
+}
+
+/* 閉じるボタンの位置調整（枠を消した分、少し内側に入れるときれいです） */
+.f-button.is-close-btn {
+    top: -20px !important;
+    right: -20px !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    /* 半透明の黒にするとPDFと被っても見やすい */
+    color: #fff !important;
+    border: 3px solid white !important;
+    border-radius: 50%;
+}
+
+.f-button.is-prev,
+.f-button.is-next {
+    display: none !important;
+}
+
+.pdf-fancybox .fancybox__content,
+#modal-create,
+#modal-show {
+    width: 80vw !important;
+    height: 80% !important;
+    max-width: 80vw !important;
+}
+/*----------------------------------------------------------
+    FancyBoxここまで
+    ----------------------------------------------------------*/
