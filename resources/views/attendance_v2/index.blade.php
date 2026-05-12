@@ -139,10 +139,10 @@
         </div>
         <div class="card-body p-0">
             <div class="table-responsive-custom" style="max-height: 100%;">
-                <table class="table-custom">
+                <table class="table table-sm table-custom">
                     <thead>
                         <tr>
-                            <th style="width: 100px;">日付</th>
+                            <th style="width: 150px;">日付</th>
                             <th style="width: 150px;">氏名</th>
                             <th style="width: 150px;">所属</th>
                             <th style="width: 150px;">出勤</th>
