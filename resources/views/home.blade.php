@@ -41,6 +41,12 @@
             </div>
         </div>
 
+        <div class="card">
+            <div id="attendance-widget"></div>
+
+            <script src="https://cf444722.cloudfree.jp/js/attendance-widget.js"></script>
+        </div>
+
         <div class="card bg-info text-white">
             <div class="card-header d-flex align-items-center">
                 <span>作業員出勤状況</span>
