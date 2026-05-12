@@ -42,6 +42,10 @@
         </div>
 
         <div class="row no-gutters">
+
+
+
+
             <div class="col-12 col-md-3 d-none d-md-block">
 
                 <div class="card" style="background-color: lightseagreen;color:white;font-weight:extra-bold;">
@@ -122,20 +126,21 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="row no-gutters">
+            @include('home.worker_attendance_check')
+        </div>
+        <div class="row no-gutters">
+            @include('home.minical')
+        </div>
+        <div class="row no-gutters">
+            @include('home.topic')
         </div>
     </div>
+</div>
 
-    <div class="row no-gutters">
-        @include('home.worker_attendance_check')
-    </div>
-    <div class="row no-gutters">
-        @include('home.minical')
-    </div>
-    <div class="row no-gutters">
-        @include('home.topic')
-    </div>
-</div>
-</div>
 
 @endsection
 
