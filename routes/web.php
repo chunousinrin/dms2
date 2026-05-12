@@ -152,6 +152,10 @@ Route::get('/test-send', [LwAttendanceController::class, 'testSend']);
 use App\Http\Controllers\AttendanceV2Controller;
 use App\Http\Controllers\HomeController;
 
+Route::get(
+    '/widget/attendance',
+    [HomeController::class, 'attendanceWidget']
+)->name('widget.attendance');
 
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
@@ -168,11 +172,6 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
         ->name('clockOut');
 
     Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment']);
-
-    Route::get(
-        '/widget/attendance',
-        [HomeController::class, 'attendanceWidget']
-    )->name('widget.attendance');
 
     // Admin
     Route::middleware('auth')->group(function () {
