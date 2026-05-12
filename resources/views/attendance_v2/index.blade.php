@@ -1,5 +1,3 @@
-@extends('adminlte::page')
-
 @section('title', '勤怠管理')
 
 @section('content_header')

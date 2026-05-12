@@ -61,13 +61,12 @@ async function loadAttendanceWidget() {
 <div class="card bg-info text-white">
         <div class="card-header d-flex align-items-center">
             <span>作業員出勤状況</span>
-            <a href="{{ route('attendance_v2.index') }}" class="ml-auto text-white">
+            <a href="https://cf444722.cloudfree.jp/v2/attendances" class="ml-auto text-white">
                 <i class="fas fa-external-link-square-alt"></i>
             </a>
         </div>
 
         <div class="card-body position-relative">
-            {{-- 背景アイコン --}}
             <div class="position-absolute" style="right:20px; top:10px; opacity:0.15; font-size:70px;">
                 <i class="fas fa-users"></i>
             </div>
