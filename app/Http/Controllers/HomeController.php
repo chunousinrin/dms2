@@ -90,7 +90,7 @@ class HomeController extends Controller
                 return !empty(trim($attendance->comment ?? ''));
             });
 
-        return view('dashboard', compact(
+        return view('home', compact(
             'todayAttendances',
             'totalCount',
             'workingCount',
