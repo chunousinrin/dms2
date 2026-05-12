@@ -23,37 +23,32 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    /*public function index()
+    public function index()
     {
-        //return view('home');
-
+        /*
+    |--------------------------------------------------------------------------
+    | トピックス・ライセンス・リリース情報の取得 (生クエリ)
+    |--------------------------------------------------------------------------
+    */
         $topics = DB::select('SELECT * FROM topic ORDER BY TopicDate DESC limit 5;');
         $licenses = DB::select('SELECT * FROM license_history WHERE lmt BETWEEN 0 AND 60;');
         $releases = DB::select('SELECT * FROM all_document;');
 
-        return view('home')->with([
-            'topics' => $topics,
-            'licenses' => $licenses,
-            'releases' => $releases,
-        ]);
-    }*/
-    public function index()
-    {
         /*
-        |--------------------------------------------------------------------------
-        | 今日の勤怠
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | 今日の勤怠データの取得 (Eloquent)
+    |--------------------------------------------------------------------------
+    */
         $todayAttendances = AttendanceV2::with(['worker', 'group'])
             ->whereDate('work_date', today())
             ->orderBy('worker_id')
             ->get();
 
         /*
-        |--------------------------------------------------------------------------
-        | 集計
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | 勤怠データの集計・フィルタリング
+    |--------------------------------------------------------------------------
+    */
         $totalCount = $todayAttendances->count();
 
         $workingCount = $todayAttendances
@@ -66,31 +61,29 @@ class HomeController extends Controller
 
         $commentCount = $todayAttendances
             ->filter(function ($attendance) {
-
                 return !empty(trim($attendance->comment ?? ''));
             })
             ->count();
 
-        /*
-        |--------------------------------------------------------------------------
-        | 未退勤一覧
-        |--------------------------------------------------------------------------
-        */
+        // 未退勤一覧
         $workingAttendances = $todayAttendances
             ->whereNull('clock_out');
 
-        /*
-        |--------------------------------------------------------------------------
-        | コメント有一覧
-        |--------------------------------------------------------------------------
-        */
+        // コメント有一覧
         $commentAttendances = $todayAttendances
             ->filter(function ($attendance) {
-
                 return !empty(trim($attendance->comment ?? ''));
             });
 
+        /*
+    |--------------------------------------------------------------------------
+    | ビューへの返却
+    |--------------------------------------------------------------------------
+    */
         return view('home', compact(
+            'topics',
+            'licenses',
+            'releases',
             'todayAttendances',
             'totalCount',
             'workingCount',
@@ -100,6 +93,7 @@ class HomeController extends Controller
             'commentAttendances'
         ));
     }
+
     public function attendanceWidget()
     {
         $todayAttendances = AttendanceV2::with(['worker', 'group'])
