@@ -1,3 +1,21 @@
+@extends('adminlte::page')
+
+@section('adminlte_css')
+<style>
+    /* サイドバーを非表示にする */
+    .main-sidebar {
+        display: none !important;
+    }
+
+    /* コンテンツの左余白をゼロにする */
+    .content-wrapper,
+    .main-footer,
+    .main-header {
+        margin-left: 0 !important;
+    }
+</style>
+@endsection
+
 @section('title', '勤怠管理')
 
 @section('content_header')
