@@ -149,7 +149,6 @@ use App\Http\Controllers\LwAttendanceController;
 
 Route::get('/test-send', [LwAttendanceController::class, 'testSend']);
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceV2Controller;
 
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
