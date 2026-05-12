@@ -6,7 +6,6 @@ use App\Models\WorkerV2\AttendanceV2;
 
 class DashboardController extends Controller
 {
-
     /**
      * Dashboard
      */
