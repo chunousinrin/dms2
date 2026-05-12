@@ -1,20 +1,5 @@
-@extends('adminlte::page')
+@extends('adminlte::master')
 
-@section('adminlte_css')
-<style>
-    /* サイドバーを非表示にする */
-    .main-sidebar {
-        display: none !important;
-    }
-
-    /* コンテンツの左余白をゼロにする */
-    .content-wrapper,
-    .main-footer,
-    .main-header {
-        margin-left: 0 !important;
-    }
-</style>
-@endsection
 
 @section('title', '勤怠管理')
 
@@ -22,7 +7,7 @@
 <h2 class="pl-2 m-0">勤怠管理</h2>
 @endsection
 
-@section('content')
+@section('body')
 <div class="container-fluid">
 
     {{-- タブカード --}}
