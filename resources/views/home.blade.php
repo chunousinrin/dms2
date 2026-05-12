@@ -42,15 +42,99 @@
         </div>
 
         <div class="row no-gutters">
-            @include('home.worker_attendance_check')
-        </div>
-        <div class="row no-gutters">
-            @include('home.minical')
-        </div>
-        <div class="row no-gutters">
-            @include('home.topic')
+            <div class="col-12 col-md-3 d-none d-md-block">
+
+                <div class="card" style="background-color: lightseagreen;color:white;font-weight:extra-bold;">
+                    <div class="card-body text-center small-box mb-0">
+                        <div class="inner">
+                            <div class="card-text" style="font-size: 1.5rem;line-height:1.5rem;">{{ now()->format('F')}}</div>
+                            <div class="card-text" style="font-size: 7rem;line-height:7rem;">{{ now()->format('d')}}</div>
+                            <div class="card-text" style="font-size: 1.5rem;line-height:1.5rem">{{ now()->format('l') }}</div>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card card-primary">
+                    <div class="card-body calendar-container">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+
+                <div class="card bg-info text-white">
+                    <div class="card-header d-flex align-items-center">
+                        <span>作業員出勤状況</span>
+                        <a href="{{ route('attendance_v2.index') }}" class="ml-auto text-white">
+                            <i class="fas fa-external-link-square-alt"></i>
+                        </a>
+                    </div>
+
+                    <div class="card-body position-relative">
+                        {{-- 背景アイコン --}}
+                        <div class="position-absolute" style="right:20px; top:10px; opacity:0.15; font-size:70px;">
+                            <i class="fas fa-users"></i>
+                        </div>
+
+                        <div class="d-flex border-bottom py-1">
+                            <span>出勤人数</span>
+                            <h4 class="ml-auto mb-0">{{ $totalCount }}</h4>
+                        </div>
+
+                        <div class="d-flex py-1">
+                            <span>未退勤</span>
+                            <h4 class="ml-auto mb-0">{{ $workingCount }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="card-footer p-0">
+                        <details>
+                            <summary class="px-4 py-3">未退勤者一覧</summary>
+                            <div style="max-height:250px; overflow:auto;">
+                                <table class="table table-sm bg-white mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="pl-2">氏名</th>
+                                            <th class="text-center">出勤時刻</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($workingAttendances as $attendance)
+                                        <tr>
+                                            <td class="pl-2">
+                                                {{ $attendance->worker->name ?? '' }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ optional($attendance->clock_in)->format('H:i') }}
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="2" class="text-center">全員退勤済です</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="row no-gutters">
+        @include('home.worker_attendance_check')
+    </div>
+    <div class="row no-gutters">
+        @include('home.minical')
+    </div>
+    <div class="row no-gutters">
+        @include('home.topic')
+    </div>
+</div>
 </div>
 
 @endsection
