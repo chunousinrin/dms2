@@ -172,7 +172,7 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
     Route::get(
         '/widget/attendance',
         [DashboardController::class, 'attendanceWidget']
-    );
+    )->name('widget.attendance');
 
     // Admin
     Route::middleware('auth')->group(function () {

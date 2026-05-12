@@ -73,4 +73,24 @@ class DashboardController extends Controller
             'commentAttendances'
         ));
     }
+    public function attendanceWidget()
+    {
+        $todayAttendances = AttendanceV2::with(['worker', 'group'])
+            ->whereDate('work_date', today())
+            ->orderBy('worker_id')
+            ->get();
+
+        $totalCount = $todayAttendances->count();
+
+        $workingAttendances = $todayAttendances
+            ->whereNull('clock_out');
+
+        $workingCount = $workingAttendances->count();
+
+        return view('widgets.attendance', compact(
+            'totalCount',
+            'workingCount',
+            'workingAttendances'
+        ));
+    }
 }
