@@ -58,98 +58,51 @@ async function loadAttendanceWidget() {
         */
         widget.innerHTML = `
 
-            <div style="
-                border-radius:10px;
-                overflow:hidden;
-                border:1px solid #ddd;
-                font-family:sans-serif;
-                background:#fff;
-            ">
+<div class="card bg-info text-white">
+        <div class="card-header d-flex align-items-center">
+            <span>作業員出勤状況</span>
+            <a href="{{ route('attendance_v2.index') }}" class="ml-auto text-white">
+                <i class="fas fa-external-link-square-alt"></i>
+            </a>
+        </div>
 
-                <div style="
-                    background:#17a2b8;
-                    color:#fff;
-                    padding:12px 16px;
-                    font-size:18px;
-                    font-weight:bold;
-                ">
-
-                    作業員出勤状況
-
-                </div>
-
-                <div style="padding:16px;">
-
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-bottom:10px;
-                    ">
-                        <span>出勤人数</span>
-                        <strong>${data.totalCount}</strong>
-                    </div>
-
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        margin-bottom:20px;
-                    ">
-                        <span>未退勤</span>
-                        <strong>${data.workingCount}</strong>
-                    </div>
-
-                    <details>
-
-                        <summary style="
-                            cursor:pointer;
-                            margin-bottom:10px;
-                        ">
-                            未退勤者一覧
-                        </summary>
-
-                        <table style="
-                            width:100%;
-                            border-collapse:collapse;
-                        ">
-
-                            <thead>
-
-                                <tr>
-
-                                    <th style="
-                                        text-align:left;
-                                        border-bottom:1px solid #ddd;
-                                        padding:8px;
-                                    ">
-                                        氏名
-                                    </th>
-
-                                    <th style="
-                                        text-align:center;
-                                        border-bottom:1px solid #ddd;
-                                        padding:8px;
-                                    ">
-                                        出勤
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                ${workerRows}
-
-                            </tbody>
-
-                        </table>
-
-                    </details>
-
-                </div>
-
+        <div class="card-body position-relative">
+            {{-- 背景アイコン --}}
+            <div class="position-absolute" style="right:20px; top:10px; opacity:0.15; font-size:70px;">
+                <i class="fas fa-users"></i>
             </div>
-        `;
+
+            <div class="d-flex border-bottom py-1">
+                <span>出勤人数</span>
+                <h4 class="ml-auto mb-0">${data.totalCount}</h4>
+            </div>
+
+            <div class="d-flex py-1">
+                <span>未退勤</span>
+                <h4 class="ml-auto mb-0">${data.workingCount}</h4>
+            </div>
+        </div>
+
+        <div class="card-footer p-0">
+            <details>
+                <summary class="px-4 py-3">未退勤者一覧</summary>
+                <div style="max-height:250px; overflow:auto;">
+                    <table class="table table-sm bg-white mb-0">
+                        <thead>
+                            <tr>
+                                <th class="pl-2">氏名</th>
+                                <th class="text-center">出勤時刻</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                ${workerRows}
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </div>
+    </div>
+            `;
     } catch (error) {
         widget.innerHTML = `
             <div style="padding:20px; color:red;">
