@@ -150,7 +150,7 @@ use App\Http\Controllers\LwAttendanceController;
 Route::get('/test-send', [LwAttendanceController::class, 'testSend']);
 
 use App\Http\Controllers\AttendanceV2Controller;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
 
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
@@ -171,7 +171,7 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
     Route::get(
         '/widget/attendance',
-        [DashboardController::class, 'attendanceWidget']
+        [HomeController::class, 'attendanceWidget']
     )->name('widget.attendance');
 
     // Admin
