@@ -23,3 +23,10 @@ Route::get('/test-options', function () {
     // あなたのLINE WORKS ユーザーIDを直接入れてテスト
     return App\Services\LwApiService::sendAttendanceSelection("wo.57832@works-287419");
 });
+
+use App\Http\Controllers\Api\AttendanceWidgetApiController;
+
+Route::get(
+    '/widget/attendance',
+    [AttendanceWidgetApiController::class, 'index']
+);
