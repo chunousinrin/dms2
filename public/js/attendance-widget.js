@@ -80,6 +80,10 @@ async function loadAttendanceWidget() {
                 <span>未退勤</span>
                 <h4 class="ml-auto mb-0">${data.workingCount}</h4>
             </div>
+            <div class="d-flex py-1">
+                <span>未打刻</span>
+                <h4 class="ml-auto mb-0">${data.workingAttendances}</h4>
+            </div>
         </div>
 
         <div class="card-footer p-0">
