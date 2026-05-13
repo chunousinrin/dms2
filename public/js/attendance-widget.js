@@ -81,7 +81,7 @@ async function loadAttendanceWidget() {
             // row
             workerRows += `
         <tr>
-            <td>${worker.name}</td>
+            <td class="pl-2">${worker.name}</td>
             <td style="text-align:center;">
                 ${statusBadge}
             </td>
@@ -115,7 +115,7 @@ async function loadAttendanceWidget() {
             </div>
 
             <div class="d-flex border-bottom py-1">
-                <span>未退勤</span>
+                <span>出勤中</span>
                 <h4 class="ml-auto mb-0">${data.workingCount}</h4>
             </div>
             <div class="d-flex py-1">
