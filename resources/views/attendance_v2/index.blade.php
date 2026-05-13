@@ -1,13 +1,9 @@
 @extends('adminlte::master')
 
-
 @section('title', '勤怠管理')
 
-@section('content_header')
-<h2 class="pl-2 m-0">勤怠管理</h2>
-@endsection
-
 @section('body')
+<h2 class="pl-2 m-0">作業員勤怠管理</h2>
 <div class="container-fluid">
 
     {{-- タブカード --}}
