@@ -186,17 +186,16 @@
 </div>
 @endsection
 
-@section('css')
+@section('adminlte_css')
 @vite('resources/css/custom.css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 @vite('resources/css/components/index-design.css')
 @endsection
 
-@section('js')
+@section('adminlte_js')
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-@vite(['resources/js/components/datepicker.js'])
-@vite(['resources/js/components/fancybox.js'])
+@vite(['resources/js/components/datepicker.js'],['resources/js/components/fancybox.js'])
 @endsection
