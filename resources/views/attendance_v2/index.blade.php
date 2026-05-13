@@ -98,16 +98,6 @@
 
     {{-- 集計 --}}
     <div class="row mb-3">
-        {{-- 総人数 --}}
-        <div class="col-md-4">
-            <div class="small-box bg-info mb-0">
-                <div class="inner">
-                    <p>総人数</p>
-                    <h3 class="text-center">{{ $totalCount }}</h3>
-                </div>
-            </div>
-        </div>
-
         {{-- 未退勤 --}}
         <div class="col-md-4">
             <div class="small-box bg-warning mb-0">
@@ -124,6 +114,15 @@
                 <div class="inner">
                     <p>未打刻</p>
                     <h3 class="text-center">{{ $missingCount }}</h3>
+                </div>
+            </div>
+        </div>
+        {{-- 総人数 --}}
+        <div class="col-md-4">
+            <div class="small-box bg-info mb-0">
+                <div class="inner">
+                    <p>総人数</p>
+                    <h3 class="text-center">{{ $totalCount }}</h3>
                 </div>
             </div>
         </div>
@@ -155,7 +154,7 @@
                         @forelse($workers as $worker)
                         @php
                         $atd = $worker->todayAttendance;
-                        $rowClass = !$atd->clock_out ? 'table-warning' : '';
+                        $rowClass = !$atd ? '' : (!$atd->clock_out ? 'table-warning' : '');
                         @endphp
 
                         <tr class="{{ $rowClass }}">
