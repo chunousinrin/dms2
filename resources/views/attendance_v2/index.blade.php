@@ -112,7 +112,7 @@
         <div class="col-md-4">
             <div class="small-box bg-warning mb-0">
                 <div class="inner">
-                    <p>未退勤</p>
+                    <p>出勤中</p>
                     <h3 class="text-center">{{ $workingCount }}</h3>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                         @forelse($workers as $worker)
                         @php
                         $atd = $worker->todayAttendance;
-                        $rowClass = !$atd ? 'table-danger' : (!$atd->clock_out ? 'table-warning' : '');
+                        $rowClass = !$atd->clock_out ? 'table-warning' : '';
                         @endphp
 
                         <tr class="{{ $rowClass }}">
@@ -168,7 +168,7 @@
                                 @if(!$atd)
                                 <span class="badge badge-danger">未打刻</span>
                                 @elseif(!$atd->clock_out)
-                                <span class="badge badge-warning">未退勤</span>
+                                <span class="badge badge-warning">出勤中</span>
                                 @else
                                 <span class="badge badge-success">退勤済</span>
                                 @endif
