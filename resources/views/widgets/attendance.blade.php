@@ -20,7 +20,7 @@
     <div class="card bg-info text-white">
         <div class="card-header d-flex align-items-center">
             <span>作業員出勤状況</span>
-            <a href="{{ route('attendance_v2.index') }}" class="ml-auto text-white" target="_blank">
+            <a href="{{ route('attendance_v2.index') }}" class="ml-auto text-white" target=" _blank" rel="noopener noreferrer">
                 <i class="fas fa-external-link-square-alt"></i>
             </a>
         </div>
