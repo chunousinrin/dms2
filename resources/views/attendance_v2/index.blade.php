@@ -107,7 +107,6 @@
                 </div>
             </div>
         </div>
-
         {{-- 未打刻 --}}
         <div class="col-md-4">
             <div class="small-box bg-danger mb-0">
@@ -167,7 +166,7 @@
                                 @if(!$atd)
                                 <span class="badge badge-danger">未打刻</span>
                                 @elseif(!$atd->clock_out)
-                                <span class="badge badge-warning">未退勤</span>
+                                <span class="badge badge-warning">出勤中</span>
                                 @else
                                 <span class="badge badge-success">退勤済</span>
                                 @endif
