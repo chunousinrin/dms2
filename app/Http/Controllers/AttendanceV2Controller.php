@@ -80,25 +80,68 @@ class AttendanceV2Controller extends Controller
     | 指定日で有効な作業員一覧
     |--------------------------------------------------------------------------
     */
-        $workers = WorkerV2::whereHas('groupHistories', function ($q) use ($workDate) {
+        $workers = WorkerV2::where('is_active', true)
 
-            $q->where('start_date', '<=', $workDate)
-                ->where(function ($q2) use ($workDate) {
+            ->whereHas('groupHistories', function ($q) use ($workDate) {
 
-                    $q2->whereNull('end_date')
-                        ->orWhere('end_date', '>=', $workDate);
-                });
-        })
+                $q->where('start_date', '<=', $workDate)
+                    ->where(function ($q2) use ($workDate) {
+
+                        $q2->whereNull('end_date')
+                            ->orWhere('end_date', '>=', $workDate);
+                    });
+            })
+
             ->orderBy('id')
+
             ->get();
 
+        /*
+    |--------------------------------------------------------------------------
+    | 指定日の打刻済 worker_id
+    |--------------------------------------------------------------------------
+    */
+        $attendanceWorkerIds = AttendanceV2::whereDate(
+            'work_date',
+            $workDate
+        )->pluck('worker_id');
+
+        /*
+    |--------------------------------------------------------------------------
+    | 未打刻者
+    |--------------------------------------------------------------------------
+    */
+        $missingWorkers = WorkerV2::where('is_active', true)
+
+            ->whereHas('groupHistories', function ($q) use ($workDate) {
+
+                $q->where('start_date', '<=', $workDate)
+                    ->where(function ($q2) use ($workDate) {
+
+                        $q2->whereNull('end_date')
+                            ->orWhere('end_date', '>=', $workDate);
+                    });
+            })
+
+            ->whereNotIn('id', $attendanceWorkerIds)
+
+            ->orderBy('id')
+
+            ->get();
+
+        /*
+    |--------------------------------------------------------------------------
+    | view
+    |--------------------------------------------------------------------------
+    */
         return view('attendance_v2.index', compact(
             'attendances',
             'workers',
             'workDate',
             'totalCount',
             'workingCount',
-            'completedCount'
+            'completedCount',
+            'missingWorkers'
         ));
     }
 

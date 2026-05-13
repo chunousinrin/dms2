@@ -179,12 +179,8 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
     Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment']);
 
-    // Admin
-    Route::middleware('auth')->group(function () {
-
-        Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
-            ->name('exportCsv');
-    });
+    Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
+        ->name('exportCsv');
 });
 /*
 |--------------------------------------------------------------------------

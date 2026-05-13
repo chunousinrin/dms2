@@ -45,4 +45,9 @@ class AttendanceV2 extends Model
     {
         return !is_null($this->clock_out);
     }
+    public function todayAttendance()
+    {
+        return $this->hasOne(AttendanceV2::class, 'worker_id')
+            ->whereDate('work_date', request('work_date', today()));
+    }
 }

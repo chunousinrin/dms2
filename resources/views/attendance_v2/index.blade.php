@@ -102,6 +102,7 @@
 
     {{-- 集計 --}}
     <div class="row mb-3">
+        {{-- 総人数 --}}
         <div class="col-md-4">
             <div class="small-box bg-info mb-0">
                 <div class="inner">
@@ -111,20 +112,22 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="small-box bg-success mb-0">
-                <div class="inner">
-                    <p>退勤済</p>
-                    <h3 class="text-center">{{ $completedCount }}</h3>
-                </div>
-            </div>
-        </div>
-
+        {{-- 未退勤 --}}
         <div class="col-md-4">
             <div class="small-box bg-warning mb-0">
                 <div class="inner">
                     <p>未退勤</p>
                     <h3 class="text-center">{{ $workingCount }}</h3>
+                </div>
+            </div>
+        </div>
+
+        {{-- 未打刻 --}}
+        <div class="col-md-4">
+            <div class="small-box bg-danger mb-0">
+                <div class="inner">
+                    <p>未打刻</p>
+                    <h3 class="text-center">{{ $missingCount }}</h3>
                 </div>
             </div>
         </div>
@@ -134,35 +137,51 @@
     <div class="card search-card">
         <div class="card-header bg-white d-flex justify-content-between align-items-center py-2">
             <h5 class="m-0 h6 font-weight-bold text-success">
-                <i class="fas fa-list-ul mr-1"></i> 勤怠一覧
+                <i class="fas fa-list-ul mr-1"></i>勤怠一覧
             </h5>
         </div>
+
         <div class="card-body p-0">
-            <div class="table-responsive-custom" style="max-height: 100%;">
-                <table class="table table-sm table-custom">
+            <div class="table-responsive-custom">
+                <table class="table table-sm table-custom mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 150px;">日付</th>
-                            <th style="width: 150px;">氏名</th>
-                            <th style="width: 150px;">所属</th>
-                            <th style="width: 150px;">出勤</th>
-                            <th style="width: 150px;">退勤</th>
+                            <th style="width: 80px;">ID</th>
+                            <th style="width: 180px;">氏名</th>
+                            <th style="width: 180px;">所属</th>
+                            <th style="width: 120px;">出勤</th>
+                            <th style="width: 120px;">退勤</th>
+                            <th style="width: 120px;">状態</th>
                             <th>コメント</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($attendances as $attendance)
-                        <tr>
-                            <td>{{ $attendance->work_date->format('Y-m-d') }}</td>
-                            <td>{{ $attendance->worker->name ?? '' }}</td>
-                            <td>{{ $attendance->group->name ?? '' }}</td>
-                            <td>{{ optional($attendance->clock_in)->format('H:i') }}</td>
-                            <td>{{ optional($attendance->clock_out)->format('H:i') }}</td>
-                            <td>{{ $attendance->comment }}</td>
+                        @forelse($workers as $worker)
+                        @php
+                        $atd = $worker->todayAttendance;
+                        $rowClass = !$atd ? 'table-danger' : (!$atd->clock_out ? 'table-warning' : '');
+                        @endphp
+
+                        <tr class="{{ $rowClass }}">
+                            <td>{{ $worker->id }}</td>
+                            <td>{{ $worker->name }}</td>
+                            <td>{{ $atd->group->name ?? '-' }}</td>
+                            <td>{{ $atd?->clock_in?->format('H:i') }}</td>
+                            <td>{{ $atd?->clock_out?->format('H:i') }}</td>
+                            <td>
+                                @if(!$atd)
+                                <span class="badge badge-danger">未打刻</span>
+                                @elseif(!$atd->clock_out)
+                                <span class="badge badge-warning">未退勤</span>
+                                @else
+                                <span class="badge badge-success">退勤済</span>
+                                @endif
+                            </td>
+                            <td>{{ $atd->comment ?? '' }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">データがありません</td>
+                            <td colspan="7" class="text-center py-4">データがありません</td>
                         </tr>
                         @endforelse
                     </tbody>
