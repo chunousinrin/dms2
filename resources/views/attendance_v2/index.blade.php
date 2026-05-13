@@ -3,7 +3,7 @@
 @section('title', '勤怠管理')
 
 @section('body')
-<h2 class="pl-2 m-0">作業員勤怠管理</h2>
+<h2 class="pl-2">作業員勤怠管理</h2>
 <div class="container-fluid">
 
     {{-- タブカード --}}
