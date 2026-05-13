@@ -154,7 +154,7 @@
                         @forelse($workers as $worker)
                         @php
                         $atd = $worker->todayAttendance;
-                        $rowClass = !$atd ? '' : (!$atd->clock_out ? 'table-warning' : '');
+                        $rowClass = !$atd ? 'table-danger' : '';
                         @endphp
 
                         <tr class="{{ $rowClass }}">
@@ -167,7 +167,7 @@
                                 @if(!$atd)
                                 <span class="badge badge-danger">未打刻</span>
                                 @elseif(!$atd->clock_out)
-                                <span class="badge badge-warning">出勤中</span>
+                                <span class="badge badge-warning">未退勤</span>
                                 @else
                                 <span class="badge badge-success">退勤済</span>
                                 @endif
