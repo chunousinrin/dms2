@@ -137,7 +137,7 @@
 
         <div class="card-body p-0">
             <div class="table-responsive-custom">
-                <table class="table table-sm table-custom mb-0">
+                <table class="table-custom mb-0">
                     <thead>
                         <tr>
                             <th style="width: 80px;">ID</th>
