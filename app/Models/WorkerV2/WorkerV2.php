@@ -4,6 +4,8 @@ namespace App\Models\WorkerV2;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\WorkerV2\AttendanceV2;
+use App\Models\WorkerV2\WorkerGroupHistory;
 
 class WorkerV2 extends Model
 {
@@ -30,12 +32,6 @@ class WorkerV2 extends Model
         return $this->hasMany(AttendanceV2::class, 'worker_id');
     }
 
-    // 所属履歴
-    public function groupHistories()
-    {
-        return $this->hasMany(WorkerGroupHistory::class, 'worker_id');
-    }
-
     // 今日の所属班（よく使うのでメソッド化）
     public function currentGroup($date = null)
     {
@@ -49,5 +45,31 @@ class WorkerV2 extends Model
             })
             ->orderBy('start_date', 'desc')
             ->first();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | 今日の勤怠
+    |--------------------------------------------------------------------------
+    */
+    public function todayAttendance()
+    {
+        return $this->hasOne(
+            AttendanceV2::class,
+            'worker_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | 班履歴
+    |--------------------------------------------------------------------------
+    */
+    public function groupHistories()
+    {
+        return $this->hasMany(
+            WorkerGroupHistory::class,
+            'worker_id'
+        );
     }
 }
