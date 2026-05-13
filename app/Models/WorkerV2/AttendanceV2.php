@@ -47,6 +47,9 @@ class AttendanceV2 extends Model
     }
     public function todayAttendance()
     {
-        return $this->hasOne(AttendanceV2::class, 'worker_id');
+        return $this->hasOne(
+            AttendanceV2::class,
+            'worker_id'
+        );
     }
 }
