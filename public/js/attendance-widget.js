@@ -45,7 +45,7 @@ async function loadAttendanceWidget() {
                 <tr>
                     <td>${worker.name}</td>
                     <td style="text-align:center;">
-                        ${worker.clock_in}
+                        ${worker.status}
                     </td>
                 </tr>
             `;
@@ -72,7 +72,7 @@ async function loadAttendanceWidget() {
             </div>
 
             <div class="d-flex border-bottom py-1">
-                <span>出勤人数</span>
+                <span>総人数</span>
                 <h4 class="ml-auto mb-0">${data.totalCount}</h4>
             </div>
 
@@ -88,13 +88,13 @@ async function loadAttendanceWidget() {
 
         <div class="card-footer p-0">
             <details>
-                <summary class="px-4 py-3">未退勤者一覧</summary>
+                <summary class="px-4 py-3">勤務状況</summary>
                 <div style="max-height:250px; overflow:auto;">
                     <table class="table table-sm bg-white mb-0">
                         <thead>
                             <tr>
                                 <th class="pl-2">氏名</th>
-                                <th class="text-center">出勤時刻</th>
+                                <th class="text-center">状況</th>
                             </tr>
                         </thead>
                         <tbody>
