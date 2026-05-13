@@ -41,14 +41,52 @@ async function loadAttendanceWidget() {
         let workerRows = "";
 
         data.workers.forEach((worker) => {
-            workerRows += `
-                <tr>
-                    <td>${worker.name}</td>
-                    <td style="text-align:center;">
-                        ${worker.status}
-                    </td>
-                </tr>
+            // status label
+            let statusLabel = "";
+            let statusBadge = "";
+
+            switch (worker.status) {
+                case "working":
+                    statusLabel = "出勤中";
+                    statusBadge = `
+                <span class="badge badge-warning">
+                    ${statusLabel}
+                </span>
             `;
+                    break;
+
+                case "missing":
+                    statusLabel = "未打刻";
+                    statusBadge = `
+                <span class="badge badge-danger">
+                    ${statusLabel}
+                </span>
+            `;
+                    break;
+
+                case "completed":
+                    statusLabel = "退勤済";
+                    statusBadge = `
+                <span class="badge badge-success">
+                    ${statusLabel}
+                </span>
+            `;
+                    break;
+
+                default:
+                    statusLabel = "-";
+                    statusBadge = statusLabel;
+            }
+
+            // row
+            workerRows += `
+        <tr>
+            <td>${worker.name}</td>
+            <td style="text-align:center;">
+                ${statusBadge}
+            </td>
+        </tr>
+    `;
         });
 
         /*
@@ -76,7 +114,7 @@ async function loadAttendanceWidget() {
                 <h4 class="ml-auto mb-0">${data.totalCount}</h4>
             </div>
 
-            <div class="d-flex py-1">
+            <div class="d-flex border-bottom py-1">
                 <span>未退勤</span>
                 <h4 class="ml-auto mb-0">${data.workingCount}</h4>
             </div>
@@ -129,4 +167,4 @@ loadAttendanceWidget();
 | 30秒更新
 |--------------------------------------------------------------------------
 */
-setInterval(loadAttendanceWidget, 30000);
+//setInterval(loadAttendanceWidget, 30000);
