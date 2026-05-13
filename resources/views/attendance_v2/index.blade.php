@@ -197,5 +197,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-@vite(['resources/js/components/datepicker.js'],['resources/js/components/fancybox.js'])
+@vite(['resources/js/components/datepicker.js'])
+@vite(['resources/js/components/fancybox.js'])
 @endsection
