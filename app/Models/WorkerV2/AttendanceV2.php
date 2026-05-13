@@ -47,7 +47,6 @@ class AttendanceV2 extends Model
     }
     public function todayAttendance()
     {
-        return $this->hasOne(AttendanceV2::class, 'worker_id')
-            ->whereDate('work_date', request('work_date', today()));
+        return $this->hasOne(AttendanceV2::class, 'worker_id');
     }
 }

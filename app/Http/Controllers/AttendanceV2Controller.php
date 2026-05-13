@@ -18,18 +18,45 @@ class AttendanceV2Controller extends Controller
     {
         /*
     |--------------------------------------------------------------------------
-    | 日付（デフォルト今日）
+    | 日付
     |--------------------------------------------------------------------------
     */
         $workDate = $request->work_date ?? today()->toDateString();
 
         /*
     |--------------------------------------------------------------------------
-    | 一覧Query
+    | 作業員一覧
     |--------------------------------------------------------------------------
     */
-        $query = AttendanceV2::with(['worker', 'group'])
-            ->whereDate('work_date', $workDate);
+        $workers = WorkerV2::with([
+
+            'todayAttendance' => function ($q) use ($workDate) {
+
+                $q->whereDate('work_date', $workDate);
+            },
+
+            'todayAttendance.group'
+
+        ])
+
+            ->where('is_active', true)
+
+            /*
+    |--------------------------------------------------------------------------
+    | 指定日で有効な班に所属
+    |--------------------------------------------------------------------------
+    */
+            ->whereHas('groupHistories', function ($q) use ($workDate) {
+
+                $q->where('start_date', '<=', $workDate)
+
+                    ->where(function ($q2) use ($workDate) {
+
+                        $q2->whereNull('end_date')
+
+                            ->orWhere('end_date', '>=', $workDate);
+                    });
+            });
 
         /*
     |--------------------------------------------------------------------------
@@ -38,8 +65,17 @@ class AttendanceV2Controller extends Controller
     */
         if ($request->filled('worker_id')) {
 
-            $query->where('worker_id', $request->worker_id);
+            $workers->where('id', $request->worker_id);
         }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 取得
+    |--------------------------------------------------------------------------
+    */
+        $workers = $workers
+            ->orderBy('id')
+            ->get();
 
         /*
     |--------------------------------------------------------------------------
@@ -48,44 +84,19 @@ class AttendanceV2Controller extends Controller
     */
         if ($request->filled('only_working')) {
 
-            $query->whereNull('clock_out');
-        }
+            $workers = $workers->filter(function ($worker) {
 
-        /*
-    |--------------------------------------------------------------------------
-    | 一覧取得
-    |--------------------------------------------------------------------------
-    */
-        $attendances = $query
-            ->orderBy('worker_id')
-            ->get();
+                return $worker->todayAttendance
+                    && !$worker->todayAttendance->clock_out;
+            });
+        }
 
         /*
     |--------------------------------------------------------------------------
     | 集計
     |--------------------------------------------------------------------------
     */
-
-        $workers = WorkerV2::with([
-            'todayAttendance',
-            'todayAttendance.group'
-        ])
-            ->orderBy('id')
-            ->get();
-
         $totalCount = $workers->count();
-
-        $workingCount = $attendances
-            ->whereNull('clock_out')
-            ->count();
-
-        $completedCount = $attendances
-            ->whereNotNull('clock_out')
-            ->count();
-
-        $missingCount = $workers
-            ->whereNull('todayAttendance')
-            ->count();
 
         $workingCount = $workers
             ->filter(function ($worker) {
@@ -95,59 +106,22 @@ class AttendanceV2Controller extends Controller
             })
             ->count();
 
+        $missingCount = $workers
+            ->whereNull('todayAttendance')
+            ->count();
+
         /*
     |--------------------------------------------------------------------------
-    | 指定日で有効な作業員一覧
+    | 退勤済
     |--------------------------------------------------------------------------
     */
-        $workers = WorkerV2::where('is_active', true)
+        $completedCount = $workers
+            ->filter(function ($worker) {
 
-            ->whereHas('groupHistories', function ($q) use ($workDate) {
-
-                $q->where('start_date', '<=', $workDate)
-                    ->where(function ($q2) use ($workDate) {
-
-                        $q2->whereNull('end_date')
-                            ->orWhere('end_date', '>=', $workDate);
-                    });
+                return $worker->todayAttendance
+                    && $worker->todayAttendance->clock_out;
             })
-
-            ->orderBy('id')
-
-            ->get();
-
-        /*
-    |--------------------------------------------------------------------------
-    | 指定日の打刻済 worker_id
-    |--------------------------------------------------------------------------
-    */
-        $attendanceWorkerIds = AttendanceV2::whereDate(
-            'work_date',
-            $workDate
-        )->pluck('worker_id');
-
-        /*
-    |--------------------------------------------------------------------------
-    | 未打刻者
-    |--------------------------------------------------------------------------
-    */
-        $missingWorkers = WorkerV2::where('is_active', true)
-
-            ->whereHas('groupHistories', function ($q) use ($workDate) {
-
-                $q->where('start_date', '<=', $workDate)
-                    ->where(function ($q2) use ($workDate) {
-
-                        $q2->whereNull('end_date')
-                            ->orWhere('end_date', '>=', $workDate);
-                    });
-            })
-
-            ->whereNotIn('id', $attendanceWorkerIds)
-
-            ->orderBy('id')
-
-            ->get();
+            ->count();
 
         /*
     |--------------------------------------------------------------------------
@@ -155,13 +129,14 @@ class AttendanceV2Controller extends Controller
     |--------------------------------------------------------------------------
     */
         return view('attendance_v2.index', compact(
-            'attendances',
+
             'workers',
             'workDate',
             'totalCount',
             'workingCount',
-            'completedCount',
-            'missingWorkers'
+            'missingCount',
+            'completedCount'
+
         ));
     }
 
