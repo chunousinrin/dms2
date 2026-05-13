@@ -81,7 +81,7 @@ async function loadAttendanceWidget() {
             // row
             workerRows += `
         <tr>
-            <td class="pl-2">${worker.name}</td>
+            <td class="pl-4">${worker.name}</td>
             <td style="text-align:center;">
                 ${statusBadge}
             </td>
@@ -131,7 +131,7 @@ async function loadAttendanceWidget() {
                     <table class="table table-sm bg-white mb-0">
                         <thead>
                             <tr>
-                                <th class="pl-2">氏名</th>
+                                <th class="pl-4">氏名</th>
                                 <th class="text-center">状況</th>
                             </tr>
                         </thead>
