@@ -65,7 +65,15 @@ class AttendanceV2Controller extends Controller
     | 集計
     |--------------------------------------------------------------------------
     */
-        $totalCount = $attendances->count();
+
+        $workers = WorkerV2::with([
+            'todayAttendance',
+            'todayAttendance.group'
+        ])
+            ->orderBy('id')
+            ->get();
+
+        $totalCount = $workers->count();
 
         $workingCount = $attendances
             ->whereNull('clock_out')
@@ -73,6 +81,18 @@ class AttendanceV2Controller extends Controller
 
         $completedCount = $attendances
             ->whereNotNull('clock_out')
+            ->count();
+
+        $missingCount = $workers
+            ->whereNull('todayAttendance')
+            ->count();
+
+        $workingCount = $workers
+            ->filter(function ($worker) {
+
+                return $worker->todayAttendance
+                    && !$worker->todayAttendance->clock_out;
+            })
             ->count();
 
         /*
