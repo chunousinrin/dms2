@@ -147,6 +147,7 @@
                             <th style="width: 120px;">退勤</th>
                             <th style="width: 120px;">状態</th>
                             <th>コメント</th>
+                            <th>編集</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -172,10 +173,19 @@
                                 @endif
                             </td>
                             <td>{{ $atd->comment ?? '' }}</td>
+                            <td>
+                                <a
+                                    href="{{ route('attendance_v2.edit', $attendance->id) }}"
+                                    class="btn btn-sm btn-warning">
+
+                                    修正
+
+                                </a>
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center py-4">データがありません</td>
+                            <td colspan="8" class="text-center py-4">データがありません</td>
                         </tr>
                         @endforelse
                     </tbody>

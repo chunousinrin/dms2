@@ -196,6 +196,24 @@ class AttendanceV2Controller extends Controller
         ));
     }
 
+    public function update(Request $request, AttendanceV2 $attendance)
+    {
+        $attendance->update([
+
+            'group_id' => $request->group_id,
+
+            'clock_in' => $request->clock_in,
+
+            'clock_out' => $request->clock_out,
+
+            'comment' => $request->comment,
+        ]);
+
+        return redirect()
+            ->route('attendance_v2.index')
+            ->with('success', '修正しました');
+    }
+
     /**
      * コメント更新
      */
