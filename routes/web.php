@@ -161,14 +161,11 @@ use App\Http\Controllers\HomeController;
 
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
 
-    // Public
+    // ==========================================
+    // Public Routes (未ログインでもアクセス可能)
+    // ==========================================
 
-    Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
-        ->name('index');
-
-    Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])
-        ->name('create');
-
+    // 静的なパスを先に定義（{token}の誤判定を防ぐ）
     Route::post('/attendance/clock-in', [AttendanceV2Controller::class, 'clockIn'])
         ->middleware('throttle:30,1')
         ->name('clockIn');
@@ -177,24 +174,39 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
         ->middleware('throttle:30,1')
         ->name('clockOut');
 
-    Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment']);
+    Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment'])
+        ->name('comment'); // 名前を追加
+
+    // 動的パラメータを持つルートは後ろに
+    Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])
+        ->name('create');
+
+    // 認証不要な一覧・CSV（※認証済み用と区別するため名前とパスを変更）
+    Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
+        ->name('index');
 
     Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
         ->name('exportCsv');
 
+
+    // ==========================================
+    // Authenticated Routes (ログイン必須)
+    // ==========================================
     Route::middleware('auth')->group(function () {
 
-        Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
-            ->name('index');
+        // パブリック側と競合しないよう、パスに 'admin' や 'user' などを付与、名前も変更
+        Route::get('/admin/attendances', [AttendanceV2Controller::class, 'adminIndex'])
+            ->name('admin.index');
 
+        Route::get('/admin/attendances/export/csv', [AttendanceV2Controller::class, 'adminExportCsv'])
+            ->name('admin.exportCsv');
+
+        // 詳細編集・更新
         Route::get('/attendance/{attendance}/edit', [AttendanceV2Controller::class, 'edit'])
             ->name('edit');
 
         Route::put('/attendance/{attendance}', [AttendanceV2Controller::class, 'update'])
             ->name('update');
-
-        Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
-            ->name('exportCsv');
     });
 });
 /*
