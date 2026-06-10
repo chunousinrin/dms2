@@ -214,6 +214,18 @@ class AttendanceV2Controller extends Controller
             ->with('success', '修正しました');
     }
 
+    public function edit(AttendanceV2 $attendance)
+    {
+        $groups = WorkerGroupV2::orderBy('name')->get();
+
+        return view(
+            'attendance_v2.edit',
+            compact(
+                'attendance',
+                'groups'
+            )
+        );
+    }
     /**
      * コメント更新
      */
