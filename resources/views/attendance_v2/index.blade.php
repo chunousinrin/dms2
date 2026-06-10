@@ -175,7 +175,7 @@
                             <td>{{ $atd->comment ?? '' }}</td>
                             <td>
                                 @if($worker->todayAttendance)
-                                <a href="{{ route('attendance_v2.edit', $worker->todayAttendance->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('attendance_v2.edit', $worker->todayAttendance->id) }}" class="btn btn-sm btn-seccondary">
                                     修正
                                 </a>
                                 @endif
