@@ -4,9 +4,12 @@
 
 @push('css')
 <style>
-    body {
+    .container-fluid {
         margin: 0 !important;
         padding: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+        background-color: transparent !important;
     }
 </style>
 @endpush
