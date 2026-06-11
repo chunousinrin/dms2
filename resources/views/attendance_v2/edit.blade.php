@@ -4,12 +4,27 @@
 
 @push('css')
 <style>
+    /* bodyだけでなく、AdminLTEのラッパー要素もすべてリセットする */
+    html,
+    body,
+    .wrapper,
+    .content-wrapper,
+    .content,
     .container-fluid {
         margin: 0 !important;
         padding: 0 !important;
         min-height: auto !important;
+        /* これが一番重要です */
         height: auto !important;
         background-color: transparent !important;
+        /* 背景が2重になるのを防ぐ */
+    }
+
+    /* card自体の余白も完全にゼロにする */
+    .card {
+        margin: 0 !important;
+        box-shadow: none !important;
+        /* モーダル内なので影が不要なら */
     }
 </style>
 @endpush
