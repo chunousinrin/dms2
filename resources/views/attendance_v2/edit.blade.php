@@ -2,7 +2,7 @@
 
 @section('title', '勤怠修正')
 
-@section('content')
+@section('body')
 
 <div class="card">
 
