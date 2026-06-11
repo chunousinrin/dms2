@@ -7,25 +7,16 @@
 <div class="card m-0">
 
     <div class="card-header">
-        <h3>{{ $attendance->worker->name }}&emsp;勤怠修正</h3>
+        <h3 class="m-0">勤怠修正</h3>
     </div>
 
-    <form
-        method="POST"
-        action="{{ route('attendance_v2.update', $attendance->id) }}">
-
+    <form method="POST" action="{{ route('attendance_v2.update', $attendance->id) }}">
         @csrf
         @method('PUT')
-
         <div class="card-body">
-
             <div class="form-group">
                 <label>作業員</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    value="{{ $attendance->worker->name }}"
-                    readonly>
+                <input type="text" class="form-control" value="{{ $attendance->worker->name }}" readonly>
             </div>
 
             <div class="form-group">
@@ -76,7 +67,8 @@
                 <textarea
                     name="comment"
                     class="form-control"
-                    rows="3">{{ $attendance->comment }}<br>打刻忘れ　職員入力</textarea>
+                    rows="3">{{ $attendance->comment }}
+                打刻忘れ　職員入力</textarea>
             </div>
 
         </div>
