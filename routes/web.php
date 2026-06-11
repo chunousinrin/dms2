@@ -182,14 +182,11 @@ Route::prefix('v2')->name('attendance_v2.')->group(function () {
     Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
         ->name('exportCsv');
 
-    Route::middleware('auth')->group(function () {
+    Route::get('/attendance/{attendance}/edit', [AttendanceV2Controller::class, 'edit'])
+        ->name('edit');
 
-        Route::get('/attendance/{attendance}/edit', [AttendanceV2Controller::class, 'edit'])
-            ->name('edit');
-
-        Route::put('/attendance/{attendance}', [AttendanceV2Controller::class, 'update'])
-            ->name('update');
-    });
+    Route::put('/attendance/{attendance}', [AttendanceV2Controller::class, 'update'])
+        ->name('update');
 });
 /*
 |--------------------------------------------------------------------------
