@@ -4,7 +4,7 @@
 
 @section('body')
 
-<div class="card">
+<div class="card m-0">
 
     <div class="card-header">
         勤怠修正
@@ -83,11 +83,8 @@
 
         <div class="card-footer text-right">
 
-            <button
-                class="btn btn-primary">
-
-                保存
-
+            <button class="btn btn-primary px-4 shadow-sm">
+                <i class="far fa-save"></i> 保存
             </button>
 
         </div>
