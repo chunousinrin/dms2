@@ -147,7 +147,7 @@
                             <th style="width: 120px;">退勤</th>
                             <th style="width: 120px;">状態</th>
                             <th>コメント</th>
-                            <th>編集</th>
+                            <th class="text-center" style="width:0;white-space:nowarap">編集</th>
                         </tr>
                     </thead>
                     <tbody>
