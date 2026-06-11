@@ -83,7 +83,7 @@
 
         <div class="card-footer text-right">
 
-            <button class="btn btn-primary px-4 shadow-sm">
+            <button class="btn btn-sm btn-primary px-4 shadow-sm">
                 <i class="far fa-save"></i> 保存
             </button>
 
