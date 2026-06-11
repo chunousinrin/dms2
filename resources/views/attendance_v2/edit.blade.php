@@ -12,7 +12,7 @@
 
     <form
         method="POST"
-        action="{{ route('attendance_v2.update', $worker->todayAttendance->id) }}">
+        action="{{ route('attendance_v2.update', $attendance->id) }}">
 
         @csrf
         @method('PUT')
