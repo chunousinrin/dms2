@@ -7,7 +7,7 @@
 <div class="card m-0">
 
     <div class="card-header">
-        勤怠修正
+        <h3>{{ $attendance->worker->name }}&emsp;勤怠修正</h3>
     </div>
 
     <form
@@ -76,7 +76,7 @@
                 <textarea
                     name="comment"
                     class="form-control"
-                    rows="3">{{ $attendance->comment }}</textarea>
+                    rows="3">{{ $attendance->comment }}<br>打刻忘れ　職員入力</textarea>
             </div>
 
         </div>
