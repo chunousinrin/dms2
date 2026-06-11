@@ -2,8 +2,16 @@
 
 @section('title', '勤怠修正')
 
-@section('content')
+@push('css')
+<style>
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+</style>
+@endpush
 
+@section('body')
 <div class="card m-0">
 
     <div class="card-header">
@@ -21,68 +29,40 @@
 
             <div class="form-group">
                 <label>班</label>
-
-                <select
-                    name="group_id"
-                    class="form-control">
-
+                <select name="group_id" class="form-control">
                     @foreach($groups as $group)
-
-                    <option
-                        value="{{ $group->id }}"
-                        {{ $attendance->group_id == $group->id ? 'selected' : '' }}>
-
+                    <option value="{{ $group->id }}" {{ $attendance->group_id == $group->id ? 'selected' : '' }}>
                         {{ $group->name }}
-
                     </option>
-
                     @endforeach
-
                 </select>
             </div>
 
             <div class="form-group">
                 <label>出勤</label>
-
-                <input
-                    type="time"
-                    name="clock_in"
-                    class="form-control"
-                    value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                <input type="time" name="clock_in" class="form-control" value="{{ optional($attendance->clock_in)->format('H:i') }}">
             </div>
 
             <div class="form-group">
                 <label>退勤</label>
-
-                <input
-                    type="time"
-                    name="clock_out"
-                    class="form-control"
-                    value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                <input type="time" name="clock_out" class="form-control" value="{{ optional($attendance->clock_out)->format('H:i') }}">
             </div>
 
             <div class="form-group">
                 <label>コメント</label>
 
-                <textarea
-                    name="comment"
-                    class="form-control"
-                    rows="3">{{ $attendance->comment }}
+                <textarea name="comment" class="form-control" rows="3">{{ $attendance->comment }}
                 打刻忘れ　職員入力</textarea>
             </div>
 
         </div>
 
         <div class="card-footer text-right">
-
             <button class="btn btn-sm btn-primary px-4 shadow-sm">
                 <i class="far fa-save"></i> 保存
             </button>
-
         </div>
-
     </form>
-
 </div>
 
 @endsection
