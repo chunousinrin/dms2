@@ -1,9 +1,3 @@
-@extends('adminlte::master')
-
-@section('title', '勤怠修正')
-
-@section('body')
-
 <div class="card m-0">
 
     <div class="card-header">
@@ -84,5 +78,3 @@
     </form>
 
 </div>
-
-@endsection
