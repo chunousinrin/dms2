@@ -175,7 +175,7 @@
                             <td>{{ $atd->comment ?? '' }}</td>
                             <td class="text-center">
                                 @if($worker->todayAttendance)
-                                <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2">
+                                <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
                                     修正
                                 </a>
                                 @endif
