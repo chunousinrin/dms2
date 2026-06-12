@@ -315,14 +315,49 @@ class AttendanceV2Controller extends Controller
 
     public function createManual(Request $request, WorkerV2 $worker)
     {
-        $groups = WorkerGroupV2::orderBy('name')->get();
-
         $workDate = $request->work_date
-            ?? today()->format('Y-m-d');
+            ?? today()->toDateString();
 
+        /*
+    |--------------------------------------------------------------------------
+    | 指定日時点で有効な班
+    |--------------------------------------------------------------------------
+    */
+        $activeGroupIds = \DB::table('worker_group_histories')
+            ->where('start_date', '<=', $workDate)
+            ->where(function ($q) use ($workDate) {
+
+                $q->whereNull('end_date')
+                    ->orWhere('end_date', '>=', $workDate);
+            })
+            ->pluck('group_id')
+            ->unique();
+
+        /*
+    |--------------------------------------------------------------------------
+    | この作業員の所属班
+    |--------------------------------------------------------------------------
+    */
         $currentGroup = $worker->currentGroup($workDate);
 
         $defaultGroupId = $currentGroup?->group_id;
+
+        /*
+    |--------------------------------------------------------------------------
+    | 所属班は必ず選択肢に含める
+    |--------------------------------------------------------------------------
+    */
+        if ($defaultGroupId) {
+
+            $activeGroupIds->push($defaultGroupId);
+        }
+
+        $groups = WorkerGroupV2::whereIn(
+            'id',
+            $activeGroupIds
+        )
+            ->orderBy('name')
+            ->get();
 
         return view(
             'attendance_v2.create_manual',
