@@ -317,14 +317,20 @@ class AttendanceV2Controller extends Controller
     {
         $groups = WorkerGroupV2::orderBy('name')->get();
 
-        $workDate = $request->work_date ?? today()->format('Y-m-d');
+        $workDate = $request->work_date
+            ?? today()->format('Y-m-d');
+
+        $currentGroup = $worker->currentGroup($workDate);
+
+        $defaultGroupId = $currentGroup?->group_id;
 
         return view(
             'attendance_v2.create_manual',
             compact(
                 'worker',
                 'groups',
-                'workDate'
+                'workDate',
+                'defaultGroupId'
             )
         );
     }

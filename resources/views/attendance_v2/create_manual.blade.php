@@ -33,7 +33,7 @@
 <div class="card m-0">
 
     <div class="card-header">
-        <h3 class="m-0">勤怠修正</h3>
+        <h3 class="m-0">勤怠追加</h3>
     </div>
 
     <form method="POST" action="{{ route('attendance_v2.storeManual',$worker->id) }}">
@@ -48,7 +48,9 @@
                 <label>班</label>
                 <select name="group_id" class="form-control">
                     @foreach($groups as $group)
-                    <option value="{{ $group->id }}"> {{ $group->name }} </option>
+                    <option value="{{ $group->id }}" {{ old('group_id', $defaultGroupId) == $group->id ? 'selected' : '' }}>
+                        {{ $group->name }}
+                    </option>
                     @endforeach
                 </select>
             </div>
