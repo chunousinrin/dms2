@@ -61,6 +61,36 @@ class WorkerV2 extends Model
     }
 
     /*
+|--------------------------------------------------------------------------
+| 勤怠ステータス
+|--------------------------------------------------------------------------
+*/
+    public function attendanceStatus()
+    {
+        $attendance = $this->todayAttendance;
+
+        if (!$attendance) {
+            return 'missing';
+        }
+
+        if (
+            is_null($attendance->clock_in)
+            && is_null($attendance->clock_out)
+        ) {
+            return 'absence';
+        }
+
+        if (
+            !is_null($attendance->clock_in)
+            && is_null($attendance->clock_out)
+        ) {
+            return 'working';
+        }
+
+        return 'completed';
+    }
+
+    /*
     |--------------------------------------------------------------------------
     | 班履歴
     |--------------------------------------------------------------------------
@@ -71,5 +101,18 @@ class WorkerV2 extends Model
             WorkerGroupHistory::class,
             'worker_id'
         );
+    }
+    public function attendanceStatusLabel()
+    {
+        return match ($this->attendanceStatus()) {
+
+            'working' => '出勤中',
+
+            'completed' => '退勤済',
+
+            'absence' => '欠勤等',
+
+            default => '未打刻',
+        };
     }
 }

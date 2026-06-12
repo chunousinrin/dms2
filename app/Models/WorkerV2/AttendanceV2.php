@@ -45,19 +45,4 @@ class AttendanceV2 extends Model
     {
         return !is_null($this->clock_out);
     }
-    public function attendanceStatus()
-    {
-        $attendance = $this->todayAttendance;
-
-        if (!$attendance) {
-            return 'missing';
-        }
-        if (!$attendance->clock_in && !$attendance->clock_out) {
-            return 'absence';
-        }
-        if ($attendance->clock_in && !$attendance->clock_out) {
-            return 'working';
-        }
-        return 'completed';
-    }
 }
