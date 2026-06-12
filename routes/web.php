@@ -160,33 +160,17 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::prefix('v2')->name('attendance_v2.')->group(function () {
-
     // Public
-
-    Route::get('/attendances', [AttendanceV2Controller::class, 'index'])
-        ->name('index');
-
-    Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])
-        ->name('create');
-
-    Route::post('/attendance/clock-in', [AttendanceV2Controller::class, 'clockIn'])
-        ->middleware('throttle:30,1')
-        ->name('clockIn');
-
-    Route::post('/attendance/clock-out', [AttendanceV2Controller::class, 'clockOut'])
-        ->middleware('throttle:30,1')
-        ->name('clockOut');
-
+    Route::get('/attendances', [AttendanceV2Controller::class, 'index'])->name('index');
+    Route::get('/attendance/{token}', [AttendanceV2Controller::class, 'create'])->name('create');
+    Route::post('/attendance/clock-in', [AttendanceV2Controller::class, 'clockIn'])->middleware('throttle:30,1')->name('clockIn');
+    Route::post('/attendance/clock-out', [AttendanceV2Controller::class, 'clockOut'])->middleware('throttle:30,1')->name('clockOut');
     Route::post('/attendance/comment', [AttendanceV2Controller::class, 'updateComment']);
-
-    Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])
-        ->name('exportCsv');
-
-    Route::get('/attendance/{attendance}/edit', [AttendanceV2Controller::class, 'edit'])
-        ->name('edit');
-
-    Route::put('/attendance/{attendance}', [AttendanceV2Controller::class, 'update'])
-        ->name('update');
+    Route::get('/attendances/export/csv', [AttendanceV2Controller::class, 'exportCsv'])->name('exportCsv');
+    Route::get('/attendance/{attendance}/edit', [AttendanceV2Controller::class, 'edit'])->name('edit');
+    Route::put('/attendance/{attendance}', [AttendanceV2Controller::class, 'update'])->name('update');
+    Route::get('/attendance/create-manual/{worker}', [AttendanceV2Controller::class, 'createManual'])->name('createManual');
+    Route::post('/attendance/store-manual/{worker}', [AttendanceV2Controller::class, 'storeManual'])->name('storeManual');
 });
 /*
 |--------------------------------------------------------------------------

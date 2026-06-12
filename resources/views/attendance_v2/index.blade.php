@@ -178,6 +178,10 @@
                                 <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
                                     <i class="fas fa-edit"></i>
                                 </a>
+                                @else
+                                <a href="{{ route('attendance_v2.createManual',$worker->id) }}" class="btn btn-success btn-sm" data-fancybox data-type="pdf">
+                                    <i class="fas fa-plus"></i>
+                                </a>
                                 @endif
                             </td>
                         </tr>
