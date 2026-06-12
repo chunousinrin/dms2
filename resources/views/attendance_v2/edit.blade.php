@@ -69,8 +69,7 @@
             <div class="form-group">
                 <label>コメント</label>
 
-                <textarea name="comment" class="form-control" rows="3">{{ $attendance->comment }}
-                打刻忘れ　職員入力</textarea>
+                <textarea name="comment" class="form-control" rows="3">{{ $attendance->comment }} </textarea>
             </div>
 
         </div>
