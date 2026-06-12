@@ -312,4 +312,61 @@ class AttendanceV2Controller extends Controller
 
         return $response;
     }
+
+    public function createManual(WorkerV2 $worker)
+    {
+        $groups = WorkerGroupV2::orderBy('name')->get();
+
+        return view(
+            'attendance_v2.create_manual',
+            compact(
+                'worker',
+                'groups'
+            )
+        );
+    }
+    public function storeManual(
+        Request $request,
+        WorkerV2 $worker
+    ) {
+
+        $request->validate([
+
+            'work_date' => 'required|date',
+
+            'group_id' => 'required',
+
+            'clock_in' => 'nullable',
+
+            'clock_out' => 'nullable',
+
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
+        AttendanceV2::updateOrCreate(
+
+            [
+                'worker_id' => $worker->id,
+                'work_date' => $request->work_date,
+            ],
+
+            [
+                'group_id' => $request->group_id,
+
+                'clock_in' => $request->clock_in
+                    ? $request->work_date . ' ' . $request->clock_in . ':00'
+                    : null,
+
+                'clock_out' => $request->clock_out
+                    ? $request->work_date . ' ' . $request->clock_out . ':00'
+                    : null,
+
+                'comment' => $request->comment,
+            ]
+        );
+
+        return redirect()
+            ->route('attendance_v2.index')
+            ->with('success', '勤怠を登録しました');
+    }
 }
