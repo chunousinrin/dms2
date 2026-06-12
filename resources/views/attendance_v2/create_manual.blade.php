@@ -38,11 +38,10 @@
 
     <form method="POST" action="{{ route('attendance_v2.storeManual',$worker->id) }}">
         @csrf
-        @method('PUT')
         <div class="card-body">
             <div class="form-group">
                 <label>作業員</label>
-                <input type="text" class="form-control" value="{{ $group->name }}" readonly>
+                <input type="text" class="form-control" value="{{ $worker->name }}" readonly>
             </div>
 
             <div class="form-group">
@@ -50,8 +49,6 @@
                 <select name="group_id" class="form-control">
                     @foreach($groups as $group)
                     <option value="{{ $group->id }}"> {{ $group->name }} </option>
-                    {{ $group->name }}
-                    </option>
                     @endforeach
                 </select>
             </div>
