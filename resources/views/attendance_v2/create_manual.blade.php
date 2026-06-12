@@ -42,15 +42,15 @@
         <div class="card-body">
             <div class="form-group">
                 <label>作業員</label>
-                <input type="text" class="form-control" value="{{ $attendance->worker->name }}" readonly>
+                <input type="text" class="form-control" value="{{ $group->name }}" readonly>
             </div>
 
             <div class="form-group">
                 <label>班</label>
                 <select name="group_id" class="form-control">
                     @foreach($groups as $group)
-                    <option value="{{ $group->id }}" {{ $attendance->group_id == $group->id ? 'selected' : '' }}>
-                        {{ $group->name }}
+                    <option value="{{ $group->id }}"> {{ $group->name }} </option>
+                    {{ $group->name }}
                     </option>
                     @endforeach
                 </select>
@@ -58,23 +58,23 @@
 
             <div class="form-group">
                 <label>日付</label>
-                <input type="date" name="work_date" class="form-control" value="{{ today()->format('Y-m-d') }}">
+                <input type="date" name="work_date" class="form-control" value="">
             </div>
 
             <div class="form-group">
                 <label>出勤</label>
-                <input type="time" name="clock_in" class="form-control" value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                <input type="time" name="clock_in" class="form-control" value="">
             </div>
 
             <div class="form-group">
                 <label>退勤</label>
-                <input type="time" name="clock_out" class="form-control" value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                <input type="time" name="clock_out" class="form-control" value="">
             </div>
 
             <div class="form-group">
                 <label>コメント</label>
 
-                <textarea name="comment" class="form-control" rows="3">{{ $attendance->comment }}</textarea>
+                <textarea name="comment" class="form-control" rows="3"></textarea>
             </div>
 
         </div>
