@@ -102,17 +102,17 @@ class WorkerV2 extends Model
             'worker_id'
         );
     }
-    public function attendanceStatusLabel()
+    public function attendanceStatusClass()
     {
         return match ($this->attendanceStatus()) {
 
-            'working' => '出勤中',
+            'working'   => 'badge-warning',
 
-            'completed' => '退勤済',
+            'completed' => 'badge-success',
 
-            'absence' => '欠勤等',
+            'absence'   => 'badge-secondary',
 
-            default => '未打刻',
+            default     => 'badge-danger',
         };
     }
 }

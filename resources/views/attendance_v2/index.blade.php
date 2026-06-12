@@ -163,25 +163,7 @@
                             <td>{{ $atd->group->name ?? '-' }}</td>
                             <td>{{ $atd?->clock_in?->format('H:i') }}</td>
                             <td>{{ $atd?->clock_out?->format('H:i') }}</td>
-                            @php
-                            $status = $worker->attendanceStatus();
-                            @endphp
-                            <td>
-                                @if($status === 'working')
-                                <span class="badge badge-warning">出勤中</span>
-
-                                @elseif($status === 'completed')
-                                <span class="badge badge-success">退勤済</span>
-
-                                @elseif($status === 'absence')
-                                <span class="badge badge-secondary">
-                                    {{ $worker->todayAttendance->comment ?: '欠勤等' }}
-                                </span>
-
-                                @else
-                                <span class="badge badge-danger">未打刻</span>
-                                @endif
-                            </td>
+                            <td> {{ $worker->attendanceStatusLabel() }} </td>
                             <td>{{ $atd->comment ?? '' }}</td>
                             <td class="text-center">
                                 @if($worker->todayAttendance)
