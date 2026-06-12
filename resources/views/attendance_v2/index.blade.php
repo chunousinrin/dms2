@@ -163,6 +163,9 @@
                             <td>{{ $atd->group->name ?? '-' }}</td>
                             <td>{{ $atd?->clock_in?->format('H:i') }}</td>
                             <td>{{ $atd?->clock_out?->format('H:i') }}</td>
+                            @php
+                            $status = $worker->attendanceStatus();
+                            @endphp
                             <td>
                                 @if($status === 'working')
                                 <span class="badge badge-warning">出勤中</span>
@@ -180,10 +183,6 @@
                                 @endif
                             </td>
                             <td>{{ $atd->comment ?? '' }}</td>
-                            @php
-                            $status = $worker->attendanceStatus();
-                            @endphp
-
                             <td class="text-center">
                                 @if($worker->todayAttendance)
                                 <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
