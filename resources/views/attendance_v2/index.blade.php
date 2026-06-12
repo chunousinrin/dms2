@@ -163,7 +163,8 @@
                             <td>{{ $atd->group->name ?? '-' }}</td>
                             <td>{{ $atd?->clock_in?->format('H:i') }}</td>
                             <td>{{ $atd?->clock_out?->format('H:i') }}</td>
-                            <td> {{ $worker->attendanceStatusLabel() }} </td>
+                            <td> <span class="badge {{ $worker->attendanceStatusClass() }}"> {{ $worker->attendanceStatusLabel() }} </span>
+                            </td>
                             <td>{{ $atd->comment ?? '' }}</td>
                             <td class="text-center">
                                 @if($worker->todayAttendance)
