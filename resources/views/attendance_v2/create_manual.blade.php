@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <label>日付</label>
-                <input type="date" name="work_date" class="form-control" value="{{ $workDate }}">
+                <input type="text" name="work_date" class="form-control" value="{{ $workDate }}" readonly>
             </div>
 
             <div class="form-group">
