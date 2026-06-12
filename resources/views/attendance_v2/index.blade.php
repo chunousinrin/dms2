@@ -180,6 +180,9 @@
                                 @endif
                             </td>
                             <td>{{ $atd->comment ?? '' }}</td>
+                            @php
+                            $status = $worker->attendanceStatus();
+                            @endphp
                             <td class="text-center">
                                 @if($worker->todayAttendance)
                                 <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
