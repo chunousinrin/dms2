@@ -199,13 +199,9 @@ class AttendanceV2Controller extends Controller
     public function update(Request $request, AttendanceV2 $attendance)
     {
         $attendance->update([
-
             'group_id' => $request->group_id,
-
             'clock_in' => $request->clock_in,
-
             'clock_out' => $request->clock_out,
-
             'comment' => $request->comment,
         ]);
 
@@ -387,12 +383,12 @@ class AttendanceV2Controller extends Controller
             ],
             [
                 'group_id' => $request->group_id,
+                'site_id' => 1,
                 'clock_in' => $request->clock_in ? $request->work_date . ' ' . $request->clock_in . ':00' : null,
                 'clock_out' => $request->clock_out ? $request->work_date . ' ' . $request->clock_out . ':00' : null,
                 'comment' => $request->comment,
             ]
         );
-
         return redirect()
             ->route('attendance_v2.index')
             ->with('success', '勤怠を登録しました');
