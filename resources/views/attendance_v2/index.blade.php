@@ -168,11 +168,11 @@
                             <td>{{ $atd->comment ?? '' }}</td>
                             <td class="text-center">
                                 @if($worker->todayAttendance)
-                                <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
+                                <a href=" {{ route('attendance_v2.edit', $worker->todayAttendance->id ) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="iframe">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @else
-                                <a href="{{ route('attendance_v2.createManual',['worker' => $worker->id,'work_date' => $workDate,]) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="pdf">
+                                <a href="{{ route('attendance_v2.createManual',['worker' => $worker->id,'work_date' => $workDate,]) }}" class="btn btn-light btn-xs px-2" data-fancybox data-type="iframe">
                                     <i class="fas fa-plus"></i>
                                 </a>
                                 @endif

@@ -205,9 +205,9 @@ class AttendanceV2Controller extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()
-            ->route('attendance_v2.index')
-            ->with('success', '修正しました');
+        return response()->view(
+            'attendance_v2.close_modal'
+        );
     }
 
     public function edit(AttendanceV2 $attendance)
@@ -389,8 +389,8 @@ class AttendanceV2Controller extends Controller
                 'comment' => $request->comment,
             ]
         );
-        return redirect()
-            ->route('attendance_v2.index')
-            ->with('success', '勤怠を登録しました');
+        return response()->view(
+            'attendance_v2.close_modal'
+        );
     }
 }
